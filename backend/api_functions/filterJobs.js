@@ -28,6 +28,5 @@ async function fetchJobs(input) {
 
 async function filterJobs(input) {
   let data = await fetchJobs(input);
-  
 }
 
