@@ -29,7 +29,8 @@ async function fetchJobs(input) {
   }
 }
 
-fetchJobs("Data Analyst, Singapore")
+// For testing purposes, will remove it eventually 
+// fetchJobs("Data Analyst, Singapore").then(data => console.log(data)).catch(error => console.error(error));
 
 export default fetchJobs;
 
