@@ -17,11 +17,11 @@ async function filterJobs(input) {
     jobAvgSalary: findAvgSalary(job.job_min_salary, job.job_max_salary) == null ? 
         "Not Disclosed" : "SGD$" + findAvgSalary(job.job_min_salary, job.job_max_salary) + "/month"
   }));
-  
-  console.log(extractedData);
+  return extractedData;
 }
 
-// filterJobs("software engineer Intern, Singapore")
+// For testing purposes, will remove it eventually
+filterJobs("software engineer Intern, Singapore").then(data => console.log(data[0])).catch(error => console.error(error));
 
 function toReadableDate(unixTimestamp) {
   const date = new Date(unixTimestamp * 1000);
