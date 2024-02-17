@@ -1,4 +1,4 @@
-# Internship Finder & Traker
+# Internship Finder & Tracker
 
 Currently, the repository is segregated into two folders, one is frontend and one is backend. 
 
