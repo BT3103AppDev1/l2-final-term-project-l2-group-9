@@ -1,7 +1,8 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 
-dotenv.config({path: 'backend/.env'});
+// replace with file path
+dotenv.config({path: 'api_functions/.env'});
 
 // method will be called and fed into filterJobs(input) function.
 async function fetchJobs(input) {
@@ -30,7 +31,8 @@ async function fetchJobs(input) {
 }
 
 // For testing purposes, will remove it eventually 
-// fetchJobs("Data Analyst, Singapore").then(data => console.log(data)).catch(error => console.error(error));
+console.log(process.env.API_KEY)
+fetchJobs("Data Analyst, Singapore").then(data => console.log(data)).catch(error => console.error(error));
 
 export default fetchJobs;
 
