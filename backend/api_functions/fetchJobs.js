@@ -31,8 +31,8 @@ async function fetchJobs(input) {
 }
 
 // For testing purposes, will remove it eventually 
-console.log(process.env.API_KEY)
-fetchJobs("Data Analyst, Singapore").then(data => console.log(data)).catch(error => console.error(error));
+// console.log(process.env.API_KEY)
+// fetchJobs("Data Analyst, Singapore").then(data => console.log(data)).catch(error => console.error(error));
 
 export default fetchJobs;
 

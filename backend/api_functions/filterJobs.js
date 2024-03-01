@@ -4,6 +4,7 @@ async function filterJobs(input) {
   let fetchedJson = await fetchJobs(input);
   let jobs = fetchedJson.data;
   const extractedData = jobs.map(job => ({
+    jobID: job.job_id,
     employerName: job.employer_name,
     employerLogo: job.employer_logo,
     jobTitle: job.job_title,
