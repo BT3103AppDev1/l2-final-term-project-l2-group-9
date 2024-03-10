@@ -12,6 +12,4 @@ import Vue3Marquee from "@/components/Vue3Marquee.vue";
 import FrontLandingText from "./components/FrontLandingText.vue";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
