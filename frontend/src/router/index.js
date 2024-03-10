@@ -1,11 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Introduction from '../components/Introduction.vue'
-
+import LandingJoinUs from '../components/LandingJoinUs.vue';
+import LandingFooter from '../components/LandingFooter.vue';
 const routes = [
   {
     path: '/',
     name: 'Introduction',
     component: Introduction,
+  },
+  {
+    path: '/',
+    name: 'LandingJoinUs',
+    component: LandingJoinUs,
+  },
+  {
+    path: '/',
+    name: 'LandingFooter',
+    component: LandingFooter,
   }
 ]
 
