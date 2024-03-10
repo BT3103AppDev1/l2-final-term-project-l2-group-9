@@ -48,13 +48,13 @@ export default {
     shift(image, index, rangeX, rangeY) {
       const active = this.getActive();
 
-      const translationIntensity = active ? 24 : 4,
+      const translationIntensity = active ? 12 : 4,
         maxTranslation = translationIntensity * (index + 1),
         currentTranslation = `${maxTranslation * rangeX}% ${
           maxTranslation * rangeY
         }%`;
 
-      const scale = active ? 1 + index * 0.4 : 1;
+      const scale = active ? 1 + index * 0.01 : 1;
 
       image.animate(
         {
@@ -105,6 +105,7 @@ export default {
   place-items: center;
   margin: 0;
   overflow: hidden;
+  padding-right: 7.5rem;
 }
 
 #logo {

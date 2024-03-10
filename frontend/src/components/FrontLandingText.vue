@@ -1,36 +1,48 @@
 <template>
-    <div id = "main-landing-page">
-        <div id = "navbar">
-            <router-link :to="{ name: 'Introduction' , hash: '#introduction-container' }">Internship</router-link> 
-            <!--REMEMBER TO CHANGE BACK TO INTERNSHIP-->
-            <router-link to="/about">Tracker</router-link>
-            <router-link to="/contact">Forum</router-link>
+    <div id="first-page">
+        <div id = "logo-spin">
+            <LogoSpin />
         </div>
-        <div id = "main-landing-page-slogan">
-            <div class="slogan-container">
-                <h1 class="fade-in-text">insight,</h1>
-                <h1 class="fade-in-text delay-1">incharge,</h1>
-                <h1 class="fade-in-text delay-2">InTurn.</h1>
+        <div id = "main-landing-page">
+            <div id = "navbar">
+                <router-link :to="{ name: 'Introduction' , hash: '#introduction-container' }">Internship</router-link> 
+                <!--REMEMBER TO CHANGE BACK TO INTERNSHIP-->
+                <router-link to="/about">Tracker</router-link>
+                <router-link to="/contact">Forum</router-link>
             </div>
-        </div>
-        <div class="box-container">
-            <router-link to="/placeholder1" class="box">Login</router-link>
-            <router-link to="/placeholder2" class="box">Register</router-link>
+            <div id = "main-landing-page-slogan">
+                <div class="slogan-container">
+                    <h1 class="fade-in-text">insight,</h1>
+                    <h1 class="fade-in-text delay-1">incharge,</h1>
+                    <h1 class="fade-in-text delay-2">InTurn.</h1>
+                </div>
+            </div>
+            <div class="box-container">
+                <router-link to="/placeholder1" class="box">Login</router-link>
+                <router-link to="/placeholder2" class="box">Register</router-link>
+            </div>
         </div>
     </div>
 </template>
   
-<script>
-  export default {
-  }
+<script setup>
+    import LogoSpin from "./LogoSpin.vue";
 </script>
   
 <style scoped>
+#first-page {
+    display: flex;
+}
+
+#logo-spin {
+    flex: 2;
+}
     #main-landing-page {
+        flex: 4;
         text-align: center;
         background-color: #526D82;
         height: 100vh; /* viewport height */
-        width: 100vw; /* viewport width */
+        width: 50vw; /* viewport width */
     } 
 
     #main-landing-page a {

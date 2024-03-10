@@ -140,35 +140,9 @@ body {
   min-height: 100vh;
 }
 
-#introduction-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* This will ensure that the aspect ratio of the image is maintained */
-}
-    
-.container {
-  display: flex;
-  height: 100vh;;
-  background-color: #dde6ed;
-}
-    
-.text-right {
-  width: 50%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: space-evenly;
-  font-family: "Poppins", sans-serif, Helvetica;
-  font-size: xx-large;
-  animation: fade-down 1s ease-in-out;
-  margin-left: 40px;
-}
-    
-.text-right p {
-  color: #535760;
-  margin-top: 0;
-  font-weight: lighter;
+header {
+  text-align: center;
+  background-color: lightblue;
 }
 
 #introduction-container {
