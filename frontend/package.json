@@ -9,9 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rollup/rollup-win32-x64-msvc": "^4.12.1",
     "svgxuse": "^1.2.6",
     "three": "^0.161.0",
     "vue": "^3.4.15",
+    "vue-router": "^4.3.0",
     "vue3-marquee": "^4.2.0"
   },
   "devDependencies": {

@@ -137,6 +137,7 @@
     height: 100%;
     object-fit: cover; /* This will ensure that the aspect ratio of the image is maintained */
     }
+    
     .container {
         display: flex;
         height: 100vh;;
