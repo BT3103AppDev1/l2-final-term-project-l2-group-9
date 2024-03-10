@@ -1,9 +1,7 @@
 <template>
-    <FrontLandingText />
-    <Introduction />
-    <Vue3Marquee />
-    <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia nostrum numquam quidem dolorum dignissimos rerum, aliquid quas et eveniet ullam natus sequi soluta expedita vero? Dolorem accusantium iure cum nemo?</h1>
-    <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia nostrum numquam quidem dolorum dignissimos rerum, aliquid quas et eveniet ullam natus sequi soluta expedita vero? Dolorem accusantium iure cum nemo?</h1>
+  <FrontLandingText />
+  <Introduction />
+  <Vue3Marquee />
 </template>
 
 <script setup>
