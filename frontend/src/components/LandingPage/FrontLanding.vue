@@ -19,7 +19,7 @@
             </div>
             <div class="box-container">
                 <router-link to="/placeholder1" class="box">Login</router-link>
-                <router-link to="/placeholder2" class="box">Register</router-link>
+                <router-link to="/register" class="box">Register</router-link>
             </div>
         </div>
     </div>
