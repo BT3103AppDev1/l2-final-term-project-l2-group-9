@@ -7,8 +7,8 @@
             <div id = "navbar">
                 <router-link :to="{ name: 'Introduction' , hash: '#introduction-container' }">Internship</router-link> 
                 <!--REMEMBER TO CHANGE BACK TO INTERNSHIP-->
-                <router-link to="/about">Tracker</router-link>
-                <router-link to="/contact">Forum</router-link>
+                <router-link to="/tracker">Tracker</router-link>
+                <router-link to="/forum">Forum</router-link>
             </div>
             <div id = "main-landing-page-slogan">
                 <div class="slogan-container">
