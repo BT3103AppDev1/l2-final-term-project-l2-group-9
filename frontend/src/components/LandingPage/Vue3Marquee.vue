@@ -36,7 +36,7 @@ const images = [
 
 <style scoped>
 .vue3-marquee {
-    max-width: 99vw;
+    max-width: 100vw;
     background-color: #9DB2BF;
 }
 
