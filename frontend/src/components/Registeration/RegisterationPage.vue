@@ -84,6 +84,7 @@ ul {
 .registration-page input {
     border-radius: 15px;
     height: 30px;
+    width: 200px;
 }
 
 .registration-page input[type="submit"] {
