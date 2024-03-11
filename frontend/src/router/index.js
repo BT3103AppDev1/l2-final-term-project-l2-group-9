@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Introduction from '../components/Introduction.vue'
-import LandingJoinUs from '../components/LandingJoinUs.vue';
-import LandingFooter from '../components/LandingFooter.vue';
+import Introduction from '../components/LandingPage/Introduction.vue'
+import LandingJoinUs from '../components/LandingPage/LandingJoinUs.vue';
+import LandingFooter from '../components/LandingPage/LandingFooter.vue';
 const routes = [
   {
     path: '/',

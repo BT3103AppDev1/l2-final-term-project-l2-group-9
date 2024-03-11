@@ -7,11 +7,11 @@
 </template>
 
 <script setup>
-import Introduction from "@/components/Introduction.vue";
-import Vue3Marquee from "@/components/Vue3Marquee.vue";
-import FrontLanding from "./components/FrontLanding.vue";
-import LandingJoinUs from "./components/LandingJoinUs.vue";
-import LandingFooter from "./components/LandingFooter.vue";
+import Introduction from "./components/LandingPage/Introduction.vue"
+import Vue3Marquee from "./components/LandingPage/Vue3Marquee.vue";
+import FrontLanding from "./components/LandingPage/FrontLanding.vue";
+import LandingJoinUs from "./components/LandingPage/LandingJoinUs.vue";
+import LandingFooter from "./components/LandingPage/LandingFooter.vue";
 </script>
 
-<style scoped></style>
+<style scoped></style>./components/LandingPage/FrontLanding.vue./components/LandingPage/LandingFooter.vue./components/LandingPage/LandingJoinUs.vue
