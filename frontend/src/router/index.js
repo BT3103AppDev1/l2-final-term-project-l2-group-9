@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Introduction from '../components/LandingPage/Introduction.vue'
 import LandingJoinUs from '../components/LandingPage/LandingJoinUs.vue';
 import LandingFooter from '../components/LandingPage/LandingFooter.vue';
-import RegisterationPage from '@/components/Registeration/RegisterationPage.vue';
-import LandingPage from '@/components/LandingPage.vue';
+import RegisterationPage from '../views/RegisterationPage.vue'
+import LandingPage from '../views/LandingPage.vue';
 const routes = [
   {
     path: '/',
