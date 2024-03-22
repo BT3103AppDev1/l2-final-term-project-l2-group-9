@@ -1,7 +1,7 @@
 <template>
     <div class="registration-page">
         <h1>Register Account</h1>
-        <div class = "form-container">
+        <div class="form-container">
             <div class="requirements">
                 <p>Password should contain:</p>
                 <ul>
@@ -11,21 +11,52 @@
                     <li>At least 1 special character</li>
                 </ul>
             </div>
-            <form>
+            <form @submit.prevent="submit">
                 <label for="username">Username <span class="required">*</span></label>
-                <input type="text" id="username" name="username"><br><br>
+                <input type="text" id="username" name="username" v-model="username"><br><br>
                 <label for="email">Email Address <span class="required">*</span></label>
-                <input type="text" id="email" name="email"><br><br>
+                <input type="text" id="email" name="email" v-model="email"><br><br>
                 <label for="password">Password <span class="required">*</span></label>
-                <input type="password" id="password" name="password"><br><br>
+                <input type="password" id="password" name="password" v-model="password"><br><br>
                 <input type="submit" value="Sign Up">
             </form>
         </div>
     </div>
 </template>
 
-<script setup>
+<script scoped>
+import { ref } from 'vue';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { useRouter } from 'vue-router';
 
+export default {
+    setup() {
+        const auth = getAuth();
+        const db = getFirestore();
+        const router = useRouter();
+
+        const username = ref('');
+        const email = ref('');
+        const password = ref('');
+
+        const submit = async () => {
+            try {
+                const { user } = await createUserWithEmailAndPassword(auth, email.value, password.value);
+                await setDoc(doc(db, 'users', user.uid), {
+                    username: username.value,
+                    email: email.value,
+                    password: password.value
+                });
+                router.push('/home');
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        return { username, email, password, submit };
+    }
+};
 </script>
 
 <style scoped>
@@ -41,11 +72,12 @@
 .required {
     color: red;
 }
+
 .form-container {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     margin-right: 320px;
-    }
+}
 
 .requirements {
     color: black;
@@ -57,12 +89,15 @@
     margin-top: 150px;
     text-wrap: nowrap;
 }
+
 form {
     flex: 2;
 }
+
 ul {
     text-align: left;
 }
+
 .registration-page h1 {
     color: black;
     font-family: "Poppins";
