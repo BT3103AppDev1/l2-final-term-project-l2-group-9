@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "firebase": "^10.8.1",
+    "firebaseui": "^6.1.0",
     "svgxuse": "^1.2.6",
     "three": "^0.161.0",
     "vue": "^3.4.15",
