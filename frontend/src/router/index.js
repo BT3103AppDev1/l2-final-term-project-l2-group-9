@@ -1,42 +1,48 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Introduction from '../components/LandingPage/Introduction.vue'
-import LandingJoinUs from '../components/LandingPage/LandingJoinUs.vue';
-import LandingFooter from '../components/LandingPage/LandingFooter.vue';
-import RegisterationPage from '../views/RegisterationPage.vue'
-import LandingPage from '../views/LandingPage.vue';
-import HomePage from '../views/HomePage.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import Introduction from "../components/LandingPage/Introduction.vue";
+import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
+import LandingFooter from "../components/LandingPage/LandingFooter.vue";
+import RegisterationPage from "../views/RegisterationPage.vue";
+import LandingPage from "../views/LandingPage.vue";
+import HomePage from "../views/HomePage.vue";
+import PostingPage from "../views/PostingPage.vue";
 const routes = [
   {
-    path: '/',
-    name: 'LandingPage',
+    path: "/",
+    name: "LandingPage",
     component: LandingPage,
   },
   {
-    path: '/',
-    name: 'Introduction',
+    path: "/",
+    name: "Introduction",
     component: Introduction,
   },
   {
-    path: '/',
-    name: 'LandingJoinUs',
+    path: "/",
+    name: "LandingJoinUs",
     component: LandingJoinUs,
   },
   {
-    path: '/',
-    name: 'LandingFooter',
+    path: "/",
+    name: "LandingFooter",
     component: LandingFooter,
   },
   {
-    path: '/register',
-    name: 'RegisterationPage',
+    path: "/register",
+    name: "RegisterationPage",
     component: RegisterationPage,
   },
   {
-    path: '/home',
-    name: 'HomePage',
+    path: "/home",
+    name: "HomePage",
     component: HomePage,
   },
-]
+  {
+    path: "/postings",
+    name: "PostingPage",
+    component: PostingPage,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),
@@ -45,12 +51,12 @@ const router = createRouter({
     if (to.hash) {
       return {
         el: to.hash,
-        behavior: 'smooth',
+        behavior: "smooth",
       };
     } else if (savedPosition) {
       return savedPosition;
     } else {
-      return { top: 0, behavior: 'smooth' };
+      return { top: 0, behavior: "smooth" };
     }
   },
 });
@@ -66,5 +72,4 @@ router.beforeEach((to, from, next) => {
   }
 });
 
-
-export default router
+export default router;
