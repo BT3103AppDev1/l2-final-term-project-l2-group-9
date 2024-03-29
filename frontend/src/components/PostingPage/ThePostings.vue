@@ -100,6 +100,7 @@ export default {
 <style scoped>
 .posting-page {
   background-color: #ffffff;
+  color: #000000;
 }
 
 .posting-page h1 {
