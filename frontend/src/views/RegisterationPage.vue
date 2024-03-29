@@ -69,22 +69,15 @@ export default {
     var uiConfig = {
       callbacks: {
         signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-          // User successfully signed in.
-          // Return type determines whether we continue the redirect automatically
-          // or whether we leave that to developer to handle.
           return true;
         },
-        uiShown: function () {
-          // The widget is rendered.
-          // Hide the loader.
-          document.getElementById("loader").style.display = "none";
-        },
+        // uiShown: function () {
+        //   document.getElementById("loader").style.display = "none";
+        // },
       },
-      // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
       signInFlow: "popup",
-      signInSuccessUrl: "<url-to-redirect-to-on-success>",
+      signInSuccessUrl: "home",
       signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
       ],
@@ -111,8 +104,7 @@ export default {
         await setDoc(doc(db, "users", user.uid), {
           username: username.value,
           email: email.value,
-          password: password.value,
-        });
+        })
         router.push("/home");
       } catch (error) {
         console.error(error);
@@ -211,6 +203,5 @@ ul {
 #inner-form-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 </style>
