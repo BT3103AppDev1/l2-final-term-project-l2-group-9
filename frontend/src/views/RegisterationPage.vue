@@ -104,7 +104,7 @@ export default {
         await setDoc(doc(db, "users", user.uid), {
           username: username.value,
           email: email.value,
-        })
+        });
         router.push("/home");
       } catch (error) {
         console.error(error);
@@ -112,6 +112,7 @@ export default {
     };
 
     return { username, email, password, submit };
+    x;
   },
 };
 </script>

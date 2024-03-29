@@ -7,7 +7,7 @@
       <li>
         <router-link to="/profile">
           <div class="icon-wrapper">
-            <img src="../assets/images/businessman.jpg" alt="Jobs Icon" />
+            <img src="../assets/images/businessman.jpg" alt="Profile Icon" />
           </div>
         </router-link>
       </li>
@@ -50,7 +50,7 @@ export default {
   align-items: center;
   padding: 0.5rem 2rem;
   background-color: #9db2bf; /* White background color */
-  height: 20vh;
+  height: 18vh;
   overflow: hidden;
   width: 100vw;
 }
@@ -68,7 +68,7 @@ export default {
 }
 
 .right-logos li {
-  margin-left: 1rem; /* Add some margin between icons */
+  margin-left: 2rem; /* Add some margin between icons */
 }
 
 .right-logos a {
@@ -76,8 +76,8 @@ export default {
 }
 
 .right-logos img {
-  width: 80px; /* Match the width of the .icon-wrapper class */
-  height: 80px; /* Match the height of the .icon-wrapper class */
+  width: 90px; /* Match the width of the .icon-wrapper class */
+  height: 90px; /* Match the height of the .icon-wrapper class */
   border-radius: 50%; /* Make the image circular */
   object-fit: cover; /* Ensure the image covers the entire area */
 }
