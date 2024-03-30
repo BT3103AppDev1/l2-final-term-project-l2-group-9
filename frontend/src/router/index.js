@@ -6,6 +6,7 @@ import RegisterationPage from "../views/RegisterationPage.vue";
 import LandingPage from "../views/LandingPage.vue";
 import HomePage from "../views/HomePage.vue";
 import PostingPage from "../views/PostingPage.vue";
+import LoginPage from "../views/LoginPage.vue";
 const routes = [
   {
     path: "/",
@@ -42,6 +43,11 @@ const routes = [
     name: "PostingPage",
     component: PostingPage,
   },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: LoginPage,
+  }
 ];
 
 const router = createRouter({

@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     updateNavBarVisibility() {
-      const excludedRoutes = ["/", "/register"]; // Routes without navbar
+      const excludedRoutes = ["/", "/register", "/login"]; // Routes without navbar
       this.showNavBar = !excludedRoutes.includes(this.$route.path);
     },
   },
