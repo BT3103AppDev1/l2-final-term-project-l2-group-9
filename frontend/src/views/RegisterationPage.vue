@@ -76,7 +76,7 @@ export default {
         // },
       },
       signInFlow: "popup",
-      signInSuccessUrl: "home",
+      signInSuccessUrl: "postings",
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
@@ -105,7 +105,7 @@ export default {
           username: username.value,
           email: email.value,
         });
-        router.push("/home");
+        router.push("/postings");
       } catch (error) {
         console.error(error);
       }
