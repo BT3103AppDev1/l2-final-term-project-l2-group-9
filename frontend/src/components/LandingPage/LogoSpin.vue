@@ -71,7 +71,7 @@ export default {
     },
     shiftLogo(e, images) {
       const rect = this.$el.getBoundingClientRect(),
-        radius = 1000;
+        radius = 2000;
 
       const centerX = rect.left + rect.width / 2,
         centerY = rect.top + rect.height / 2;
