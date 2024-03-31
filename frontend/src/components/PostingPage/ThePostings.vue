@@ -25,38 +25,62 @@
         />
       </div>
     </div>
-    <div v-if="isLoading" class="loading-container">
-      <div class="spinner"></div>
-      Loading...
+    <div class="content-container">
+      <div v-if="isLoading" class="loading-container">
+        <div class="spinner"></div>
+        Loading...
+      </div>
+      <div v-else class="posting-cards-container">
+        <div
+          v-for="job in jobs"
+          :key="job.jobID"
+          @click="selectJob(job)"
+          class="posting-card"
+        >
+          <PostingCard
+            :employer-logo="job.employerLogo"
+            :title="job.jobTitle"
+            :company="job.employerName"
+            :location="job.jobLocation"
+            :duration="job.jobDuration"
+            :posted-time="job.jobPostDate"
+          />
+        </div>
+      </div>
+      <div v-if="!isLoading && selectedJob" class="job-detail-container">
+        <DescriptionCard
+          :employer-logo="selectedJob.employerLogo"
+          :title="selectedJob.jobTitle"
+          :company="selectedJob.employerName"
+          :location="selectedJob.jobLocation"
+          :duration="selectedJob.jobDuration"
+          :posted-time="selectedJob.jobPostDate"
+          :job-desc="selectedJob.jobDesc"
+          :apply-link="selectedJob.applyLink"
+        />
+      </div>
     </div>
-    <div v-else class="scrollable-container">
-      <PostingCard
-        v-for="job in jobs"
-        :key="job.jobID"
-        :employer-logo="job.employerLogo"
-        :title="job.jobTitle"
-        :company="job.employerName"
-        :location="job.jobLocation"
-        :duration="job.jobDuration"
-        :posted-time="job.jobPostDate"
-      />
-    </div>
+    <button @click="resetLocalStorage">Reset Local Storage</button>
   </div>
 </template>
 
 <script>
 import PostingCard from "./PostingCard.vue";
 import filterJobs from "../../services/filterJobs";
+import DescriptionCard from "./DescriptionCard.vue";
+
 export default {
   name: "ThePostings",
   components: {
     PostingCard,
+    DescriptionCard,
   },
   data() {
     return {
       searchTerm: "",
       jobs: [],
       isLoading: false, // Add a loading state
+      selectedJob: null,
     };
   },
   methods: {
@@ -74,8 +98,17 @@ export default {
         this.jobs = await filterJobs(searchKey);
         localStorage.setItem(searchKey, JSON.stringify(this.jobs));
       }
-
+      this.selectedJob = this.jobs[0];
       this.isLoading = false; // Set loading state to false after fetching data
+    },
+    resetLocalStorage() {
+      localStorage.removeItem("Intern, Singapore");
+      console.log("Local storage cleared");
+      this.jobs = [];
+    },
+    selectJob(job) {
+      this.selectedJob = job;
+      console.log(this.selectedJob);
     },
   },
   async created() {
@@ -91,7 +124,7 @@ export default {
       this.jobs = await filterJobs(searchKey);
       localStorage.setItem(searchKey, JSON.stringify(this.jobs));
     }
-
+    this.selectedJob = this.jobs[0];
     this.isLoading = false; // Set loading state to false after fetching data
   },
 };
@@ -138,13 +171,13 @@ export default {
 }
 
 .filter-button img {
-  width: 20px; /* Set the width of the image (adjust as needed) */
-  height: 20px; /* Set the height of the image (adjust as needed) */
-  margin-right: 0.5em; /* Add some space between the image and the text */
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5em;
 }
 
 .filter-button:hover {
-  background-color: #9db2bf; /* Darker button color on hover */
+  background-color: #9db2bf;
 }
 
 .search-container,
@@ -160,13 +193,13 @@ export default {
   border: 1px solid #000000;
   border-radius: 0 15px 15px 0;
   outline: none;
-  border-left: none; /* Remove the left border */
+  border-left: none;
   border-width: 2px;
 }
 
 .search-button {
   padding: 0.5em 1em;
-  background-color: #ffffff; /* Example button color */
+  background-color: #ffffff;
   color: black;
   border: 1px solid #000000;
   border-radius: 15px 0 0 15px;
@@ -181,15 +214,16 @@ export default {
   font-family: "Poppins", sans-serif, Helvetica;
 }
 .search-button:hover {
-  background-color: #859dac; /* Darker button color on hover */
+  background-color: #859dac;
 }
-.scrollable-container {
-  overflow-y: auto; /* Enables vertical scrolling */
-  max-height: 55vh; /* Adjust the height as required */
+.posting-cards-container {
+  overflow-y: auto;
+  max-height: 60vh;
   padding: 1em;
   max-width: 35vw;
   margin-left: 2rem;
   margin-top: 2rem;
+  flex: 1;
 }
 
 .loading-container {
@@ -217,5 +251,18 @@ export default {
   100% {
     transform: rotate(360deg);
   }
+}
+.content-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.job-detail-container {
+  overflow-y: auto;
+  max-height: 60vh;
+  max-width: 100vw;
+  margin-right: 2rem;
+  margin-top: 2rem;
+  flex: 1;
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div class="top-left">
-        <img src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
-        <router-link to="/" class="back-link">
-        <span class="arrow">&#8592;</span>Back to the InTurn Website</router-link>
+    <img src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
+    <router-link to="/" class="back-link">
+      <span class="arrow">&#8592;</span>Back to the InTurn Website</router-link
+    >
   </div>
   <div class="registration-page">
     <div class="registration-container">
@@ -110,7 +111,7 @@ export default {
           username: username.value,
           email: email.value,
         });
-        router.push("/home");
+        router.push("/postings");
       } catch (error) {
         console.error(error);
       }
@@ -138,22 +139,21 @@ export default {
   width: 70%;
   display: flex;
   justify-content: space-evenly;
-    
 }
 
 .back-link {
-    color: white;
-    font-family: 'HelveticaNowDisplay', arial;
-    text-decoration: none;
-    font-size: larger;
-    margin-left: 30px;
-    margin-bottom: 15px;
+  color: white;
+  font-family: "HelveticaNowDisplay", arial;
+  text-decoration: none;
+  font-size: larger;
+  margin-left: 30px;
+  margin-bottom: 15px;
 }
 
 .arrow {
-    font-size: larger;
-    margin-right: 10px;
-  }
+  font-size: larger;
+  margin-right: 10px;
+}
 .registration-page {
   height: 100vh;
   width: 100vw;
