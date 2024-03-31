@@ -4,7 +4,7 @@ import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import RegisterationPage from "../views/RegisterationPage.vue";
 import LandingPage from "../views/LandingPage.vue";
-import HomePage from "../views/HomePage.vue";
+// import HomePage from "../views/HomePage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 const routes = [
@@ -32,11 +32,6 @@ const routes = [
     path: "/register",
     name: "RegisterationPage",
     component: RegisterationPage,
-  },
-  {
-    path: "/home",
-    name: "HomePage",
-    component: HomePage,
   },
   {
     path: "/postings",
