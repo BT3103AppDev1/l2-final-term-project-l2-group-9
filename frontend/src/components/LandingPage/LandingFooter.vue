@@ -1,4 +1,4 @@
-<template>
+  <template>
     <footer class="landing-footer">
       <div>
         <img src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
@@ -11,7 +11,7 @@
         <br><br>
         <div>
           <router-link class="nav-item" to="/forum">Forum</router-link>
-          <div @click="toggleAccountMenu">
+          <div class="account" @mouseover="showAccountMenu = true" @mouseleave="showAccountMenu = false">
             <div class="nav-item">Account</div>
             <div v-show="showAccountMenu" class="account-dropdown">
               <router-link to="/login">Login</router-link>
@@ -24,20 +24,16 @@
         <p>&copy; InTurn 2024</p>
       </div>
     </footer>
-</template>
-  
-<script setup>
-import { ref } from 'vue';
+  </template>
 
-const showAccountMenu = ref(false);
+  <script setup>
+  import { ref } from 'vue';
 
-const toggleAccountMenu = () => {
-  showAccountMenu.value = !showAccountMenu.value;
-};
-</script>
-  
-<style scoped>
-.landing-footer {
+  const showAccountMenu = ref(false);
+  </script>
+
+  <style scoped>
+  .landing-footer {
     display: flex;
     flex-direction: column;
     background-color: #526d82;
@@ -45,54 +41,54 @@ const toggleAccountMenu = () => {
     padding: 20px;
     font-family: "Poppins", sans-serif, Helvetica;
     font-weight: bold;
-}
+  }
 
-img {
+  img {
     width: 20%;
-}
+  }
 
-.nav-links {
+  .nav-links {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 30vh;
-}
+  }
 
-.nav-links > div {
+  .nav-links > div {
     display: flex;
     justify-content:space-evenly;
     width: 40%;
-}
+  }
 
-.nav-item {
+  .nav-item {
     color: white;
     text-decoration: none;
     font-weight: bold;
     font-size: 40px;
     align-items: center;
     transition: text-shadow 0.3s ease;
-}
-.nav-item:hover {
+  }
+  .nav-item:hover {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
-}
+  }
 
-.account-dropdown {
-    display: flex;
-    flex-direction: column;
-}
+  .account-dropdown {
+      display: flex;
+      flex-direction: column;
+  }
 
-.account-dropdown a {
-    color: lightgray;
-    text-decoration: none;
-    font-size: 20px;
-    text-align: center;
-    font-weight: bold;
-}
+  .account-dropdown a {
+      color: lightgray;
+      text-decoration: none;
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+  }
 
-.copyright {
-    font-size: large;
-    padding: 50px 0 0 30px;
-}
-</style>
+  .nav-item, .account-dropdown a {
+    cursor: pointer;
+  }
+
+  </style>

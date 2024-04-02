@@ -1,25 +1,24 @@
 <template>
   <div class="container">
     <div id="introduction-container" ref="container"></div>
-    <div class="text-right">
-      <h2>
-        Ignite your career path. Step into InTurn, where the world is at your
-        fingertips.
-      </h2>
+    <div class="text-right" ref="textRight">
+      <h2 id="typewriterTitle">Step into InTurn</h2>
+      <p id="titleText"></p>
       <hr />
-      <h4 class="intro-highlight-listing">Dynamic Internship Listings</h4>
-      <p>
-        Navigate and discover opportunities that align with your career
-        aspirations.
-      </p>
+      <div class="typewriterContent">
+        <h4 class="intro-highlight-listing">Dynamic Internship Listings</h4>
+        <p id="listingText"></p>
+      </div>
       <hr />
-      <h4 class="intro-highlight-tracker">Effortless Application Tracking</h4>
-      <p>
-        No more uncertainties. Know the status of your applications at a glance.
-      </p>
+      <div class="typewriterContent">
+        <h4 class="intro-highlight-tracker">Effortless Application Tracking</h4>
+        <p id="trackingText"></p>
+      </div>
       <hr />
-      <h4 class="intro-highlight-forum">Where Insight Meets Interaction</h4>
-      <p>Share, learn, and connect with like-minded professionals.</p>
+      <div class="typewriterContent">
+        <h4 class="intro-highlight-forum">Insight Meets Interaction</h4>
+        <p id="forumText"></p>
+      </div>
     </div>
   </div>
 </template>
@@ -35,6 +34,7 @@ import resumeImage4 from "@/assets/images/resume4.jpg";
 import resumeImage5 from "@/assets/images/resume5.jpg";
 
 const container = ref(null);
+const textRight = ref(null);
 const resumeImages = [
   resumeImage1,
   resumeImage2,
@@ -131,6 +131,22 @@ onMounted(() => {
     }
 
     animate();
+
+    const typewriter = (elementId, text, delay = 75) => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        document.getElementById(elementId).innerHTML += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, delay);
+    };
+    typewriter('titleText', 'The world is at your fingertips.', 75);
+    typewriter('listingText', 'Navigate and discover opportunities that align with your career aspirations.', 75);
+    typewriter('trackingText', 'No more uncertainties. Know the status of your applications at a glance.', 75);
+    typewriter('forumText', 'Share, learn, and connect with like-minded professionals.', 75);
   });
 });
 </script>
@@ -138,6 +154,7 @@ onMounted(() => {
 <style scoped>
 body {
   min-height: 100vh;
+  width: 100vw; /* viewport width */
 }
 
 header {
@@ -163,16 +180,24 @@ header {
 }
 
 .text-right {
-  width: 50%;
+  max-width: 50%;
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: left;
   justify-content: space-evenly;
-  font-family: "Poppins", sans-serif, Helvetica;
+  font-family: "League Spartan";
   font-size: xx-large;
-  animation: fade-down 1s ease-in-out;
   margin-left: 40px;
+  margin-right: 20px;
+  animation: fadeIn 2s linear forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .text-right p {
@@ -185,6 +210,8 @@ header {
   color: black;
   font-weight: bold;
   font-size: 1.5em;
+  line-height: 0.1em;
+  padding-top: 0.5em;
 }
 
 .text-right h4 {
@@ -204,4 +231,17 @@ header {
     transform: translateY(0px) scale(1);
   }
 }
+
+/* Typewriter typing effect */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+
+/* For paragraphs, adjust the animation duration as needed */
+#titleText #listingText, #trackingText, #forumText {
+  animation-duration: 0.001ms; /* Shorter text, faster typing effect */
+}
+
 </style>

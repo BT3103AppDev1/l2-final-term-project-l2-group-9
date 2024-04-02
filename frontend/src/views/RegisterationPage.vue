@@ -130,6 +130,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-items: center;
+  padding-left: 30px;
 }
 
 .logo {

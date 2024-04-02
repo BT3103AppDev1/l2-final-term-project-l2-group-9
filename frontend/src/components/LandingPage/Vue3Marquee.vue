@@ -7,7 +7,6 @@
 <script setup>
 import { Vue3Marquee } from 'vue3-marquee'
 import bytedance from '@/assets/images/marquee/bytedance.png';
-import ey from '@/assets/images/marquee/ey.png';
 import google from '@/assets/images/marquee/google.png';
 import morganstanley from '@/assets/images/marquee/morganstanley.png';
 import mckinsey from '@/assets/images/marquee/mckinsey.svg';
@@ -21,7 +20,6 @@ import goldmansachs from '@/assets/images/marquee/goldmansachs.png';
 
 const images = [
   { src: bytedance },
-  { src: ey },
   { src: google },
   { src: morganstanley },
   { src: mckinsey },
