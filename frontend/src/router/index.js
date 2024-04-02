@@ -7,7 +7,6 @@ import LandingPage from "../views/LandingPage.vue";
 // import HomePage from "../views/HomePage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
-import TestingPage from "@/TestingPage.vue";
 
 const routes = [
   {
@@ -44,11 +43,6 @@ const routes = [
     path: "/login",
     name: "LoginPage",
     component: LoginPage,
-  },
-  {
-    path: "/test",
-    name: "TestingPage",
-    component: TestingPage,
   },
 ];
 
