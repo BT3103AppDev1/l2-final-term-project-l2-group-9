@@ -6,7 +6,7 @@
     <div id="main-landing-page">
       <div id="navbar">
         <router-link
-          :to="{ name: 'LandingPage', hash: '#introduction-container' }"
+          :to="{ name: 'LandingPage', hash: '#landing-posting' }"
           >Internship</router-link
         >
         <!--REMEMBER TO CHANGE BACK TO INTERNSHIP-->

@@ -2,6 +2,7 @@
   <FrontLanding />
   <Introduction />
   <Vue3Marquee />
+  <LandingPosting />
   <LandingTracker />
   <LandingJoinUs />
   <LandingFooter />
@@ -14,6 +15,7 @@ import FrontLanding from "../components/LandingPage/FrontLanding.vue";
 import LandingTracker from "@/components/LandingPage/LandingTracker.vue";
 import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
+import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 </script>
 
 <style scoped></style>

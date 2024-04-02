@@ -7,6 +7,7 @@ import LandingPage from "../views/LandingPage.vue";
 // import HomePage from "../views/HomePage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
+import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 const routes = [
   {
     path: "/",
@@ -42,6 +43,11 @@ const routes = [
     path: "/login",
     name: "LoginPage",
     component: LoginPage,
+  },
+  {
+    path: "/",
+    name: "LandingPosting",
+    component: LandingPosting,
   }
 ];
 

@@ -5,7 +5,7 @@
       </div>
       <div class="nav-links">
         <div>
-          <router-link class="nav-item" to="/postings">Postings</router-link>
+          <router-link class="nav-item" :to="{ name: 'LandingPage', hash: '#landing-posting' }">Postings</router-link>
           <router-link class="nav-item" to="/tracker">Tracker</router-link>
         </div>
         <br><br>
