@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Introduction from "../components/LandingPage/Introduction.vue";
-import LandingTracker from "@/components/LandingPage/LandingTracker.vue";
 import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import RegisterationPage from "../views/RegisterationPage.vue";
 import LandingPage from "../views/LandingPage.vue";
-import HomePage from "../views/HomePage.vue";
+// import HomePage from "../views/HomePage.vue";
 import PostingPage from "../views/PostingPage.vue";
-// import TrackingPage from "../views/TrackingPage.vue";
+import LoginPage from "../views/LoginPage.vue";
 import TestingPage from "@/TestingPage.vue";
 
 const routes = [
@@ -20,11 +19,6 @@ const routes = [
     path: "/",
     name: "Introduction",
     component: Introduction,
-  },
-  {
-    path: "/",
-    name: "Tracker",
-    component: LandingTracker,
   },
   {
     path: "/",
@@ -42,26 +36,20 @@ const routes = [
     component: RegisterationPage,
   },
   {
-    path: "/home",
-    name: "HomePage",
-    component: HomePage,
-  },
-  {
     path: "/postings",
     name: "PostingPage",
     component: PostingPage,
   },
-  // {
-  //   path: "/trackings",
-  //   name: "TrackingPage",
-  //   component: TrackingPage,
-  // },
+  {
+    path: "/login",
+    name: "LoginPage",
+    component: LoginPage,
+  },
   {
     path: "/test",
     name: "TestingPage",
     component: TestingPage,
   },
-
 ];
 
 const router = createRouter({
