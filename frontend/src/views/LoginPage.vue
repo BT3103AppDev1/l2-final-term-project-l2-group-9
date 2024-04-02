@@ -1,8 +1,8 @@
 <template>
     <div class="top-left">
-        <img src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
-        <router-link to="/" class="back-link">
-        <span class="arrow">&#8592;</span>Back to the InTurn Website</router-link>
+        <router-link to="/">
+        <img class="arrow" src="@/assets/images/back-to-board.svg" alt="arrow" /></router-link>
+        <img class="logo" src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
     </div>
     <div class="login-page">  
       <div class="login-container">
@@ -23,7 +23,7 @@
     </div>
   </template>
   
-  <script scoped>
+<script scoped>
   import { ref } from "vue";
   import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
   import { useRouter } from "vue-router";
@@ -64,7 +64,7 @@
       const submit = async () => {
         try {
           await signInWithEmailAndPassword(auth, email.value, password.value);
-          router.push("/home");
+          router.push("/postings");
         } catch (error) {
           console.error(error);
         }
@@ -87,39 +87,29 @@
       return { email, password, submit, resetPassword };
     },
   };
-  </script>
+</script>
   
-  <style scoped>
-.top-left img {
-  width: 20%;
-}
-
+<style scoped>
 .top-left {
-  position: relative;
   background-color: #526d82;
-  color: white;
-  padding: 10px;
   border-radius: 10px;
-  font-size: 1em;
   align-items: center;
-  width: 70%;
   display: flex;
-  justify-content: space-evenly;
-    
+  flex-direction: row;
+  justify-items: center;
 }
 
-.back-link {
-    color: white;
-    font-family: 'HelveticaNowDisplay', arial;
-    text-decoration: none;
-    font-size: larger;
-    margin-left: 30px;
-    margin-bottom: 15px;
+.logo {
+  width: 215px;
+  height: auto;
 }
 
 .arrow {
-    font-size: larger;
-    margin-right: 10px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  margin-left: 20px;
+  filter: invert(92%) sepia(15%) saturate(122%) hue-rotate(166deg) brightness(99%) contrast(90%);
 }
 
 .forgot-password {

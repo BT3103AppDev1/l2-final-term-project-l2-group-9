@@ -1,10 +1,9 @@
 <template>
   <div class="top-left">
-    <img src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
-    <router-link to="/" class="back-link">
-      <span class="arrow">&#8592;</span>Back to the InTurn Website</router-link
-    >
-  </div>
+        <router-link to="/">
+        <img class="arrow" src="@/assets/images/back-to-board.svg" alt="arrow" /></router-link>
+        <img class="logo" src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
+    </div>
   <div class="registration-page">
     <div class="registration-container">
       <h1>Register Account</h1>
@@ -124,35 +123,26 @@ export default {
 </script>
 
 <style scoped>
-.top-left img {
-  width: 20%;
-}
-
 .top-left {
-  position: relative;
   background-color: #526d82;
-  color: white;
-  padding: 10px;
   border-radius: 10px;
-  font-size: 1em;
   align-items: center;
-  width: 70%;
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-items: center;
 }
 
-.back-link {
-  color: white;
-  font-family: "HelveticaNowDisplay", arial;
-  text-decoration: none;
-  font-size: larger;
-  margin-left: 30px;
-  margin-bottom: 15px;
+.logo {
+  width: 215px;
+  height: auto;
 }
 
 .arrow {
-  font-size: larger;
-  margin-right: 10px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  margin-left: 20px;
+  filter: invert(92%) sepia(15%) saturate(122%) hue-rotate(166deg) brightness(99%) contrast(90%);
 }
 .registration-page {
   height: 100vh;
