@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="job-description" v-html="jobDesc"></div>
+    <div class="job-description" v-html="formattedJobDesc"></div>
     <div class="footer">
       <span class="duration">{{ duration }}</span>
       <span class="posted-time">{{ postedTime }}</span>
@@ -41,6 +41,15 @@ export default {
     jobDesc: String,
     applyLink: String,
   },
+
+  computed: {
+    formattedJobDesc() {
+      const bulletPoints = this.jobDesc.split('\n');
+      const mappedArray = bulletPoints.map(item => item === "" ? "\n" : item);
+      const htmlContent = mappedArray.map(item => item === "\n" ? "<br><br>" : item).join('');
+      return htmlContent;
+    }
+  }
 };
 </script>
 

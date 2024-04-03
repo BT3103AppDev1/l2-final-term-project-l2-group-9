@@ -15,7 +15,7 @@
 <script>
 export default {
     mounted() {
-        const textArray = ['Internship Postings', 'Curated for your needs!'];
+        const textArray = ['Internship Postings', 'Curated for your needs'];
         let textIndex = 0;
         let charIndex = 0;
         let direction = 'forward';
@@ -53,14 +53,14 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #526d82;
+    background-color: #9DB2BF;
     padding: 5rem 0;
     flex-direction: column;
 }
 
 #landing-posting h2 {
     font-weight: bold;
-    font-family: "Monaco", sans-serif;
+    font-family: "League Spartan";
     color: black;
     font-size: 2.5rem;
     min-height: 4rem;
