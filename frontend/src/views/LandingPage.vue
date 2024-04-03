@@ -1,8 +1,8 @@
 <template>
   <FrontLanding />
   <Introduction />
-  <Vue3Marquee />
   <LandingPosting />
+  <Vue3Marquee />
   <LandingTracker />
   <LandingJoinUs />
   <LandingFooter />
