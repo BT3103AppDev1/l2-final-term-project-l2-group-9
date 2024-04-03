@@ -39,9 +39,9 @@ const images = [
 }
 
 .marquee-image {
-    margin: 20px;
-    width: 15vw;
+    margin: 15px;
+    width: 10vw;
     height: auto;
-    padding: 20px;
+    padding: 30px;
 }   
 </style>
