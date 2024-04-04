@@ -36,7 +36,7 @@
       />
       <input
         v-show="showNotesInput"
-        v-model="tempDetails"
+        v-model="job.details"
         @blur="saveDetails"
         @keyup.enter="saveDetails"
         type="text"
@@ -248,7 +248,6 @@ export default {
   width: 60%;
   margin-right: 1%;
   box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
-  display: none; /* Initially hidden */
 }
 
 </style>

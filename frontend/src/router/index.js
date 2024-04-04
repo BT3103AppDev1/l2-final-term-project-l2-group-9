@@ -8,6 +8,7 @@ import LandingPage from "../views/LandingPage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
+import TestingPage from "@/TestingPage.vue";
 const routes = [
   {
     path: "/",
@@ -48,7 +49,12 @@ const routes = [
     path: "/",
     name: "LandingPosting",
     component: LandingPosting,
-  }
+  },
+  {
+    path: "/test",
+    name: "TestingPage",
+    component: TestingPage,
+  },
 ];
 
 const router = createRouter({
