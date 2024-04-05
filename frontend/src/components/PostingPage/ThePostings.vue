@@ -134,12 +134,13 @@ export default {
 .posting-page {
   background-color: #ffffff;
   color: #000000;
+  height: 90vh;
 }
 
 .posting-page h1 {
   font-size: 2.6em;
   text-align: center;
-  margin-top: 0.2em;
+  margin-top: 1em;
   font-family: "Poppins", sans-serif, Helvetica;
   font-weight: bold;
 }
@@ -184,7 +185,7 @@ export default {
 .filter-container {
   display: flex;
   justify-content: center;
-  margin-top: 0.25em;
+  margin-top: 1em;
 }
 
 .search-bar {
@@ -218,7 +219,7 @@ export default {
 }
 .posting-cards-container {
   overflow-y: auto;
-  max-height: 60vh;
+  max-height: 65vh;
   padding: 1em;
   max-width: 35vw;
   margin-left: 2rem;
@@ -259,7 +260,7 @@ export default {
 
 .job-detail-container {
   overflow-y: auto;
-  max-height: 60vh;
+  max-height: 65vh;
   max-width: 100vw;
   margin-right: 2rem;
   margin-top: 2rem;

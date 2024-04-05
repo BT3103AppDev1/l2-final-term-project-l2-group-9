@@ -14,13 +14,21 @@
       <li>
         <router-link to="/notification">
           <div class="icon-wrapper">
-            <font-awesome-icon :icon="['fas', 'bell']" size="xl" style="color: #ffffff" />
+            <font-awesome-icon
+              :icon="['fas', 'bell']"
+              size="xl"
+              style="color: #ffffff"
+            />
           </div>
         </router-link>
       </li>
       <li>
         <div class="icon-wrapper">
-          <font-awesome-icon :icon="['fas', 'bars']" size="xl" style="color: #ffffff" />
+          <font-awesome-icon
+            :icon="['fas', 'bars']"
+            size="xl"
+            style="color: #ffffff"
+          />
         </div>
       </li>
     </ul>
@@ -41,13 +49,13 @@ export default {
   padding: 0.5rem 2rem;
   background-color: #9db2bf;
   /* White background color */
-  height: 18vh;
+  height: 10vh;
   overflow: hidden;
   width: 100vw;
 }
 
 .logo img {
-  height: 35vh;
+  height: 15vh;
   overflow: hidden;
 }
 
@@ -72,9 +80,9 @@ export default {
 }
 
 .right-logos img {
-  width: 90px;
+  width: 45px;
   /* Match the width of the .icon-wrapper class */
-  height: 90px;
+  height: 45px;
   /* Match the height of the .icon-wrapper class */
   border-radius: 50%;
   /* Make the image circular */
@@ -86,15 +94,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle,
-      #000000 0%,
-      #333333 100%);
+  background: radial-gradient(circle, #000000 0%, #333333 100%);
   /* Gradient background */
   border-radius: 50%;
   /* Makes the div circular */
-  width: 80px;
+  width: 45px;
   /* Adjust as needed */
-  height: 80px;
+  height: 45px;
   /* Adjust as needed */
   padding: 10px;
   /* Adds some space around the icon */

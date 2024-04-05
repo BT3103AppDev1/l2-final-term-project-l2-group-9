@@ -133,20 +133,32 @@ onMounted(() => {
     animate();
 
     const typewriter = (elementId, text, delay = 75) => {
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        document.getElementById(elementId).innerHTML += text.charAt(i);
-        i++;
-      } else {
-        clearInterval(interval);
-      }
-    }, delay);
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i < text.length) {
+          document.getElementById(elementId).innerHTML += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, delay);
     };
-    typewriter('titleText', 'The world is at your fingertips.', 75);
-    typewriter('listingText', 'Navigate and discover opportunities that align with your career aspirations.', 75);
-    typewriter('trackingText', 'No more uncertainties. Know the status of your applications at a glance.', 75);
-    typewriter('forumText', 'Share, learn, and connect with like-minded professionals.', 75);
+    typewriter("titleText", "The world is at your fingertips.", 75);
+    typewriter(
+      "listingText",
+      "Navigate and discover opportunities that align with your career aspirations.",
+      75
+    );
+    typewriter(
+      "trackingText",
+      "No more uncertainties. Know the status of your applications at a glance.",
+      75
+    );
+    typewriter(
+      "forumText",
+      "Share, learn, and connect with like-minded professionals.",
+      75
+    );
   });
 });
 </script>
@@ -176,7 +188,7 @@ header {
 .container {
   display: flex;
   height: 100vh;
-  background-color: #dde6ed;
+  background-color: #f2f2f2;
 }
 
 .text-right {
@@ -234,14 +246,18 @@ header {
 
 /* Typewriter typing effect */
 @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
-
 
 /* For paragraphs, adjust the animation duration as needed */
-#titleText #listingText, #trackingText, #forumText {
+#titleText #listingText,
+#trackingText,
+#forumText {
   animation-duration: 0.001ms; /* Shorter text, faster typing effect */
 }
-
 </style>

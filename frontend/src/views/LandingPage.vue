@@ -1,10 +1,18 @@
 <template>
   <FrontLanding />
   <Introduction />
+  <DividerComponent />
+
   <LandingPosting />
+
   <Vue3Marquee />
+  <DividerComponent />
+
   <LandingTracker />
+  <DividerComponent />
+
   <LandingJoinUs />
+
   <LandingFooter />
 </template>
 
@@ -16,6 +24,7 @@ import LandingTracker from "@/components/LandingPage/LandingTracker.vue";
 import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
+import DividerComponent from "../components/LandingPage/DividerComponent.vue";
 </script>
 
 <style scoped></style>

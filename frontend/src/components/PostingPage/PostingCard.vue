@@ -31,16 +31,37 @@ export default {
     duration: String,
     postedTime: String,
   },
+  watch: {
+    employerLogo: {
+      immediate: true,
+      handler(newValue) {
+        this.updateLogo(newValue);
+      },
+    },
+  },
+
   data() {
     return {
-      defaultLogo,
+      logo: defaultLogo,
     };
   },
   computed: {
     logoSource() {
-      const logo =
-        this.employerLogo !== null ? this.employerLogo : this.defaultLogo;
-      return logo;
+      return this.logo;
+    },
+  },
+  methods: {
+    async updateLogo(logoUrl) {
+      const isValid = await this.isValidImage(logoUrl);
+      this.logo = isValid ? logoUrl : this.logo;
+    },
+    isValidImage(url) {
+      return new Promise((resolve) => {
+        let img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+      });
     },
   },
 };
