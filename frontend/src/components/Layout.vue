@@ -1,19 +1,28 @@
 <template>
-  <div id="app"><NavBar v-if="showNavBar" /> <router-view /></div>
+  <div id="app">
+    <NavBar v-if="showNavBar" @toggle-sidebar="toggleSidebar" /> <router-view />
+  </div>
+    <div v-if="showSidebar" class="sidebar" v-click-away="onClickAway">
+      <SideBar @close-sidebar="showSidebar = false" />
+    </div>
+  <div v-if="showSidebar" class="overlay"></div>
 </template>
 
 <script>
 import { watch } from "vue";
 import NavBar from "./NavBar.vue";
+import SideBar from "./SideBar.vue";
 
 export default {
   name: "Layout",
   components: {
     NavBar,
+    SideBar,
   },
   data() {
     return {
       showNavBar: true, // Initially show navbar
+      showSidebar: false, // Initially hide sidebar
     };
   },
   created() {
@@ -25,6 +34,36 @@ export default {
       const excludedRoutes = ["/", "/register", "/login"]; // Routes without navbar
       this.showNavBar = !excludedRoutes.includes(this.$route.path);
     },
+    toggleSidebar() {
+      this.showSidebar = !this.showSidebar;
+    },
+    onClickAway() {
+      this.showSidebar = false;
+    },
   },
 };
 </script>
+
+<style scoped>
+.sidebar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  height: 100%;
+  padding: 32px;
+  z-index: 20;
+  box-shadow: 0 1px 25px rgba(0, 0, 0, 0.25);
+  background-color: #27374D;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+</style>

@@ -23,12 +23,8 @@
         </router-link>
       </li>
       <li>
-        <div class="icon-wrapper">
-          <font-awesome-icon
-            :icon="['fas', 'bars']"
-            size="xl"
-            style="color: #ffffff"
-          />
+        <div class="icon-wrapper" @click="$emit('toggle-sidebar')">
+          <font-awesome-icon :icon="['fas', 'bars']" size="xl" style="color: #ffffff" />
         </div>
       </li>
     </ul>

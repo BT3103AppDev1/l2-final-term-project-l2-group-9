@@ -20,7 +20,6 @@ export default {
   data() {
     return {
       user: false,
-      username: ''
     }
   },
   async mounted() {
