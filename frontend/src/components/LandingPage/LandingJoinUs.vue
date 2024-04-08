@@ -19,16 +19,31 @@
 }
 
 .join-us h2 {
-  color: #27374d;
-  font-family: "Poppins", sans-serif, Helvetica;
+  color: #000000;
+  font-family: "League Spartan";
   font-weight: bold;
+  font-size: 2em;
 }
 
 .join-us a {
-  font-size: 5em;
+  font-size: 6em;
   text-decoration: underline;
-  color: #27374d;
-  font-family: "Poppins", sans-serif, Helvetica;
+  color: #000000;
+  font-family: "League Spartan";
   font-weight: bold;
+  transition: transform 0.3s ease; 
+}
+
+.join-us a:hover {
+  animation: bounce 1s infinite; 
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0); 
+  }
+  50% {
+    transform: translateY(-20px); 
+  }
 }
 </style>

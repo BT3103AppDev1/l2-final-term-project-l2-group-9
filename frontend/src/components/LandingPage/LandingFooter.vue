@@ -46,13 +46,13 @@ const showAccountMenu = ref(false);
   flex-direction: column;
   background-color: #526d82;
   color: white;
-  padding: 20px;
-  font-family: "Poppins", sans-serif, Helvetica;
+  padding: 10px;
+  font-family: "League Spartan";
   font-weight: bold;
 }
 
 img {
-  width: 20%;
+  width: 10%;
 }
 
 .nav-links {

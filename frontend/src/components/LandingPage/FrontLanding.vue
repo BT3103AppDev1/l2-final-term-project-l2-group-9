@@ -9,7 +9,6 @@
           :to="{ name: 'LandingPage', hash: '#landing-posting' }"
           >Internship</router-link
         >
-        <!--REMEMBER TO CHANGE BACK TO INTERNSHIP-->
         <router-link to="/tracker">Tracker</router-link>
         <router-link to="/forum">Forum</router-link>
       </div>

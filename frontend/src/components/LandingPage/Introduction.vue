@@ -143,21 +143,21 @@ onMounted(() => {
         }
       }, delay);
     };
-    typewriter("titleText", "The world is at your fingertips.", 75);
+    typewriter("titleText", "The world is at your fingertips", 150);
     typewriter(
       "listingText",
-      "Navigate and discover opportunities that align with your career aspirations.",
-      75
+      "Navigate & discover opportunities that align with your career goals",
+      65
     );
     typewriter(
       "trackingText",
-      "No more uncertainties. Know the status of your applications at a glance.",
-      75
+      "No more uncertainties. Know the status of your applications at a glance",
+      65
     );
     typewriter(
       "forumText",
-      "Share, learn, and connect with like-minded professionals.",
-      75
+      "Share, learn, and connect with like-minded professionals",
+      80
     );
   });
 });
