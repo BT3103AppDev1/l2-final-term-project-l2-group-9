@@ -10,19 +10,11 @@
       <div class="search-container">
         <!-- Search bar -->
         <button @click="search" class="search-button">
-          <font-awesome-icon
-            :icon="['fas', 'magnifying-glass']"
-            style="color: #000000"
-          />
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']" style="color: #000000" />
         </button>
 
-        <input
-          type="text"
-          v-model="searchTerm"
-          @keyup.enter="search"
-          placeholder="Search for job titles"
-          class="search-bar"
-        />
+        <input type="text" v-model="searchTerm" @keyup.enter="search" placeholder="Search for job titles"
+          class="search-bar" />
       </div>
     </div>
     <div class="content-container">
@@ -31,33 +23,16 @@
         Loading...
       </div>
       <div v-else class="posting-cards-container">
-        <div
-          v-for="job in jobs"
-          :key="job.jobID"
-          @click="selectJob(job)"
-          class="posting-card"
-        >
-          <PostingCard
-            :employer-logo="job.employerLogo"
-            :title="job.jobTitle"
-            :company="job.employerName"
-            :location="job.jobLocation"
-            :duration="job.jobDuration"
-            :posted-time="job.jobPostDate"
-          />
+        <div v-for="job in jobs" :key="job.jobID" @click="selectJob(job)" class="posting-card">
+          <PostingCard :employer-logo="job.employerLogo" :title="job.jobTitle" :company="job.employerName"
+            :location="job.jobLocation" :duration="job.jobDuration" :posted-time="job.jobPostDate" />
         </div>
       </div>
       <div v-if="!isLoading && selectedJob" class="job-detail-container">
-        <DescriptionCard
-          :employer-logo="selectedJob.employerLogo"
-          :title="selectedJob.jobTitle"
-          :company="selectedJob.employerName"
-          :location="selectedJob.jobLocation"
-          :duration="selectedJob.jobDuration"
-          :posted-time="selectedJob.jobPostDate"
-          :job-desc="selectedJob.jobDesc"
-          :apply-link="selectedJob.applyLink"
-        />
+        <DescriptionCard :employer-logo="selectedJob.employerLogo" :title="selectedJob.jobTitle"
+          :company="selectedJob.employerName" :location="selectedJob.jobLocation" :duration="selectedJob.jobDuration"
+          :posted-time="selectedJob.jobPostDate" :job-desc="selectedJob.jobDesc" :apply-link="selectedJob.applyLink"
+          :job="selectedJob" @add-to-tracker="addPosting" />
       </div>
     </div>
     <button @click="resetLocalStorage">Reset Local Storage</button>
@@ -68,12 +43,19 @@
 import PostingCard from "./PostingCard.vue";
 import filterJobs from "../../services/filterJobs";
 import DescriptionCard from "./DescriptionCard.vue";
+import firebaseApp from "../../firebase.js";
+import { getFirestore, collection, getDoc, doc, setDoc } from 'firebase/firestore'
 
+const db = getFirestore(firebaseApp)
 export default {
   name: "ThePostings",
   components: {
     PostingCard,
     DescriptionCard,
+  },
+  props: {
+    userId: String,
+    required: true,
   },
   data() {
     return {
@@ -109,6 +91,40 @@ export default {
     selectJob(job) {
       this.selectedJob = job;
       console.log(this.selectedJob);
+    },
+    /* Firebase method to add a new posting to the database called tracker*/
+    async addPosting() {
+      const postingsCollection = collection(db, 'tracker')
+      const posting = {
+        jobID: this.selectedJob.jobID,
+        appliedDate: new Date(),
+        jobStatus: 'Applied',
+        jobTitle: this.selectedJob.jobTitle,
+        employerName: this.selectedJob.employerName,
+        employerLogo: this.selectedJob.employerLogo,
+        jobLocation: this.selectedJob.jobLocation,
+        jobDesc: this.selectedJob.jobDesc,
+      }
+      // Check if there is postings in the database
+      const postingSnapshot = await getDoc(doc(postingsCollection, this.userId))
+      if (postingSnapshot.exists()) {
+        // If there is, add the new job to the existing list
+        const postingList = postingSnapshot.data().trackedApplications
+        // Check if the job is already in the list with the job ID
+        if (postingList.some((job) => job.jobID === this.selectedJob.jobID)) {
+          console.log('Job already exists in the list')
+          return
+        }
+        postingList.push(posting)
+        await setDoc(doc(postingsCollection, this.userId), {
+          trackedApplications: postingList
+        })
+      } else {
+        // If there is no postings, create a new list with the job
+        await setDoc(doc(postingsCollection, this.userId), {
+          trackedApplications: [posting]
+        })
+      }
     },
   },
   async created() {
@@ -149,7 +165,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2em; /* Add some space between filter and search bar */
+  gap: 2em;
+  /* Add some space between filter and search bar */
 }
 
 .filter-button {
@@ -196,6 +213,7 @@ export default {
   outline: none;
   border-left: none;
   border-width: 2px;
+  font-size: 18px;
 }
 
 .search-button {
@@ -207,6 +225,7 @@ export default {
   cursor: pointer;
   border-right: none;
   border-width: 2px;
+  width: 30px;
 }
 
 .search-bar::placeholder {
@@ -214,9 +233,11 @@ export default {
   font-size: 1.1rem;
   font-family: "Poppins", sans-serif, Helvetica;
 }
+
 .search-button:hover {
   background-color: #859dac;
 }
+
 .posting-cards-container {
   overflow-y: auto;
   max-height: 65vh;
@@ -249,10 +270,12 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 .content-container {
   display: flex;
   justify-content: space-between;

@@ -1,6 +1,6 @@
 <template>
   <div class="relative" v-if="user">
-    <ThePostings class="absolute-fill" />
+    <ThePostings class="absolute-fill" :userId="user.uid" />
   </div>
 </template>
 
