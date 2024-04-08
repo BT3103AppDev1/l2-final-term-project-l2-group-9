@@ -40,13 +40,12 @@
             <label for="password"
               >Password <span class="required">*</span></label
             >
-            <input
-              type="password"
-              id="password"
-              name="password"
-              v-model="password"
-            /><br /><br />
-            <input type="submit" value="Sign Up" />
+            <div class="password-container">
+              <input :type="showPassword ? 'text' : 'password'" id="password" name="password" v-model="password" />
+              <font-awesome-icon :icon="['fas', 'eye']" class="password-icon" @click="togglePasswordVisibility" />
+            </div>
+            <br /><br />
+            <input type="submit" value="Sign Up" class="submit-button"/>
             <div id="firebaseui-auth-container"></div>
           </form>
         </div>
@@ -98,6 +97,7 @@ export default {
     const username = ref("");
     const email = ref("");
     const password = ref("");
+    const showPassword = ref(false);
 
     const submit = async () => {
       try {
@@ -116,7 +116,11 @@ export default {
       }
     };
 
-    return { username, email, password, submit };
+    const togglePasswordVisibility = () => {
+      showPassword.value = !showPassword.value;
+    };
+
+    return { username, email, password, submit, showPassword, togglePasswordVisibility };
     x;
   },
 };
@@ -125,7 +129,7 @@ export default {
 <style scoped>
 .top-left {
   background-color: #526d82;
-  border-radius: 10px;
+  border-radius: 0px;
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -231,5 +235,23 @@ ul {
 #inner-form-container {
   display: flex;
   flex-direction: column;
+}
+
+.password-container {
+  margin-top: 0px;
+  margin-left: 15px;
+  position: relative;
+}
+
+.password-icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.submit-button {
+  margin-bottom: 20px; 
 }
 </style>

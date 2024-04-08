@@ -1,98 +1,111 @@
 <template>
-    <div class="top-left">
-        <router-link to="/">
-        <img class="arrow" src="@/assets/images/back-to-board.svg" alt="arrow" /></router-link>
-        <img class="logo" src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
-    </div>
-    <div class="login-page">  
-      <div class="login-container">
-        <h1>Welcome Back!</h1>
-        <h3>Simplify your internship process and boost your efficiency with InTurn.</h3>
-        <div class="form-container">
-            <form @submit.prevent="submit">
-            <label for="email">Email Address <span class="required">*</span></label>
-            <input type="text" id="email" name="email" v-model="email" /><br /><br />
-            <label for="password">Password <span class="required">*</span></label>
-            <input type="password" id="password" name="password" v-model="password" /><br> 
-            <a href="#" class="forgot-password" @click.prevent="resetPassword">Forgot Password?</a><br /><br />
-            <input type="submit" value="Login" />
-            <div id="firebaseui-auth-container"></div>
-            </form>
-        </div>
+  <div class="top-left">
+    <router-link to="/">
+      <img class="arrow" src="@/assets/images/back-to-board.svg" alt="arrow" />
+    </router-link>
+    <img class="logo" src="@/assets/images/InTurnLogoName.jpeg" alt="InTurn Logo" />
+  </div>
+  <div class="login-page">
+    <div class="login-container">
+      <h1>Welcome Back!</h1>
+      <h3>Simplify your internship process and boost your efficiency with InTurn.</h3>
+      <div class="form-container">
+        <form @submit.prevent="submit">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="text" id="email" name="email" v-model="email" /><br /><br />
+          <label for="password">Password <span class="required">*</span></label>
+          <div class="password-container">
+            <input :type="showPassword ? 'text' : 'password'" id="password" name="password" v-model="password" />
+            <font-awesome-icon :icon="['fas', 'eye']" class="password-icon" @click="togglePasswordVisibility" />
+          </div>
+          <a href="#" class="forgot-password" @click.prevent="resetPassword">Forgot Password?</a><br /><br />
+          <input type="submit" value="Login"class="login-button" />
+          <div id="firebaseui-auth-container"></div>
+        </form>
       </div>
     </div>
-  </template>
-  
-<script scoped>
-  import { ref } from "vue";
-  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
-  import { useRouter } from "vue-router";
-  import firebase from "@/uifire.js";
-  import "firebase/compat/auth";
-  import * as firebaseui from "firebaseui";
-  import "firebaseui/dist/firebaseui.css";
-  
-  export default {
-    mounted() {
-      var ui = firebaseui.auth.AuthUI.getInstance();
-      if (!ui) {
-        ui = new firebaseui.auth.AuthUI(firebase.auth());
-      }
-      var uiConfig = {
-        callbacks: {
-          signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-            return true;
-          },
-        },
-        signInFlow: "popup",
-        signInSuccessUrl: "postings",
-        signInOptions: [
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        ],
-      };
-  
-      ui.start("#firebaseui-auth-container", uiConfig);
-    },
-    setup() {
-      const auth = getAuth();
-      const router = useRouter();
-  
-      const email = ref("");
-      const password = ref("");
-  
-      const submit = async () => {
-        try {
-          await signInWithEmailAndPassword(auth, email.value, password.value);
-          router.push("/postings");
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  </div>
+</template>
 
-      const resetPassword = async () => {
-      const userEmail = window.prompt("Please enter your email address");
-      if (userEmail === null || userEmail === "") {
-        console.log("No email address entered");
-        return;
-      }
+<script>
+import { ref } from "vue";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { useRouter } from "vue-router";
+import firebase from "@/uifire.js";
+import "firebase/compat/auth";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+export default {
+  components: {
+    FontAwesomeIcon
+  },
+  mounted() {
+    var ui = firebaseui.auth.AuthUI.getInstance();
+    if (!ui) {
+      ui = new firebaseui.auth.AuthUI(firebase.auth());
+    }
+    var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+          return true;
+        },
+      },
+      signInFlow: "popup",
+      signInSuccessUrl: "postings",
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      ],
+    };
+
+    ui.start("#firebaseui-auth-container", uiConfig);
+  },
+  setup() {
+    const auth = getAuth();
+    const router = useRouter();
+
+    const email = ref("");
+    const password = ref("");
+    const showPassword = ref(false);
+
+    const submit = async () => {
       try {
-        await sendPasswordResetEmail(auth, userEmail);
-        console.log("Password reset email sent");
+        await signInWithEmailAndPassword(auth, email.value, password.value);
+        router.push("/postings");
       } catch (error) {
         console.error(error);
       }
     };
-  
-      return { email, password, submit, resetPassword };
-    },
-  };
+
+    const resetPassword = async () => {
+      const userEmail = window.prompt("Please enter your email address");
+      if (userEmail === null || userEmail === "") {
+        window.alert("No email address entered");
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, userEmail);
+        window.alert("Password reset email sent");
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const togglePasswordVisibility = () => {
+      showPassword.value = !showPassword.value;
+    };
+
+    return { email, password, submit, resetPassword, showPassword, togglePasswordVisibility };
+  },
+};
 </script>
   
 <style scoped>
 .top-left {
   background-color: #526d82;
-  border-radius: 10px;
+  border-radius: 0px;
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -159,7 +172,7 @@ form label {
   font-weight: bold;
   font-size: 64px;
   text-align: center;
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
 }
 
 .login-page h3{
@@ -199,4 +212,20 @@ form label {
   cursor: pointer;
 }
 
+.password-container {
+  margin-left: 15px;
+  position: relative;
+}
+
+.password-icon {
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.login-button {
+  margin-bottom: 20px; 
+}
 </style>
