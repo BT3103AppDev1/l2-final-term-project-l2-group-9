@@ -59,7 +59,7 @@ export default {
   display: flex;
   list-style: none;
   /* Remove default bullet points */
-  padding: 0;
+  padding-right: 20px;
   /* Remove default padding */
   margin: 0;
   /* Remove default margin */

@@ -34,7 +34,7 @@
   transition: transform 0.3s ease; 
 }
 
-.join-us a:hover {
+.join-us a {
   animation: bounce 1s infinite; 
 }
 

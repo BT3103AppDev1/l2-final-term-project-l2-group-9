@@ -8,6 +8,7 @@ import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import TestingPage from "@/TestingPage.vue";
+import ProfilePage from "@/views/ProfilePage.vue";
 const routes = [
   {
     path: "/",
@@ -53,6 +54,11 @@ const routes = [
     path: "/test",
     name: "TestingPage",
     component: TestingPage,
+  },
+  {
+    path: "/profile",
+    name: "ProfilePage",
+    component: ProfilePage,
   },
 ];
 

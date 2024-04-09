@@ -93,7 +93,8 @@ h1 {
   height: 100%;
   width: fit-content;
   margin: 0 auto;
-  padding: 10vh;
+  padding: 5vh;
+  margin-top: 10vh;
 }
 
 .fade-in-text {
@@ -120,6 +121,7 @@ h1 {
   justify-content: center;
   gap: 0.5rem;
   padding: 10vh;
+  margin-top: 5vh;
 }
 
 .box {

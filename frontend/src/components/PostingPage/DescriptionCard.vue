@@ -10,16 +10,17 @@
                 </div>
                 <div class="job-actions">
                     <button
-                        class="tracker-button"
-                        @click="$emit('add-to-tracker'), job"
+                            class="tracker-button"
+                            @click="addToTracker"
+                            :class="{'tracker-added': trackerAdded}"
                     >
-                        Add to Tracker
+                        {{ trackerAdded ? 'Remove from Tracker' : 'Add to Tracker' }}
                     </button>
                     <a :href="applyLink" target="_blank" class="apply-button"
                         >Apply Now
                         <font-awesome-icon
                             :icon="['fas', 'arrow-up-right-from-square']"
-                            style="color: #ffffff"
+                            style="color: black"
                             class="apply-icon"
                     /></a>
                 </div>
@@ -50,6 +51,7 @@ export default {
     data() {
         return {
             logo: null,
+            trackerAdded: false,
         };
     },
     watch: {
@@ -93,6 +95,11 @@ export default {
                 img.onerror = () => resolve(false);
                 img.src = url;
             });
+        },
+
+        addToTracker() {
+            this.trackerAdded = !this.trackerAdded; 
+            this.$emit('add-to-tracker', this.job); 
         },
     },
 };
@@ -149,19 +156,30 @@ export default {
 
 .tracker-button,
 .apply-button {
-    padding: 0.5rem 1rem;
+    padding: 1rem 1.5rem;
     border: none;
-    border-radius: 20px;
-    color: white;
+    border-radius: 30px;
+    color: black;
     cursor: pointer;
     text-decoration: none;
-    background: linear-gradient(to right, #9db2bf, #526d82);
+    background: #c2dae9;
     font-size: 0.9rem;
-    transition: box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     white-space: nowrap;
     outline: none;
     margin-top: 2vh;
+    font-family: "Poppins", sans-serif, Helvetica;
+    font-weight: bold;
+    position: relative; 
+    top: 0;
+    box-shadow: 8px 8px 15px #a3b1c6, 
+                -8px -8px 15px #ffffff; /* Inset shadow for neomorphism */
+    transition: all 0.3s ease;
+}
+
+.tracker-button:hover,
+.apply-button:hover {
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3); 
+    top: 3px; 
 }
 
 .apply-button::after {
@@ -169,11 +187,6 @@ export default {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-}
-
-.tracker-button:hover,
-.apply-button:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .apply-icon {
@@ -194,5 +207,12 @@ export default {
 .posted-time {
     color: #666;
     margin-left: auto;
+}
+
+.tracker-button:active
+.apply-button:active {
+    box-shadow: inset 5px 5px 10px #a3b1c6, 
+                inset -5px -5px 10px #ffffff; 
+    color: #333;
 }
 </style>

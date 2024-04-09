@@ -2,9 +2,11 @@
   <div id="app">
     <NavBar v-if="showNavBar" @toggle-sidebar="toggleSidebar" /> <router-view />
   </div>
+  <transition name="sidebar-slide">
     <div v-if="showSidebar" class="sidebar" v-click-away="onClickAway">
       <SideBar @close-sidebar="showSidebar = false" />
     </div>
+  </transition>
   <div v-if="showSidebar" class="overlay"></div>
 </template>
 
@@ -66,4 +68,13 @@ export default {
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
+
+.sidebar-slide-enter-active, .sidebar-slide-leave-active {
+  transition: right 2s ease; 
+}
+
+.sidebar-slide-enter, .sidebar-slide-leave-to {
+  right: -100%; 
+}
+
 </style>
