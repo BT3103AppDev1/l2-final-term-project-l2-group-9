@@ -3,18 +3,56 @@
     <h1>Search Internship Positions for</h1>
     <div class="filter-search-container">
       <div class="filter-container">
-        <button class="filter-button">
+        <button class="filter-button" @click="toggleFilterModal">
           <img src="@/assets/filter.svg" alt="Filter" /> <span>Filter</span>
         </button>
+
+        <transition name="slide-fade">
+          <div class="modal" v-show="showModal">
+            <div class="modal-content">
+              <h2>Filters</h2>
+              <button class="close-modal" @click="toggleFilterModal">✕</button>
+              <div class="filter-section">
+                <h3>Listing Date</h3>
+                <label v-for="option in dateOptions" :key="option.id">
+                  <input
+                    type="radio"
+                    name="dateOption"
+                    v-model="selectedDateOption"
+                    :value="option.id"
+                  />
+                  {{ option.label }}
+                </label>
+              </div>
+              <div class="filter-section">
+                <h3>Internship Period</h3>
+                <label v-for="option in periodOptions" :key="option.id">
+                  <input type="checkbox" v-model="option.selected" />
+                  {{ option.label }}
+                </label>
+              </div>
+              <button class="apply-button" @click="applyFilters">Apply</button>
+            </div>
+          </div>
+        </transition>
       </div>
+
       <div class="search-container">
         <!-- Search bar -->
         <button @click="search" class="search-button">
-          <font-awesome-icon :icon="['fas', 'magnifying-glass']" style="color: #000000" />
+          <font-awesome-icon
+            :icon="['fas', 'magnifying-glass']"
+            style="color: #000000"
+          />
         </button>
 
-        <input type="text" v-model="searchTerm" @keyup.enter="search" placeholder="Search for job titles"
-          class="search-bar" />
+        <input
+          type="text"
+          v-model="searchTerm"
+          @keyup.enter="search"
+          placeholder="Search for job titles"
+          class="search-bar"
+        />
       </div>
     </div>
     <div class="content-container">
@@ -23,16 +61,35 @@
         Loading...
       </div>
       <div v-else class="posting-cards-container">
-        <div v-for="job in jobs" :key="job.jobID" @click="selectJob(job)" class="posting-card">
-          <PostingCard :employer-logo="job.employerLogo" :title="job.jobTitle" :company="job.employerName"
-            :location="job.jobLocation" :duration="job.jobDuration" :posted-time="job.jobPostDate" />
+        <div
+          v-for="job in jobs"
+          :key="job.jobID"
+          @click="selectJob(job)"
+          class="posting-card"
+        >
+          <PostingCard
+            :employer-logo="job.employerLogo"
+            :title="job.jobTitle"
+            :company="job.employerName"
+            :location="job.jobLocation"
+            :duration="job.jobDuration"
+            :posted-time="job.jobPostDate"
+          />
         </div>
       </div>
       <div v-if="!isLoading && selectedJob" class="job-detail-container">
-        <DescriptionCard :employer-logo="selectedJob.employerLogo" :title="selectedJob.jobTitle"
-          :company="selectedJob.employerName" :location="selectedJob.jobLocation" :duration="selectedJob.jobDuration"
-          :posted-time="selectedJob.jobPostDate" :job-desc="selectedJob.jobDesc" :apply-link="selectedJob.applyLink"
-          :job="selectedJob" @add-to-tracker="addPosting" />
+        <DescriptionCard
+          :employer-logo="selectedJob.employerLogo"
+          :title="selectedJob.jobTitle"
+          :company="selectedJob.employerName"
+          :location="selectedJob.jobLocation"
+          :duration="selectedJob.jobDuration"
+          :posted-time="selectedJob.jobPostDate"
+          :job-desc="selectedJob.jobDesc"
+          :apply-link="selectedJob.applyLink"
+          :job="selectedJob"
+          @add-to-tracker="addPosting"
+        />
       </div>
     </div>
     <button @click="resetLocalStorage">Reset Local Storage</button>
@@ -44,9 +101,15 @@ import PostingCard from "./PostingCard.vue";
 import filterJobs from "../../services/filterJobs";
 import DescriptionCard from "./DescriptionCard.vue";
 import firebaseApp from "../../firebase.js";
-import { getFirestore, collection, getDoc, doc, setDoc } from 'firebase/firestore'
+import {
+  getFirestore,
+  collection,
+  getDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
-const db = getFirestore(firebaseApp)
+const db = getFirestore(firebaseApp);
 export default {
   name: "ThePostings",
   components: {
@@ -63,13 +126,62 @@ export default {
       jobs: [],
       isLoading: false, // Add a loading state
       selectedJob: null,
+      showModal: false,
+      selectedDateOption: null,
+      dateOptions: [
+        { id: "newToOld", label: "New to Old", selected: false },
+        { id: "oldToNew", label: "Old to New", selected: false },
+      ],
+      periodOptions: [
+        { id: "3months", label: "3 months", selected: false },
+        { id: "6months", label: "6 months", selected: false },
+        { id: "greater6months", label: "> 6 months", selected: false },
+        { id: "partTime", label: "Part-time", selected: false },
+      ],
     };
   },
   methods: {
+    toggleFilterModal() {
+      this.showModal = !this.showModal;
+    },
+
+    applyFilters() {
+      const filters = {
+        date: this.selectedDateOption,
+        period: this.periodOptions
+          .filter((option) => option.selected)
+          .map((option) => option.label),
+      };
+
+      this.filterAndSortJobs(filters);
+      this.toggleFilterModal(); // Close the modal after applying filters
+    },
+
+    filterAndSortJobs(filters) {
+      // Start with a copy of the original jobs array
+      this.search();
+      if (filters.date === "newToOld") {
+        this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
+      } else if (filters.date === "oldToNew") {
+        this.jobs.sort((a, b) => a.jobPostDateTime - b.jobPostDateTime);
+      }
+      console.log(this.jobs);
+    },
+
     async search() {
       console.log("Searching for:", this.searchTerm);
-      const searchKey = `${this.searchTerm}, Intern Singapore`;
+      let searchKey = `${this.searchTerm} Intern Singapore`;
+      // Collect selected periods
+      const selectedPeriods = this.periodOptions
+        .filter((option) => option.selected)
+        .map((option) => option.label);
 
+      // Append selected periods to the searchKey if any
+      if (selectedPeriods.length > 0) {
+        const periodsString = selectedPeriods.join(", ");
+        searchKey += ` ${periodsString}`;
+        console.log(searchKey);
+      }
       this.isLoading = true; // Set loading state to true before fetching data
 
       // Check if the search results are in local storage
@@ -80,9 +192,12 @@ export default {
         this.jobs = await filterJobs(searchKey);
         localStorage.setItem(searchKey, JSON.stringify(this.jobs));
       }
+      this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
+
       this.selectedJob = this.jobs[0];
       this.isLoading = false; // Set loading state to false after fetching data
     },
+
     resetLocalStorage() {
       localStorage.removeItem("Intern, Singapore");
       console.log("Local storage cleared");
@@ -94,36 +209,38 @@ export default {
     },
     /* Firebase method to add a new posting to the database called tracker*/
     async addPosting() {
-      const postingsCollection = collection(db, 'tracker')
+      const postingsCollection = collection(db, "tracker");
       const posting = {
         jobID: this.selectedJob.jobID,
         appliedDate: new Date(),
-        jobStatus: 'Applied',
+        jobStatus: "Applied",
         jobTitle: this.selectedJob.jobTitle,
         employerName: this.selectedJob.employerName,
         employerLogo: this.selectedJob.employerLogo,
         jobLocation: this.selectedJob.jobLocation,
         jobDesc: this.selectedJob.jobDesc,
-      }
+      };
       // Check if there is postings in the database
-      const postingSnapshot = await getDoc(doc(postingsCollection, this.userId))
+      const postingSnapshot = await getDoc(
+        doc(postingsCollection, this.userId)
+      );
       if (postingSnapshot.exists()) {
         // If there is, add the new job to the existing list
-        const postingList = postingSnapshot.data().trackedApplications
+        const postingList = postingSnapshot.data().trackedApplications;
         // Check if the job is already in the list with the job ID
         if (postingList.some((job) => job.jobID === this.selectedJob.jobID)) {
-          console.log('Job already exists in the list')
-          return
+          console.log("Job already exists in the list");
+          return;
         }
-        postingList.push(posting)
+        postingList.push(posting);
         await setDoc(doc(postingsCollection, this.userId), {
-          trackedApplications: postingList
-        })
+          trackedApplications: postingList,
+        });
       } else {
         // If there is no postings, create a new list with the job
         await setDoc(doc(postingsCollection, this.userId), {
-          trackedApplications: [posting]
-        })
+          trackedApplications: [posting],
+        });
       }
     },
   },
@@ -140,6 +257,8 @@ export default {
       this.jobs = await filterJobs(searchKey);
       localStorage.setItem(searchKey, JSON.stringify(this.jobs));
     }
+    this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
+
     this.selectedJob = this.jobs[0];
     this.isLoading = false; // Set loading state to false after fetching data
   },
@@ -288,5 +407,100 @@ export default {
   margin-right: 2rem;
   margin-top: 2rem;
   flex: 1;
+}
+
+.filter-container {
+  position: relative; /* This makes the absolute positioning of .modal work as expected */
+}
+
+.modal {
+  display: block;
+  position: absolute; /* Position the modal relative to its nearest positioned ancestor */
+  top: 100%; /* Position it right below the filter button */
+  left: 0;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  border-radius: 8px;
+  overflow: hidden; /* This will contain the children inside the modal */
+  transform-origin: top center; /* Sliding effect will animate from the top */
+}
+
+.modal-content {
+  padding: 10px;
+  /* This width should be adjusted to match your design requirements */
+  width: 300px;
+}
+
+.filter-option {
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee; /* Just an example to separate options */
+}
+
+/* Transition for the sliding effect */
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  transform: scaleY(1);
+  opacity: 1;
+}
+
+.modal-content {
+  position: relative;
+  /* Rest of your modal content styles */
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.filter-section h3 {
+  margin: 0.5rem 0;
+}
+
+.filter-section label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.apply-button {
+  margin-top: 1rem;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px; /* Adjust size as needed */
+  font-weight: bold;
+  text-transform: uppercase; /* Optional: makes the button text uppercase */
+  border: none; /* Removes the default border */
+  background-color: #859dac;
+  border-radius: 5px; /* Gives the button rounded corners */
+  color: white; /* White text color */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions for hover effects */
+}
+
+.apply-button:hover {
+  transform: translateY(-2px); /* Slightly raise the button */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Increased shadow for a "lifting" effect */
+}
+
+.apply-button:active {
+  transform: translateY(1px); /* Slightly depress the button */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Decrease shadow to give a "pressed" effect */
 }
 </style>

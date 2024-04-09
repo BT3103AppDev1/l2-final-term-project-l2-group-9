@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="layout-container">
     <NavBar v-if="showNavBar" @toggle-sidebar="toggleSidebar" /> <router-view />
   </div>
   <transition name="sidebar-slide">
@@ -47,6 +47,10 @@ export default {
 </script>
 
 <style scoped>
+#layout-container {
+  background-color: #f2f2f2;
+  height: 100vh;
+}
 .sidebar {
   position: fixed;
   right: 0;
@@ -56,7 +60,7 @@ export default {
   padding: 32px;
   z-index: 20;
   box-shadow: 0 1px 25px rgba(0, 0, 0, 0.25);
-  background-color: #27374D;
+  background-color: #27374d;
 }
 
 .overlay {
@@ -69,12 +73,13 @@ export default {
   z-index: 10;
 }
 
-.sidebar-slide-enter-active, .sidebar-slide-leave-active {
-  transition: right 2s ease; 
+.sidebar-slide-enter-active,
+.sidebar-slide-leave-active {
+  transition: right 2s ease;
 }
 
-.sidebar-slide-enter, .sidebar-slide-leave-to {
-  right: -100%; 
+.sidebar-slide-enter,
+.sidebar-slide-leave-to {
+  right: -100%;
 }
-
 </style>

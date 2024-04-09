@@ -13,6 +13,7 @@ async function filterJobs(input) {
     jobDesc: job.job_description,
     applyLink: job.job_apply_link,
     jobPostDate: toReadableDate(job.job_posted_at_timestamp),
+    jobPostDateTime: job.job_posted_at_timestamp,
     jobDuration:
       job.job_required_experience.required_experience_in_months == null
         ? "Not Stated"

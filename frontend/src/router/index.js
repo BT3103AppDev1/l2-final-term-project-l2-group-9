@@ -9,6 +9,8 @@ import LoginPage from "../views/LoginPage.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import TestingPage from "@/TestingPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
+import NotFoundPage from "../views/NotFoundPage.vue";
+
 const routes = [
   {
     path: "/",
@@ -59,6 +61,11 @@ const routes = [
     path: "/profile",
     name: "ProfilePage",
     component: ProfilePage,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFoundPage,
   },
 ];
 
