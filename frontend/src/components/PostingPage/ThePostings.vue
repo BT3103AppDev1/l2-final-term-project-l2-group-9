@@ -2,12 +2,8 @@
     <div class="posting-page">
         <h1>Search Internship Positions for</h1>
         <div class="filter-search-container">
-            <div class="filter-container">
-                <button
-                    class="filter-button"
-                    v-click-away="onClickAway"
-                    @click="toggleFilterModal"
-                >
+            <div class="filter-container" v-click-away="onClickAway">
+                <button class="filter-button" @click="toggleFilterModal">
                     <img src="@/assets/filter.svg" alt="Filter" />
                     <span>Filter</span>
                 </button>
@@ -108,7 +104,9 @@
                     :posted-time="selectedJob.jobPostDate"
                     :job-desc="selectedJob.jobDesc"
                     :apply-link="selectedJob.applyLink"
+                    :job-id="selectedJob.jobID"
                     :job="selectedJob"
+                    :user-id="userId"
                     @add-to-tracker="addPosting"
                     @remove-from-tracker="removePosting"
                 />
@@ -391,7 +389,7 @@ export default {
     cursor: pointer;
     border-right: none;
     border-width: 2px;
-    width: 30px;
+    width: 40px;
 }
 
 .search-bar::placeholder {

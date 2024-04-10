@@ -39,8 +39,11 @@
 </template>
 
 <script>
+import firebaseApp from "../../firebase.js";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
 import defaultLogo from "@/assets/images/logo-placeholder.png";
 
+const db = getFirestore(firebaseApp);
 export default {
     name: "DescriptionCard",
     props: {
@@ -52,6 +55,8 @@ export default {
         postedTime: String,
         jobDesc: String,
         applyLink: String,
+        jobId: String,
+        userId: String,
     },
     data() {
         return {
@@ -60,9 +65,15 @@ export default {
         };
     },
     watch: {
+        // Keep track of the lastest change in jobId whenever a new posting is selected
+        jobId: {
+            immediate: true,
+            handler() {
+                this.checkTracker();
+            },
+        },
         employerLogo: {
             deep: true,
-
             immediate: true,
             handler(newValue) {
                 this.updateLogo(newValue);
@@ -103,12 +114,23 @@ export default {
         },
 
         addToTracker() {
-            this.trackerAdded = !this.trackerAdded;
             this.$emit("add-to-tracker", this.job);
+            this.trackerAdded = true;
         },
         removeFromTracker() {
-            this.trackerAdded = false;
             this.$emit("remove-from-tracker", this.job);
+            this.trackerAdded = false;
+        },
+        async checkTracker() {
+            const trackerRef = doc(db, "tracker", this.userId);
+            const trackerDoc = await getDoc(trackerRef);
+            // Check if the posting exists in trackerDoc based on jobId, if exists set trackerAdded to true
+            if (trackerDoc.exists()) {
+                const trackerData = trackerDoc.data().trackedApplications;
+                this.trackerAdded = trackerData.some(
+                    (item) => item.jobID === this.jobId,
+                );
+            }
         },
     },
 };
