@@ -21,7 +21,7 @@
                     <ul>
                         <li>A minimum of 8 characters</li>
                         <li>Mix of uppercase and lowercase letters</li>
-                        <li>Numbers</li>
+                        <li>At least 1 number</li>
                         <li>At least 1 special character</li>
                     </ul>
                 </div>
@@ -120,26 +120,43 @@ export default {
         const email = ref("");
         const password = ref("");
         const showPassword = ref(false);
+        const errorMessage = ref('');
 
         const submit = async () => {
-            try {
-                const { user } = await createUserWithEmailAndPassword(
-                    auth,
-                    email.value,
-                    password.value,
-                );
-                await setDoc(doc(db, "users", user.uid), {
-                    username: username.value,
-                    email: email.value,
-                });
-                router.push("/postings");
-            } catch (error) {
-                console.error(error);
-            }
+          if (!validatePassword(password.value)) {
+            errorMessage.value = 'Password must contain a minimum of 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character.';
+            window.alert(errorMessage.value);
+            return;
+          }
+
+          try {
+            const { user } = await createUserWithEmailAndPassword(auth, email.value, password.value);
+            await setDoc(doc(db, 'users', user.uid), {
+              username: username.value,
+              email: email.value,
+            });
+            router.push('/postings');
+          } catch (error) {
+            console.error(error);
+          }
         };
 
         const togglePasswordVisibility = () => {
             showPassword.value = !showPassword.value;
+        };
+
+        const validatePassword = (password) => {
+          // Regular expressions to check for uppercase, lowercase, numbers, and special characters
+          const hasUpperCase = /[A-Z]/.test(password);
+          const hasLowerCase = /[a-z]/.test(password);
+          const hasNumber = /\d/.test(password);
+          const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+
+          // Minimum length requirement
+          const hasMinLength = password.length >= 8;
+
+          // Check if all criteria are met
+          return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
         };
 
         return {
@@ -199,7 +216,7 @@ export default {
 .form-container {
     display: flex;
     justify-content: space-between;
-    margin-right: 320px;
+    margin-right: 360px;
 }
 
 .requirements {

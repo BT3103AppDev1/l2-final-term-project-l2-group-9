@@ -47,6 +47,13 @@ const resumeImages = [
     resumeImage5,
 ];
 
+const clearTextContent = () => {
+  document.getElementById("titleText").innerHTML = "";
+  document.getElementById("listingText").innerHTML = "";
+  document.getElementById("trackingText").innerHTML = "";
+  document.getElementById("forumText").innerHTML = "";
+};
+
 onMounted(() => {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
@@ -62,6 +69,7 @@ onMounted(() => {
 
     var textureLoader = new THREE.TextureLoader();
     var resumeGroup = new THREE.Group();
+
     textureLoader.load(earthImage, function (texture) {
         var geometry = new THREE.SphereGeometry(1, 32, 32);
         var material = new THREE.MeshBasicMaterial({ map: texture });
@@ -135,6 +143,8 @@ onMounted(() => {
         }
 
         animate();
+
+        clearTextContent();
 
         const typewriter = (elementId, text, delay = 75) => {
             let i = 0;

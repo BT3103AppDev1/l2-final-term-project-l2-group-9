@@ -99,4 +99,8 @@ img {
 .account-dropdown a {
   cursor: pointer;
 }
+
+.copyright {
+  font-size: medium;
+}
 </style>

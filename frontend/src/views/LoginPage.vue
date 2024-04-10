@@ -75,6 +75,7 @@ export default {
         await signInWithEmailAndPassword(auth, email.value, password.value);
         router.push("/postings");
       } catch (error) {
+        window.alert("Email Address / Password entered incorrectly. Please try again.");
         console.error(error);
       }
     };
