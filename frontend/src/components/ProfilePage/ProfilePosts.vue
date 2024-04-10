@@ -6,11 +6,10 @@
 
 <script></script>
 
-
-
 <style scoped>
 .test {
     background-color: #f2f2f2;
     height: 50vh;
+    color: black;
 }
 </style>

@@ -10,11 +10,16 @@
                 </div>
                 <div class="job-actions">
                     <button
-                            class="tracker-button"
-                            @click="addToTracker"
-                            :class="{'tracker-added': trackerAdded}"
+                        class="tracker-button"
+                        @click="
+                            trackerAdded ? removeFromTracker() : addToTracker()
+                        "
                     >
-                        {{ trackerAdded ? 'Remove from Tracker' : 'Add to Tracker' }}
+                        {{
+                            trackerAdded
+                                ? "Remove from Tracker"
+                                : "Add to Tracker"
+                        }}
                     </button>
                     <a :href="applyLink" target="_blank" class="apply-button"
                         >Apply Now
@@ -98,8 +103,12 @@ export default {
         },
 
         addToTracker() {
-            this.trackerAdded = !this.trackerAdded; 
-            this.$emit('add-to-tracker', this.job); 
+            this.trackerAdded = !this.trackerAdded;
+            this.$emit("add-to-tracker", this.job);
+        },
+        removeFromTracker() {
+            this.trackerAdded = false;
+            this.$emit("remove-from-tracker", this.job);
         },
     },
 };
@@ -169,17 +178,18 @@ export default {
     margin-top: 2vh;
     font-family: "Poppins", sans-serif, Helvetica;
     font-weight: bold;
-    position: relative; 
+    position: relative;
     top: 0;
-    box-shadow: 8px 8px 15px #a3b1c6, 
-                -8px -8px 15px #ffffff; /* Inset shadow for neomorphism */
+    box-shadow:
+        8px 8px 15px #a3b1c6,
+        -8px -8px 15px #ffffff; /* Inset shadow for neomorphism */
     transition: all 0.3s ease;
 }
 
 .tracker-button:hover,
 .apply-button:hover {
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3); 
-    top: 3px; 
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.3);
+    top: 3px;
 }
 
 .apply-button::after {
@@ -209,10 +219,10 @@ export default {
     margin-left: auto;
 }
 
-.tracker-button:active
-.apply-button:active {
-    box-shadow: inset 5px 5px 10px #a3b1c6, 
-                inset -5px -5px 10px #ffffff; 
+.tracker-button:active .apply-button:active {
+    box-shadow:
+        inset 5px 5px 10px #a3b1c6,
+        inset -5px -5px 10px #ffffff;
     color: #333;
 }
 </style>
