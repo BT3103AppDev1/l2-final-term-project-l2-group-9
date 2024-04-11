@@ -8,12 +8,13 @@
                     alt="arrow"
                 />
             </router-link>
-            <a href="/" class="logo">
+            <div class="logo">
                 <img
                     src="../assets/images/NavBarInTurnLogoName.png"
                     alt="InTurn Logo"
+                    class="logo"
                 />
-            </a>
+            </div>
         </div>
         <ul class="right-logos">
             <li>
