@@ -1,7 +1,7 @@
 <template>
     <nav class="nav-bar">
         <div class="left-logos">
-            <router-link to="/postings">
+            <router-link to="/postings" v-if="$route.path !== '/postings'">
                 <img
                     class="arrow"
                     src="@/assets/images/back-to-board.svg"
