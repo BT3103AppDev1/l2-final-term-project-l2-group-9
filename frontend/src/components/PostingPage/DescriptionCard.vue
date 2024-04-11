@@ -62,7 +62,6 @@ export default {
     watch: {
         employerLogo: {
             deep: true,
-
             immediate: true,
             handler(newValue) {
                 this.updateLogo(newValue);
