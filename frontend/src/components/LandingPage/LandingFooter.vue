@@ -10,7 +10,7 @@
           :to="{ name: 'LandingPage', hash: '#landing-posting' }"
           >Postings</router-link
         >
-        <router-link class="nav-item" to="/tracker">Tracker</router-link>
+        <router-link class="nav-item" :to="{ name: 'LandingPage', hash: '#landing-tracker' }">Tracker</router-link>
       </div>
       <br /><br />
       <div>

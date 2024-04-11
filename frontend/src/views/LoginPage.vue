@@ -56,7 +56,6 @@ export default {
       signInSuccessUrl: "postings",
       signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
       ],
     };
 

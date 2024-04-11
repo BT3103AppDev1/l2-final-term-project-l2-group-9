@@ -5,11 +5,8 @@
     </div>
     <div id="main-landing-page">
       <div id="navbar">
-        <router-link
-          :to="{ name: 'LandingPage', hash: '#landing-posting' }"
-          >Internship</router-link
-        >
-        <router-link to="/tracker">Tracker</router-link>
+        <router-link :to="{ name: 'LandingPage', hash: '#landing-posting' }">Internship</router-link>
+        <router-link :to="{ name: 'LandingPage', hash: '#landing-tracker' }">Tracker</router-link>
         <router-link to="/forum">Forum</router-link>
       </div>
       <div id="main-landing-page-slogan">
