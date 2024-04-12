@@ -1,8 +1,9 @@
 <template>
   <FrontLanding />
   <Introduction />
+  <CreatePost />
   <DividerComponent />
-
+  
   <LandingPosting />
 
   <Vue3Marquee />
@@ -25,6 +26,7 @@ import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import DividerComponent from "../components/LandingPage/DividerComponent.vue";
+import CreatePost from "../components/ForumPage/CreatePost.vue";
 </script>
 
 <style scoped></style>

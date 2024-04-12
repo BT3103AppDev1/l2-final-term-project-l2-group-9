@@ -1,36 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Introduction from "../components/LandingPage/Introduction.vue";
-import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
-import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import RegisterationPage from "../views/RegisterationPage.vue";
 import LandingPage from "../views/LandingPage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
-import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import TestingPage from "@/TestingPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import NotFoundPage from "../views/NotFoundPage.vue";
+import ForumPage from "../views/ForumPage.vue";
 
 const routes = [
   {
     path: "/",
     name: "LandingPage",
     component: LandingPage,
-  },
-  {
-    path: "/",
-    name: "Introduction",
-    component: Introduction,
-  },
-  {
-    path: "/",
-    name: "LandingJoinUs",
-    component: LandingJoinUs,
-  },
-  {
-    path: "/",
-    name: "LandingFooter",
-    component: LandingFooter,
   },
   {
     path: "/register",
@@ -48,11 +30,6 @@ const routes = [
     component: LoginPage,
   },
   {
-    path: "/",
-    name: "LandingPosting",
-    component: LandingPosting,
-  },
-  {
     path: "/test",
     name: "TestingPage",
     component: TestingPage,
@@ -61,6 +38,11 @@ const routes = [
     path: "/profile",
     name: "ProfilePage",
     component: ProfilePage,
+  },
+  {
+    path: "/forum",
+    name: "ForumPage",
+    component: ForumPage,
   },
   {
     path: "/:pathMatch(.*)*",
@@ -86,15 +68,15 @@ const router = createRouter({
   },
 });
 
-// Add global navigation guard to handle redirection
-router.beforeEach((to, from, next) => {
-  // Check if the current URL contains a fragment identifier
-  if (window.location.hash) {
-    // Redirect to the base URL
-    window.location.href = window.location.origin;
-  } else {
-    next();
-  }
-});
+// // Add global navigation guard to handle redirection
+// router.beforeEach((to, from, next) => {
+//   // Check if the current URL contains a fragment identifier
+//   if (window.location.hash) {
+//     // Redirect to the base URL
+//     window.location.href = window.location.origin;
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;
