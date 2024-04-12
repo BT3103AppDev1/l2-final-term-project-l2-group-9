@@ -1,193 +1,319 @@
 <template>
-    <div class="profileSegment">
-        <div class="profile-icon">
-            <img src="@/assets/images/businessman.jpg" alt="Profile Icon" />
+  <div class="profileSegment">
+    <div class="profile-icon">
+      <label for="profilePictureUpload" class="profile-picture-label">
+        <img :src="profileUrl" alt="Profile Icon" class="profile-picture" />
+        <div class="edit-icon">
+          <font-awesome-icon :icon="['fas', 'pen']" alt="Edit Icon" />
         </div>
-        <div class="profile-details">
-            <h1>{{ this.userName }}</h1>
-            <div class="fileUpload">
-                <p>Upload Resume :</p>
-                <input
-                    type="file"
-                    name="file"
-                    accept="application/pdf"
-                    @change="addFileToStorage"
-                />
-            </div>
-            <div v-if="this.fileUrl">
-                <a
-                    :href="this.fileUrl"
-                    class="uploadResumeButton"
-                    target="_blank"
-                    >View Resume</a
-                >
-            </div>
-        </div>
+      </label>
+      <input
+        type="file"
+        id="profilePictureUpload"
+        @change="addPictureToStorage"
+        style="display: none"
+      />
     </div>
+    <div class="profile-details">
+      <h1>{{ this.userName }}</h1>
+      <div class="fileUpload">
+        <p>Upload Resume :</p>
+        <input
+          type="file"
+          name="file"
+          accept="application/pdf"
+          @change="addFileToStorage($event)"
+        />
+      </div>
+      <div v-if="this.fileUrl">
+        <a :href="this.fileUrl" class="uploadResumeButton" target="_blank"
+          >View Resume</a
+        >
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import defaultImage from "@/assets/images/businessman.jpg";
+
 import {
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    listAll,
-    getMetadata,
-    getDownloadURL,
-    deleteObject,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  listAll,
+  getMetadata,
+  getDownloadURL,
+  deleteObject,
 } from "firebase/storage";
 
 const storage = getStorage();
 
 export default {
-    name: "ProfileDetails",
-    props: {
-        userName: {
-            type: String,
-            required: true,
-        },
-        userId: {
-            type: String,
-            required: true,
-        },
+  name: "ProfileDetails",
+  props: {
+    userName: {
+      type: String,
+      required: true,
     },
-    data() {
-        return {
-            fileUrl: "",
-        };
+    userId: {
+      type: String,
+      required: true,
     },
-    async created() {
-        this.fetchDocumentFromStorage();
-    },
-    methods: {
-        async addFileToStorage() {
-            // Delete the existing document from storage
-            const listRef = ref(storage);
-            listAll(listRef)
-                .then((res) => {
-                    res.items.forEach((itemRef) => {
-                        getMetadata(itemRef).then((metadata) => {
-                            if (
-                                metadata.customMetadata.userId === this.userId
-                            ) {
-                                deleteObject(itemRef).then(() => {
-                                    console.log(
-                                        "Document deleted successfully",
-                                    );
-                                });
-                            }
-                        });
-                    });
-                })
-                .catch((error) => {
-                    console.log("Error deleting documents: ", error);
+  },
+  data() {
+    return {
+      fileUrl: "",
+      profileUrl: defaultImage, //need changes here
+    };
+  },
+  async created() {
+    this.fetchDocumentFromStorage();
+    this.fetchPictureFromStorage();
+  },
+  methods: {
+    async addFileToStorage(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        console.log("No file selected");
+        return;
+      }
+
+      // Delete the existing document from storage
+      const listRef = ref(storage, "Resumes");
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            getMetadata(itemRef).then((metadata) => {
+              if (
+                metadata.customMetadata &&
+                metadata.customMetadata.userId === this.userId
+              ) {
+                deleteObject(itemRef).then(() => {
+                  console.log("Document deleted successfully");
                 });
-            const file = document.querySelector("input[type=file]").files[0];
-            const fileRef = ref(storage, file.name);
-            const metadata = {
-                customMetadata: {
-                    userId: this.userId,
-                },
-            };
-            const uploadTask = uploadBytesResumable(fileRef, file, metadata);
-            // Change the state of the fileUrl variable to the new document URL
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log("Upload is " + progress + "% done");
-                    switch (snapshot.state) {
-                        case "paused":
-                            console.log("Upload is paused");
-                            break;
-                        case "running":
-                            console.log("Upload is running");
-                            break;
-                    }
-                },
-                (error) => {
-                    console.log("Error uploading document: ", error);
-                },
-                () => {
-                    console.log("Document uploaded successfully");
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                        this.fileUrl = url;
-                    });
-                },
-            );
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error deleting documents: ", error);
+        });
+
+      const fileRef = ref(storage, `Resumes/${file.name}`);
+      const metadata = {
+        customMetadata: {
+          userId: this.userId,
         },
-        async fetchDocumentFromStorage() {
-            // Retrieve all documents from storage and filter the documents based on userId
-            const listRef = ref(storage);
-            listAll(listRef)
-                .then((res) => {
-                    res.items.forEach((itemRef) => {
-                        getMetadata(itemRef).then((metadata) => {
-                            if (
-                                metadata.customMetadata.userId === this.userId
-                            ) {
-                                // Set the document URL to the documentUrl variable
-                                getDownloadURL(itemRef).then((url) => {
-                                    this.fileUrl = url;
-                                });
-                            }
-                        });
-                    });
-                })
-                .catch((error) => {
-                    console.log("Error fetching documents: ", error);
-                });
+      };
+      const uploadTask = uploadBytesResumable(fileRef, file, metadata);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
         },
+        (error) => {
+          console.log("Error uploading document: ", error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            console.log("Document uploaded successfully, available at", url);
+            this.fileUrl = url; // Update the component data
+          });
+        }
+      );
     },
+
+    async fetchDocumentFromStorage() {
+      // Retrieve all documents from storage and filter the documents based on userId
+      const listRef = ref(storage, "Resumes");
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            getMetadata(itemRef).then((metadata) => {
+              if (metadata.customMetadata.userId === this.userId) {
+                // Set the document URL to the documentUrl variable
+                getDownloadURL(itemRef).then((url) => {
+                  this.fileUrl = url;
+                });
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching documents: ", error);
+        });
+    },
+
+    async addPictureToStorage() {
+      // Delete the existing document from storage
+      const listRef = ref(storage, "profilePictures");
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            getMetadata(itemRef).then((metadata) => {
+              if (metadata.customMetadata.userId === this.userId) {
+                deleteObject(itemRef).then(() => {
+                  console.log("Document deleted successfully");
+                });
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error deleting documents: ", error);
+        });
+      const file = document.querySelector("input[type=file]").files[0];
+      const fileRef = ref(storage, `profilePictures/${file.name}`);
+      const metadata = {
+        customMetadata: {
+          userId: this.userId,
+        },
+      };
+      const uploadTask = uploadBytesResumable(fileRef, file, metadata);
+      // Change the state of the fileUrl variable to the new document URL
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          console.log("Error uploading document: ", error);
+        },
+        () => {
+          console.log("Document uploaded successfully");
+          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+            this.profileUrl = url;
+          });
+        }
+      );
+    },
+
+    async fetchPictureFromStorage() {
+      // Retrieve all documents from storage and filter the documents based on userId
+      const listRef = ref(storage, "profilePictures");
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            getMetadata(itemRef).then((metadata) => {
+              if (metadata.customMetadata.userId === this.userId) {
+                // Set the document URL to the documentUrl variable
+                getDownloadURL(itemRef).then((url) => {
+                  this.profileUrl = url;
+                });
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching documents: ", error);
+        });
+    },
+  },
 };
 </script>
 
 <style scoped>
 .profileSegment {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: black;
-    font-size: 16px;
-    font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: black;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 2vw;
 }
-.profile-icon img {
-    width: 152px;
-    height: 152px;
-    margin: 24px;
-    border: 1px solid #ffffff;
-    border-radius: 50%;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
-    background: radial-gradient(circle, #000000 0%, #333333 100%);
+.profile-picture-label {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
 }
+
 .profile-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 24px;
 }
 .profile-details h1 {
-    font-size: 48px;
-    font-weight: 700;
+  font-size: 48px;
+  font-weight: 700;
 }
 .fileUpload {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 24px;
-    padding-bottom: 16px;
-    margin-left: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 24px;
+  padding-bottom: 16px;
+  margin-left: 4px;
 }
 .fileUpload input {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 .uploadResumeButton {
-    background-color: #526d82;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    padding: 8px 16px;
-    margin-right: 4px;
+  background-color: #526d82;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  margin-right: 4px;
+}
+
+.profile-picture-label {
+  cursor: pointer; /* Change the cursor to indicate it's clickable */
+}
+
+.profile-picture {
+  width: 152px; /* Maintain width */
+  height: 152px; /* Maintain height */
+  border-radius: 50%; /* Circular image */
+  object-fit: cover; /* Prevents stretching */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition for scale and opacity */
+}
+
+.profile-picture-label:hover .profile-picture {
+  opacity: 0.8; /* Slightly see-through when hovered */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.edit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* Start invisible */
+  transition: opacity 0.3s ease;
+}
+
+.profile-picture-label:hover .edit-icon {
+  opacity: 1; /* Fully visible on hover */
 }
 </style>
