@@ -11,6 +11,9 @@
   <LandingTracker />
   <DividerComponent />
 
+  <LandingForum />
+  <DividerComponent />
+  
   <LandingJoinUs />
 
   <LandingFooter />
@@ -25,6 +28,7 @@ import LandingJoinUs from "../components/LandingPage/LandingJoinUs.vue";
 import LandingFooter from "../components/LandingPage/LandingFooter.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import DividerComponent from "../components/LandingPage/DividerComponent.vue";
+import LandingForum from "../components/LandingPage/LandingForum.vue";
 </script>
 
 <style scoped></style>
