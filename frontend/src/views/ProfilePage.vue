@@ -9,12 +9,12 @@
                         <h2>Change Password</h2>
                         <div class="input-container">
                             <input :type="showCurrentPassword ? 'text' : 'password'" v-model="currentPassword" placeholder="Current Password">
-                            <font-awesome-icon :icon="['fas', showCurrentPassword ? 'eye-slash' : 'eye']" class="password-icon" @click.stop="showCurrentPassword = !showCurrentPassword" />
+                            <font-awesome-icon :icon="['fas', showCurrentPassword ? 'eye' : 'eye-slash']" class="password-icon" @click.stop="showCurrentPassword = !showCurrentPassword" />
                         </div>
                         <div class="input-container">
                             <div class="input-field">
                                 <input :type="showNewPassword ? 'text' : 'password'" v-model="newPassword" placeholder="New Password">
-                                <font-awesome-icon :icon="['fas', showNewPassword ? 'eye-slash' : 'eye']" class="password-icon" @click.stop="showNewPassword = !showNewPassword" />
+                                <font-awesome-icon :icon="['fas', showNewPassword ? 'eye' : 'eye-slash']" class="password-icon" @click.stop="showNewPassword = !showNewPassword" />
                             </div>
                             <div class="password-hint">
                                 New Password must contain a mix of uppercase and lowercase letters, one number, one special character, and be at least 8 characters long.
@@ -91,7 +91,7 @@ export default {
             try {
                 // Check if the current password and new password are the same
                 if (this.currentPassword === this.newPassword) {
-                    window.alert('New password cannot be the same as the current password');
+                    window.alert('New password cannot be the same as the current password.');
                     return;
             }
                 // Try signing in with the provided email and current password
@@ -99,7 +99,7 @@ export default {
 
                 // Check if the new password meets the criteria
                 if (!this.validatePassword(this.newPassword)) {
-                    window.alert('New password does not meet the criteria');
+                    window.alert('New password does not meet the criteria.');
                     return;
                 }
 
@@ -108,7 +108,7 @@ export default {
                 window.alert('Password has been changed successfully');
                 this.showChangePassword = false;
             } catch (error) {
-                window.alert("Password entered incorrectly. Please try again.");
+                window.alert("Current password entered incorrectly. Please try again.");
                 console.error(error);
             }
         }
