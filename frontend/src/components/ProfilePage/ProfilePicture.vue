@@ -80,9 +80,10 @@ export default {
       }
 
       // Delete the existing document from storage
-      const listRef = ref(storage, "Resumes");
+      const listRef = ref(storage, `Resumes/${this.userId}`);
       listAll(listRef)
         .then((res) => {
+          console.log(res);
           res.items.forEach((itemRef) => {
             getMetadata(itemRef).then((metadata) => {
               if (
@@ -100,7 +101,8 @@ export default {
           console.log("Error deleting documents: ", error);
         });
 
-      const fileRef = ref(storage, `Resumes/${file.name}`);
+      const filePath = `Resumes/${this.userId}/${file.name}`;
+      const fileRef = ref(storage, filePath);
       const metadata = {
         customMetadata: {
           userId: this.userId,
@@ -137,7 +139,7 @@ export default {
 
     async fetchDocumentFromStorage() {
       // Retrieve all documents from storage and filter the documents based on userId
-      const listRef = ref(storage, "Resumes");
+      const listRef = ref(storage, `Resumes/${this.userId}`);
       listAll(listRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
@@ -158,7 +160,7 @@ export default {
 
     async addPictureToStorage() {
       // Delete the existing document from storage
-      const listRef = ref(storage, "profilePictures");
+      const listRef = ref(storage, `profilePictures/${this.userId}`);
       listAll(listRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
@@ -175,7 +177,8 @@ export default {
           console.log("Error deleting documents: ", error);
         });
       const file = document.querySelector("input[type=file]").files[0];
-      const fileRef = ref(storage, `profilePictures/${file.name}`);
+      const filePath = `profilePictures/${this.userId}/${file.name}`;
+      const fileRef = ref(storage, filePath);
       const metadata = {
         customMetadata: {
           userId: this.userId,
@@ -212,7 +215,7 @@ export default {
 
     async fetchPictureFromStorage() {
       // Retrieve all documents from storage and filter the documents based on userId
-      const listRef = ref(storage, "profilePictures");
+      const listRef = ref(storage, `profilePictures/${this.userId}`);
       listAll(listRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
