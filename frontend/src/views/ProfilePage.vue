@@ -1,6 +1,30 @@
 <template>
-    <div v-if="user">
+    <div id="profile-page" v-if="user">
         <ProfilePicture :userName="this.userName" :userId="this.user.uid" />
+        <div class="profile-details">
+            <div class="changePassword" v-if="!user.emailVerified">
+                <button class='btn' @click="showChangePassword = true">Change My Password</button>
+                <div v-if="showChangePassword" class="modal" @click="showChangePassword = false">
+                    <div class="modal-content" @click.stop>
+                        <h2>Change Password</h2>
+                        <div class="input-container">
+                            <input :type="showCurrentPassword ? 'text' : 'password'" v-model="currentPassword" placeholder="Current Password">
+                            <font-awesome-icon :icon="['fas', showCurrentPassword ? 'eye-slash' : 'eye']" class="password-icon" @click.stop="showCurrentPassword = !showCurrentPassword" />
+                        </div>
+                        <div class="input-container">
+                            <div class="input-field">
+                                <input :type="showNewPassword ? 'text' : 'password'" v-model="newPassword" placeholder="New Password">
+                                <font-awesome-icon :icon="['fas', showNewPassword ? 'eye-slash' : 'eye']" class="password-icon" @click.stop="showNewPassword = !showNewPassword" />
+                            </div>
+                            <div class="password-hint">
+                                New Password must contain a mix of uppercase and lowercase letters, one number, one special character, and be at least 8 characters long.
+                            </div>
+                        </div>
+                        <button id="submit" @click="changePassword">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <ProfilePosts />
     </div>
 </template>
@@ -10,7 +34,7 @@ import ProfilePicture from "../components/ProfilePage/ProfilePicture.vue";
 import ProfilePosts from "../components/ProfilePage/ProfilePosts.vue";
 import firebaseApp from "../firebase.js";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, updatePassword, signInWithEmailAndPassword } from "firebase/auth";
 
 const db = getFirestore(firebaseApp);
 
@@ -24,6 +48,11 @@ export default {
         return {
             user: false,
             userName: "",
+            showChangePassword: false,
+            currentPassword: '',
+            newPassword: '',
+            showCurrentPassword: false,
+            showNewPassword: false,
         };
     },
     async mounted() {
@@ -31,6 +60,7 @@ export default {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 this.user = user;
+                console.log(this.user.emailVerified)
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
                 this.userName = userDoc.data().username;
@@ -39,8 +69,136 @@ export default {
                 this.$router.push("/login");
             }
         });
+        
+    },
+
+    methods: {
+        validatePassword(password) {
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+        const hasMinLength = password.length >= 8;
+
+        return hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
+        },
+
+        async changePassword() {
+            const auth = getAuth();
+            const user = auth.currentUser;
+
+            if (user) {
+            try {
+                // Check if the current password and new password are the same
+                if (this.currentPassword === this.newPassword) {
+                    window.alert('New password cannot be the same as the current password');
+                    return;
+            }
+                // Try signing in with the provided email and current password
+                await signInWithEmailAndPassword(auth, user.email, this.currentPassword);
+
+                // Check if the new password meets the criteria
+                if (!this.validatePassword(this.newPassword)) {
+                    window.alert('New password does not meet the criteria');
+                    return;
+                }
+
+                // If sign-in is successful and new password is valid, update the password
+                await updatePassword(user, this.newPassword);
+                window.alert('Password has been changed successfully');
+                this.showChangePassword = false;
+            } catch (error) {
+                window.alert("Password entered incorrectly. Please try again.");
+                console.error(error);
+            }
+        }
+        },
     },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.changePassword {
+    display: flex;
+    margin-left: 205px;
+}
+
+.btn {
+    font-size: 16px;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 30%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.modal-content h2 {
+    color: black;
+    font-family: Avenir, sans-serif;
+}
+
+.input-container {
+    position: relative;
+    display: inline-block;
+}
+
+.input-field {
+    position: relative;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 15px;
+}
+
+.password-icon {
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: black;
+}
+
+.password-hint {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+#submit {
+    width: 45%;
+    margin-top: 20px;
+}
+
+.changePassword button {
+    background-color: #526d82;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    padding: 8px 16px;
+}
+</style>
