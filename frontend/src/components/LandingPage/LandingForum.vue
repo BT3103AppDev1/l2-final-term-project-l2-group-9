@@ -1,5 +1,5 @@
 <template>
-    <div class="forum-page">
+    <div id="landing-forum">
       <div class="forum-text">
         <h1>Interact,</h1>
         <br>
@@ -37,7 +37,7 @@
   <script setup></script>
   
   <style scoped>
-  .forum-page {
+  #landing-forum {
     text-align: center;
     background-color: #f2f2f2;
     height: 100%;

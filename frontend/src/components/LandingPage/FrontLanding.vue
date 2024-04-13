@@ -7,7 +7,7 @@
       <div id="navbar">
         <router-link :to="{ name: 'LandingPage', hash: '#landing-posting' }">Internship</router-link>
         <router-link :to="{ name: 'LandingPage', hash: '#landing-tracker' }">Tracker</router-link>
-        <router-link to="/forum">Forum</router-link>
+        <router-link :to="{ name: 'LandingPage', hash: '#landing-forum' }">Forum</router-link>
       </div>
       <div id="main-landing-page-slogan">
         <div class="slogan-container">
