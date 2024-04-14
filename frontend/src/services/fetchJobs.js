@@ -11,7 +11,7 @@ async function fetchJobs(input) {
     params: {
       query: input, // input is changed based on user input
       page: "1",
-      num_pages: "2", // alter if you want more pages
+      num_pages: "7", // alter if you want more pages
     },
     headers: {
       "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
@@ -30,7 +30,7 @@ async function fetchJobs(input) {
 }
 
 // For testing purposes, will remove it eventually
-//console.log(process.env.API_KEY);
+// console.log(import.meta.env.VITE_API_KEY);
 //fetchJobs("Data Analyst, Singapore")
 //  .then((data) => console.log(data))
 // .catch((error) => console.error(error));

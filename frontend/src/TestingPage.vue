@@ -24,30 +24,29 @@ export default {
             jobsPostings: [
                 {
                     id: 1,
-                    title: "Algorithm Engineering Intern at Optiver",
+                    title: "Algorithm Engineering Intern at",
+                    company: "EY",
                     date: "May 07, 2024",
-                    details:
-                        "Revise on Data Structures and Algorithms - Graph Theory, Heaps, Dynamic Programming",
+                    details: "Revise on Data Structures and Algorithms - Graph Theory, Heaps, Dynamic Programming",
                     status: "Interview",
-                    logo: "",
                 },
                 {
                     id: 2,
                     title: "Software Engineering Intern at Google",
+                    company: "Bytedance",
                     date: "May 07, 2024",
                     details:
                         "Revise on Data Structures and Algorithms - Graph Theory, Heaps, Dynamic Programming",
                     status: "Interview",
-                    logo: "",
                 },
                 {
                     id: 3,
                     title: "Software Engineering Intern at Facebook",
+                    company: "meta",
                     date: "May 07, 2024",
                     details:
                         "Revise on Data Structures and Algorithms - Graph Theory, Heaps, Dynamic Programming",
                     status: "Interview",
-                    logo: "",
                 },
             ],
         };

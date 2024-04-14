@@ -5,57 +5,28 @@
             <div class="dropdown">
                 <div class="selected-option" :class="selectedClass">
                     {{ selectedLabel }}
-                    <img
-                        src="@/assets/images/chevron-down.svg"
-                        class="chevron"
-                        alt="chevron-dropdown"
-                    />
+                    <img src="@/assets/images/chevron-down.svg" class="chevron" alt="chevron-dropdown" />
                 </div>
                 <div class="dropdown-content" v-show="showDropdown">
-                    <div
-                        v-for="option in options"
-                        :key="option.value"
-                        :class="['dropdown-option', option.colorClass]"
-                        @click.stop="selectOption(option)"
-                    >
+                    <div v-for="option in options" :key="option.value" :class="['dropdown-option', option.colorClass]" @click.stop="selectOption(option)">
                         {{ option.label }}
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="job-info">
             <img :src="logoSource" class="company-logo" alt="Company Logo" />
-            <div class="job-title">{{ job.title }}</div>
+            <div class="job-title">{{ job.title }} <span>{{ job.company }}</span></div>
         </div>
-
+    
         <div class="job-notes-detail-trash">
-            <img
-                src="@/assets/images/notes.png"
-                class="notes-icon"
-                alt="Notes"
-                tabindex="0"
-                @click.stop="toggleNotesInput"
-                @keyup.enter="toggleNotesInput"
-            />
-            <input
-                v-show="showNotesInput"
-                v-model="job.details"
-                @blur="saveDetails"
-                @keyup.enter="saveDetails"
-                type="text"
-                placeholder="Add details..."
-                class="notes-input"
-            />
+            <img src="@/assets/images/notes.png" class="notes-icon" alt="Notes" tabindex="0" @click.stop="toggleNotesInput" @keyup.enter="toggleNotesInput" />
+            <input v-show="showNotesInput" v-model="job.details" @blur="saveDetails" @keyup.enter="saveDetails" type="text" placeholder="Add details..." class="notes-input" />
             <div class="job-details" @click="editDetails">
                 {{ job.details }}
             </div>
-            <img
-                src="@/assets/images/trash.svg"
-                class="delete-icon"
-                @click.stop="emitJobDeletion"
-                alt="Delete"
-            />
+            <img src="@/assets/images/trash.svg" class="delete-icon" @click.stop="emitJobDeletion" alt="Delete" />
         </div>
     </div>
 </template>
@@ -74,11 +45,10 @@ export default {
     data() {
         return {
             defaultLogo,
+            logoSource: defaultLogo,
             showDropdown: false,
             showNotesInput: false,
             tempDetails: "", // Temporary state for the details
-            selectedLabel: this.job.status || "Status",
-            selectedClass: "",
             options: [
                 { value: "applied", label: "Applied", colorClass: "applied" },
                 { value: "pending", label: "Pending", colorClass: "pending" },
@@ -103,6 +73,13 @@ export default {
     beforeDestroy() {
         document.removeEventListener("click", this.closeDropdown);
     },
+    created() {
+        const initialOption = this.options.find(option => option.value === this.job.status.toLowerCase());
+        if (initialOption) {
+            this.selectedLabel = initialOption.label;
+            this.selectedClass = initialOption.colorClass;
+        }
+    },
     methods: {
         toggleDropdown() {
             this.showDropdown = !this.showDropdown;
@@ -126,7 +103,7 @@ export default {
         },
         saveDetails() {
             this.showNotesInput = false;
-            this.emitJobDetail();
+            this.emitJobUpdate();
         },
         emitJobDetail() {
             this.$emit("update-detail", this.job.id, this.tempDetails); // Emit the updated details
@@ -141,8 +118,21 @@ export default {
         },
     },
     computed: {
-        logoSource() {
-            return this.job.logo || this.defaultLogo;
+        logoPath() {
+            const imageName = this.job.company.toLowerCase().replace(/\s+/g, '-') + '.png';
+            try {
+                return require(`@/assets/images/logos/${imageName}`);
+            } catch (e) {
+                return this.defaultLogo; // Use the default logo if specific logo not found
+            }
+        },
+        selectedLabel() {
+            const initialOption = this.options.find(option => option.value === this.job.status.toLowerCase());
+            return (initialOption && initialOption.label) || "Status";
+        },
+        selectedClass() {
+            const option = this.options.find(o => o.value === this.job.status.toLowerCase());
+            return option ? option.colorClass : '';
         },
     },
 };
@@ -150,21 +140,22 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
-
 .tracking-card {
     font-family: "Poppins", sans-serif, Helvetica;
     align-items: center;
     padding: 16px;
     background-color: #fff;
-    border-radius: 25px;
+    border-radius: 20px;
     color: black;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    width: 72%;
+    margin-bottom: 20px;
+    width: 100%;
 }
+
 .dropdown {
     cursor: pointer;
 }
+
 .date-dropdown {
     margin-bottom: 0.5%;
     display: flex;
@@ -194,26 +185,32 @@ export default {
 }
 
 /* Styles for each option based on the selection */
+
 .applied {
     background-color: #526d82;
     color: white;
 }
+
 .pending {
     background-color: #a4d0a4;
     color: black;
 }
+
 .interview {
     background-color: #ffead2;
     color: black;
 }
+
 .offered {
     background-color: #00bf63;
     color: black;
 }
+
 .rejected {
     background-color: #ce243b;
     color: white;
 }
+
 .closed {
     background-color: #85586f;
     color: white;
@@ -237,7 +234,8 @@ export default {
     height: auto;
 }
 
-.job-title {
+.job-title,
+.job-company {
     font-size: 2em;
 }
 
