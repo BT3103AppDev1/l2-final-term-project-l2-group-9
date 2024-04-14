@@ -158,6 +158,12 @@ body {
     justify-content: center;
 }
 
+.mini-status:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  transition: 0.2s;
+}
+
 #statuses-1 {
     margin-top: 10px;
 }
