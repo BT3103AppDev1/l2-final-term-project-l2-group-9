@@ -10,7 +10,7 @@ import LandingPosting from "../components/LandingPage/LandingPosting.vue";
 import TestingPage from "@/TestingPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import NotFoundPage from "../views/NotFoundPage.vue";
-import TrackerPage from "../views/TrackerPage.vue";
+import TrackerPage from "@/views/TrackerPage.vue";
 import TrackingPage from "@/components/TrackingPage/TrackingPage.vue";
 
 const routes = [
@@ -73,11 +73,6 @@ const routes = [
     path: "/tracker",
     name: "TrackerPage",
     component: TrackerPage,
-  },
-  {
-    path: "/trackertest",
-    name: "TrackingPage",
-    component: TrackingPage,
   },
 ];
 

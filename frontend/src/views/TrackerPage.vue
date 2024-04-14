@@ -19,7 +19,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
 export default {
-    name: "TrackingPage",
+    name: "TrackerPage",
     components: {
         TrackingPage,
     },
