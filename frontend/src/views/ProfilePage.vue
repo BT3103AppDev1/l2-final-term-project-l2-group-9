@@ -2,7 +2,7 @@
     <div id="profile-page" v-if="user">
         <ProfilePicture :userName="this.userName" :userId="this.user.uid" />
         <div class="profile-details">
-            <div class="changePassword" v-if="!user.emailVerified">
+            <div class="changePassword" v-if="user.emailVerified">
                 <button class='btn' @click="showChangePassword = true">Change My Password</button>
                 <div v-if="showChangePassword" class="modal" @click="showChangePassword = false">
                     <div class="modal-content" @click.stop>
@@ -24,6 +24,9 @@
                     </div>
                 </div>
             </div>
+            <div class = "viewResume" v-if="this.fileUrl">
+                <a :href="this.fileUrl" class="uploadResumeButton" target="_blank">View Resume</a>
+            </div>
         </div>
         <ProfilePosts />
     </div>
@@ -35,7 +38,17 @@ import ProfilePosts from "../components/ProfilePage/ProfilePosts.vue";
 import firebaseApp from "../firebase.js";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged, updatePassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  listAll,
+  getMetadata,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
+const storage = getStorage();
 const db = getFirestore(firebaseApp);
 
 export default {
@@ -53,8 +66,10 @@ export default {
             newPassword: '',
             showCurrentPassword: false,
             showNewPassword: false,
+            fileUrl: "",
         };
     },
+
     async mounted() {
         const auth = getAuth();
         onAuthStateChanged(auth, async (user) => {
@@ -64,15 +79,40 @@ export default {
                 const userRef = doc(db, "users", user.uid);
                 const userDoc = await getDoc(userRef);
                 this.userName = userDoc.data().username;
+                this.fetchDocumentFromStorage();
+
             } else {
                 // Change the route to the login page
                 this.$router.push("/login");
             }
         });
-        
+
     },
 
     methods: {
+
+        async fetchDocumentFromStorage() {
+      // Retrieve all documents from storage and filter the documents based on userId
+      console.log(this.user.uid)
+      const listRef = ref(storage, `Resumes/${this.user.uid}`);
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            getMetadata(itemRef).then((metadata) => {
+              if (metadata.customMetadata.userId === this.user.uid) {
+                // Set the document URL to the documentUrl variable
+                getDownloadURL(itemRef).then((url) => {
+                  this.fileUrl = url;
+                });
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.log("Error fetching documents: ", error);
+        });
+    },
+
         validatePassword(password) {
         const hasUpperCase = /[A-Z]/.test(password);
         const hasLowerCase = /[a-z]/.test(password);
@@ -118,13 +158,29 @@ export default {
 </script>
 
 <style scoped>
+#profile-page {
+  background-color: white;
+  height: 50vh;
+}
+
+.profile-details {
+  display: flex;
+  justify-content: start; /* Aligns children at the start of the container */
+  align-items: center;    /* Centers children vertically */
+  height:0;
+  margin-bottom: 50px;
+  margin-left: 60px;
+}
+
 .changePassword {
     display: flex;
-    margin-left: 205px;
+    margin-left: 20px;
 }
 
 .btn {
     font-size: 16px;
+    cursor: pointer;
+    border: 0px;
 }
 
 .modal {
@@ -200,5 +256,15 @@ export default {
     text-decoration: none;
     border-radius: 12px;
     padding: 8px 16px;
+    margin-left: 180px;
+}
+
+.uploadResumeButton {
+  background-color: #526d82;
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  margin-left: 15px;
 }
 </style>

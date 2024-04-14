@@ -25,11 +25,6 @@
           @change="addFileToStorage($event)"
         />
       </div>
-      <div v-if="this.fileUrl">
-        <a :href="this.fileUrl" class="uploadResumeButton" target="_blank"
-          >View Resume</a
-        >
-      </div>
     </div>
   </div>
 </template>
@@ -131,7 +126,7 @@ export default {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             console.log("Document uploaded successfully, available at", url);
-            this.fileUrl = url; // Update the component data
+            window.location.reload();
           });
         }
       );
@@ -247,6 +242,11 @@ export default {
   font-weight: 500;
   margin-left: 2vw;
 }
+
+.profile-icon {
+  margin-top: 40px; 
+}
+
 .profile-picture-label {
   position: relative;
   cursor: pointer;
@@ -257,7 +257,8 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 24px;
+  margin: 30px;
+  margin-top: 50px;
 }
 .profile-details h1 {
   font-size: 48px;
@@ -267,12 +268,15 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 24px;
+  margin-top: 20px;
   padding-bottom: 16px;
   margin-left: 4px;
+  font-family: "Poppins", sans-serif, Helvetica;
 }
 .fileUpload input {
   margin-left: 8px;
+  font-family: "Poppins", sans-serif, Helvetica;
+  font-size: 14px;
 }
 .uploadResumeButton {
   background-color: #526d82;
@@ -288,8 +292,8 @@ export default {
 }
 
 .profile-picture {
-  width: 152px; /* Maintain width */
-  height: 152px; /* Maintain height */
+  width: 200px; /* Maintain width */
+  height: 200px; /* Maintain height */
   border-radius: 50%; /* Circular image */
   object-fit: cover; /* Prevents stretching */
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
