@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import defaultImage from "@/assets/images/businessman.jpg";
+import defaultImage from "@/assets/images/Default_pfp.svg.png";
 
 import {
   getStorage,
@@ -59,13 +59,14 @@ export default {
   data() {
     return {
       fileUrl: "",
-      profileUrl: defaultImage, //need changes here
+      profileUrl: "", //need changes here
     };
   },
   async created() {
     this.fetchDocumentFromStorage();
     this.fetchPictureFromStorage();
   },
+
   methods: {
     async addFileToStorage(event) {
       const file = event.target.files[0];
@@ -203,6 +204,10 @@ export default {
           console.log("Document uploaded successfully");
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
             this.profileUrl = url;
+            const newProfileData = {
+              profileUrl: url,
+            };
+            this.$store.dispatch("setUserProfile", newProfileData);
           });
         }
       );
@@ -211,6 +216,7 @@ export default {
     async fetchPictureFromStorage() {
       // Retrieve all documents from storage and filter the documents based on userId
       const listRef = ref(storage, `profilePictures/${this.userId}`);
+      let pictureFound = false;
       listAll(listRef)
         .then((res) => {
           res.items.forEach((itemRef) => {
@@ -219,6 +225,7 @@ export default {
                 // Set the document URL to the documentUrl variable
                 getDownloadURL(itemRef).then((url) => {
                   this.profileUrl = url;
+                  pictureFound = true;
                 });
               }
             });
@@ -226,7 +233,11 @@ export default {
         })
         .catch((error) => {
           console.log("Error fetching documents: ", error);
+          this.profileUrl = defaultImage; // Set to default URL if error as fallback
         });
+      if (!pictureFound) {
+        this.profileUrl = defaultImage; // Set to default URL if no document is found
+      }
     },
   },
 };
