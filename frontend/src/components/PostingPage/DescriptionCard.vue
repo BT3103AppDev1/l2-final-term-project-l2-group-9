@@ -59,8 +59,9 @@ export default {
     };
   },
 
-  mounted() {
-    this.fetchJobs();
+  async created() {
+    await this.fetchJobs();
+    await this.checkTracker();
   },
 
   watch: {
@@ -70,6 +71,7 @@ export default {
       handler() {
         console.log("Watcher triggered for jobId:", this.jobId);
         console.log(this.trackerAdded);
+        this.fetchJobs();
         this.checkTracker();
       },
     },
@@ -122,12 +124,11 @@ export default {
     addToTracker() {
       this.$emit("add-to-tracker", this.job);
       this.trackerAdded = true;
-      this.fetchJobs();
     },
+
     removeFromTracker() {
       this.$emit("remove-from-tracker", this.job);
       this.trackerAdded = false;
-      this.fetchJobs();
     },
     async checkTracker() {
       this.trackerAdded = this.isJobTracked(this.jobId);
