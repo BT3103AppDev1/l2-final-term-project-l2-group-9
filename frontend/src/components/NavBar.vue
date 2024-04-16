@@ -27,6 +27,7 @@
                         />
                     </div>
                 </router-link>
+                <div class="label">Profile</div>
             </li>
             <li>
                 <router-link to="/tracker">
@@ -38,6 +39,7 @@
                         />
                     </div>
                 </router-link>
+                <div class="label">Tracker</div>
             </li>
             <li>
                 <div class="icon-wrapper" @click="$emit('toggle-sidebar')">
@@ -47,6 +49,7 @@
                         style="color: #ffffff"
                     />
                 </div>
+                <div class="label">Menu</div>
             </li>
         </ul>
     </nav>
@@ -195,6 +198,7 @@ export default {
 }
 
 .icon-wrapper {
+    margin-top: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -227,4 +231,15 @@ export default {
     display: flex;
     align-items: center;
 }
+
+.label {
+    font-size: 12px;
+    margin-top: 3px;
+    margin-bottom: 0;
+    text-align: center;
+    font-weight: 700;
+    color: black;
+    font-family: "Poppins", sans-serif;
+}
+
 </style>
