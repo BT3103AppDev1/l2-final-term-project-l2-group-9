@@ -5,59 +5,28 @@
             <div class="dropdown">
                 <div class="selected-option" :class="selectedClass">
                     {{ selectedLabel }}
-                    <img
-                        src="@/assets/images/chevron-down.svg"
-                        class="chevron"
-                        alt="chevron-dropdown"
-                    />
+                    <img src="@/assets/images/chevron-down.svg" class="chevron" alt="chevron-dropdown" />
                 </div>
                 <div class="dropdown-content" v-show="showDropdown">
-                    <div
-                        v-for="option in options"
-                        :key="option.value"
-                        :class="['dropdown-option', option.colorClass]"
-                        @click.stop="selectOption(option)"
-                    >
+                    <div v-for="option in options" :key="option.value" :class="['dropdown-option', option.colorClass]" @click.stop="selectOption(option)">
                         {{ option.label }}
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="job-info">
             <img :src="logoSource" class="company-logo" alt="Company Logo" />
-            <div class="job-title">
-                {{ job.title }} <span>{{ job.company }}</span>
-            </div>
+            <div class="job-title">{{ job.title }} <span>{{ job.company }}</span></div>
         </div>
-
+    
         <div class="job-notes-detail-trash">
-            <img
-                src="@/assets/images/notes.png"
-                class="notes-icon"
-                alt="Notes"
-                tabindex="0"
-                @click.stop="toggleNotesInput"
-                @keyup.enter="toggleNotesInput"
-            />
-            <input
-                v-show="showNotesInput"
-                v-model="job.details"
-                @blur="saveDetails"
-                @keyup.enter="saveDetails"
-                type="text"
-                placeholder="Add details..."
-                class="notes-input"
-            />
+            <img src="@/assets/images/notes.png" class="notes-icon" alt="Notes" tabindex="0" @click.stop="toggleNotesInput" @keyup.enter="toggleNotesInput" />
+            <input v-show="showNotesInput" v-model="job.details" @blur="saveDetails" @keyup.enter="saveDetails" type="text" placeholder="Add details..." class="notes-input" />
             <div class="job-details" @click="editDetails">
                 {{ job.details }}
             </div>
-            <img
-                src="@/assets/images/trash.svg"
-                class="delete-icon"
-                @click.stop="emitJobDeletion"
-                alt="Delete"
-            />
+            <img src="@/assets/images/trash.svg" class="delete-icon" @click.stop="emitJobDeletion" alt="Delete" />
         </div>
     </div>
 </template>
@@ -105,9 +74,7 @@ export default {
         document.removeEventListener("click", this.closeDropdown);
     },
     created() {
-        const initialOption = this.options.find(
-            (option) => option.value === this.job.status.toLowerCase(),
-        );
+        const initialOption = this.options.find(option => option.value === this.job.status.toLowerCase());
         if (initialOption) {
             this.selectedLabel = initialOption.label;
             this.selectedClass = initialOption.colorClass;
@@ -152,8 +119,7 @@ export default {
     },
     computed: {
         logoPath() {
-            const imageName =
-                this.job.company.toLowerCase().replace(/\s+/g, "-") + ".png";
+            const imageName = this.job.company.toLowerCase().replace(/\s+/g, '-') + '.png';
             try {
                 return require(`@/assets/images/logos/${imageName}`);
             } catch (e) {
@@ -161,16 +127,12 @@ export default {
             }
         },
         selectedLabel() {
-            const initialOption = this.options.find(
-                (option) => option.value === this.job.status.toLowerCase(),
-            );
+            const initialOption = this.options.find(option => option.value === this.job.status.toLowerCase());
             return (initialOption && initialOption.label) || "Status";
         },
         selectedClass() {
-            const option = this.options.find(
-                (o) => o.value === this.job.status.toLowerCase(),
-            );
-            return option ? option.colorClass : "";
+            const option = this.options.find(o => o.value === this.job.status.toLowerCase());
+            return option ? option.colorClass : '';
         },
     },
 };
@@ -210,7 +172,6 @@ export default {
     text-align: center;
     align-items: center;
     font-size: 0.85em;
-    padding-left: 8px;
 }
 
 .dropdown-content {
