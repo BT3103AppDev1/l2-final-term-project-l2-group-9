@@ -93,15 +93,6 @@ const router = createRouter({
   },
 });
 
-// Add global navigation guard to handle redirection
-router.beforeEach((to, from, next) => {
-  // Check if the current URL contains a fragment identifier
-  if (window.location.hash) {
-    // Redirect to the base URL
-    window.location.href = window.location.origin;
-  } else {
-    next();
-  }
-});
+
 
 export default router;

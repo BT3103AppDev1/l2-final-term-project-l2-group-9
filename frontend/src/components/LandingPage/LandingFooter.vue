@@ -14,7 +14,7 @@
       </div>
       <br /><br />
       <div>
-        <router-link class="nav-item" to="/forum">Forum</router-link>
+        <router-link class="nav-item" :to="{ name: 'LandingPage', hash: '#landing-forum' }">Forum</router-link>
         <div
           class="account"
           @mouseover="showAccountMenu = true"
