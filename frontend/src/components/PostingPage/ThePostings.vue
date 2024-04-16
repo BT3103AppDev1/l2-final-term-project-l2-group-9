@@ -245,7 +245,7 @@ export default {
         // If there is, add the new job to the existing list
         const postingList = postingSnapshot.data().trackedApplications;
         // Check if the job is already in the list with the job ID
-        if (postingList.some((job) => job.jobID === this.selectedJob.jobID)) {
+        if (postingList.some((job) => job.id === this.selectedJob.jobID)) {
           console.log("Job already exists in the list");
           return;
         }
@@ -268,7 +268,7 @@ export default {
       if (postingSnapshot.exists()) {
         const postingList = postingSnapshot.data().trackedApplications;
         const updatedList = postingList.filter(
-          (job) => job.jobID !== this.selectedJob.jobID
+          (job) => job.id !== this.selectedJob.jobID
         );
         await setDoc(doc(postingsCollection, this.userId), {
           trackedApplications: updatedList,

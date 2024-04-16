@@ -154,6 +154,9 @@ const store = createStore({
     userProfile: (state) => state.userProfile,
     jobs: (state) => state.jobs,
     user: (state) => state.user,
+    isJobTracked: (state) => (jobId) => {
+      return state.jobs.some(job => job.id === jobId);
+    },
   },
 });
 

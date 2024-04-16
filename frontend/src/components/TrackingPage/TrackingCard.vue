@@ -278,7 +278,7 @@ export default {
 
 .job-title,
 .job-company {
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .job-notes-detail-trash {
@@ -325,4 +325,5 @@ export default {
     margin-right: 1%;
     box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
 }
+
 </style>

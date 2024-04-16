@@ -42,7 +42,7 @@
 import firebaseApp from "../../firebase.js";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import defaultLogo from "@/assets/images/logo-placeholder.png";
-
+import { mapGetters } from "vuex";
 const db = getFirestore(firebaseApp);
 export default {
     name: "DescriptionCard",
@@ -97,8 +97,8 @@ export default {
         logoSource() {
             return this.logo;
         },
+        ...mapGetters(['isJobTracked']),
     },
-
     methods: {
         async updateLogo(logoUrl) {
             const isValid = await this.isValidImage(logoUrl);
@@ -122,15 +122,7 @@ export default {
             this.trackerAdded = false;
         },
         async checkTracker() {
-            const trackerRef = doc(db, "tracker", this.userId);
-            const trackerDoc = await getDoc(trackerRef);
-            // Check if the posting exists in trackerDoc based on jobId, if exists set trackerAdded to true
-            if (trackerDoc.exists()) {
-                const trackerData = trackerDoc.data().trackedApplications;
-                this.trackerAdded = trackerData.some(
-                    (item) => item.jobID === this.jobId,
-                );
-            }
+            this.trackerAdded = this.isJobTracked(this.jobId);
         },
     },
 };
