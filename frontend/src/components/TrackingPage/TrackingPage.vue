@@ -309,7 +309,7 @@ body {
 }
 
 .tracking-cards-container {
-  max-height: 70vh;
+  max-height: 69.2vh;
   overflow-y: auto;
   padding-right: 5px;
 }
