@@ -12,5 +12,8 @@ export default {
   components: {
     Layout,
   },
+  created() {
+    this.$store.dispatch("checkUser");
+  },
 };
 </script>
