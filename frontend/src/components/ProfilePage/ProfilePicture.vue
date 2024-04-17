@@ -2,11 +2,11 @@
     <div class="profileSegment">
         <div class="profile-icon">
             <label for="profilePictureUpload" class="profile-picture-label">
-                    <img :src="profileUrl" alt="Profile Icon" class="profile-picture" />
-                    <div class="edit-icon">
-                      <font-awesome-icon :icon="['fas', 'pen']" alt="Edit Icon" />
-                    </div>
-                  </label>
+                            <img :src="profileUrl" alt="Profile Icon" class="profile-picture" />
+                            <div class="edit-icon">
+                              <font-awesome-icon :icon="['fas', 'pen']" alt="Edit Icon" />
+                            </div>
+                          </label>
             <input type="file" id="profilePictureUpload" @change="addPictureToStorage" style="display: none" />
         </div>
         <div class="profile-details">
@@ -14,8 +14,8 @@
             <div class="fileUpload">
                 <p>Upload Resume :</p>
                 <button @click="triggerFileInput" class="custom-file-upload">
-                  Choose file
-                </button>
+                          Choose file
+                        </button>
                 <input type="file" id="file" name="file" ref="fileInput" accept="application/pdf" @change="addFileToStorage($event)" style="display: none" />
                 <span v-if="fileName">{{ fileName }}</span>
                 <span v-else>No file chosen</span>
@@ -295,15 +295,6 @@ export default {
     font-size: 14px;
 }
 
-.uploadResumeButton {
-    background-color: #526d82;
-    color: white;
-    text-decoration: none;
-    border-radius: 12px;
-    padding: 8px 16px;
-    margin-right: 4px;
-}
-
 .profile-picture-label {
     cursor: pointer;
     /* Change the cursor to indicate it's clickable */
@@ -355,5 +346,24 @@ export default {
 .custom-file-upload {
     margin-left: 10px;
     margin-right: 10px;
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ed3330;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
 }
+
+.custom-file-upload:hover {
+    background: #434343;
+    letter-spacing: 1px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
+    box-shadow: 5px 40px -10px rgba(0, 0, 0, 0.57);
+    transition: all 0.4s ease 0s;
+}
+
 </style>

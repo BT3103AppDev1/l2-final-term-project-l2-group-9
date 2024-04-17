@@ -306,6 +306,12 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: all 0.4s ease 0s;
+}
+
+.add-tracker-button:hover {
+  opacity: 0.7;
+  transition: all 0.4s ease 0s;
 }
 
 .tracking-cards-container {

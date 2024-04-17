@@ -214,6 +214,12 @@ export default {
     align-items: center;
     font-size: 0.85em;
     padding-left: 8px;
+    transition: all 0.3s ease 0s;
+}
+
+.selected-option:hover {
+    opacity: 0.7;
+    transition: 0.3s ease 0s;
 }
 
 .dropdown-content {
