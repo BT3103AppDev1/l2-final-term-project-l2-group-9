@@ -355,6 +355,7 @@ export default {
     display: inline-block;
     border: none;
     transition: all 0.4s ease 0s;
+    cursor: pointer;
 }
 
 .custom-file-upload:hover {
