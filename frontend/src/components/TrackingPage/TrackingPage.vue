@@ -1,22 +1,25 @@
 <template>
   <div id="tracking-page">
     <div id="left-container" class="containers">
+
       <div id="status-bubble" class="bubble">
         <div id="status-header">
           <img src="@/assets/images/message-circle.svg" class="circle-icon" />
           <h2 class="status-name">Status</h2>
+          <div id="all" class="mini-status" @click="setFilter(null)">All</div>
         </div>
         <div id="statuses-1" class="statuses">
-          <div id="applied" class="mini-status">Applied</div>
-          <div id="pending" class="mini-status">Pending</div>
-          <div id="interview" class="mini-status">Interview</div>
+          <div id="applied" class="mini-status" @click="setFilter('applied')">Applied</div>
+          <div id="pending" class="mini-status" @click="setFilter('pending')">Pending</div>
+          <div id="interview" class="mini-status" @click="setFilter('interview')">Interview</div>
         </div>
         <div id="statuses-2" class="statuses">
-          <div id="offered" class="mini-status">Offered</div>
-          <div id="rejected" class="mini-status">Rejected</div>
-          <div id="closed" class="mini-status">Closed</div>
+          <div id="offered" class="mini-status" @click="setFilter('offered')">Offered</div>
+          <div id="rejected" class="mini-status" @click="setFilter('rejected')">Rejected</div>
+          <div id="closed" class="mini-status" @click="setFilter('closed')">Closed</div>
         </div>
       </div>
+
       <div id="charts-bubble" class="bubble">
         <div id="charts-header">
           <img src="@/assets/images/pie-chart.svg" class="pie-chart-icon" />
@@ -49,6 +52,7 @@
           <h3 class="job-role-pie-chart">Job Role Pie Chart</h3>
         </div>
       </div>
+
     </div>
 
     <div id="right-container" class="containers">
@@ -68,7 +72,7 @@
       <!-- Tracking Cards Container -->
       <div class="tracking-cards-container">
         <tracking-card
-          v-for="job in jobs"
+          v-for="job in filteredJobs"
           :key="job.id"
           :job="job"
           @update-job="updateJob"
@@ -93,6 +97,7 @@ export default {
   data() {
     return {
       showModal: false,
+      currentFilter: null,
     };
   },
   created() {
@@ -104,6 +109,13 @@ export default {
     ...mapState({
       jobs: (state) => state.jobs, // Access jobs directly from Vuex state
     }),
+
+    filteredJobs() {
+      if (!this.currentFilter) {
+        return this.jobs;
+      }
+      return this.jobs.filter(job => job.status.toLowerCase() === this.currentFilter);
+    },
   },
 
   methods: {
@@ -113,6 +125,10 @@ export default {
       "updateJob", // Action to update a job
       "deleteJob", // Action to delete a job
     ]),
+
+    setFilter(status) {
+      this.currentFilter = status;
+    },
 
     deletedJob(deletedJob) {
       console.log(deletedJob);
@@ -200,6 +216,46 @@ body {
   margin-bottom: 20px;
 }
 
+#all {
+  margin-left: auto;
+  cursor:pointer;
+  position:relative;
+  padding:10px 20px;
+  background:white;
+  border-top-right-radius:10px;
+  border-bottom-left-radius:10px;
+  transition:all 1s;
+  &:after,&:before{
+    content:" ";
+    width:10px;
+    height:10px;
+    position:absolute;
+    border :0px solid #fff;
+    transition:all 1s;
+    }
+  &:after{
+    top:-1px;
+    left:-1px;
+    border-top:5px solid black;
+    border-left:5px solid black;
+  }
+  &:before{
+    bottom:-1px;
+    right:-1px;
+    border-bottom:5px solid black;
+    border-right:5px solid black;
+  }
+  &:hover{
+    border-top-right-radius:0px;
+    border-bottom-left-radius:0px;
+    &:before,&:after{
+      
+      width:100%;
+      height:100%;
+    }
+  }
+}
+
 .mini-status {
   border-radius: 15px;
   margin: 5px;
@@ -211,6 +267,7 @@ body {
   align-items: center;
   padding: 0 10px;
   color: black;
+  cursor: pointer;
 }
 
 #applied {
