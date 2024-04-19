@@ -56,11 +56,7 @@
                                 name="password"
                                 v-model="password"
                             />
-                            <font-awesome-icon
-                                :icon="['fas', 'eye']"
-                                class="password-icon"
-                                @click="togglePasswordVisibility"
-                            />
+                            <font-awesome-icon :icon="['fas', showPassword ? 'eye' : 'eye-slash'] "class="password-icon" @click="togglePasswordVisibility"/>
                         </div>
                         <br /><br />
                         <input
@@ -137,6 +133,7 @@ export default {
             router.push('/postings');
           } catch (error) {
             console.error(error);
+            window.alert("Invalid email address. Please try again.")
           }
         };
 
@@ -295,6 +292,7 @@ ul {
     right: 25px;
     transform: translateY(-50%);
     cursor: pointer;
+    color: black;
 }
 
 .submit-button {

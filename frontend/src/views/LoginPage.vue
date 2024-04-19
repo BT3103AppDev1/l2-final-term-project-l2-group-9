@@ -16,7 +16,7 @@
           <label for="password">Password <span class="required">*</span></label>
           <div class="password-container">
             <input :type="showPassword ? 'text' : 'password'" id="password" name="password" v-model="password" />
-            <font-awesome-icon :icon="['fas', 'eye']" class="password-icon" @click="togglePasswordVisibility" />
+            <font-awesome-icon :icon="['fas', showPassword ? 'eye' : 'eye-slash'] "class="password-icon" @click="togglePasswordVisibility"/>
           </div>
           <a href="#" class="forgot-password" @click.prevent="resetPassword">Forgot Password?</a><br /><br />
           <input type="submit" value="Login"class="login-button" />
@@ -223,6 +223,7 @@ form label {
   right: 25px;
   transform: translateY(-50%);
   cursor: pointer;
+  color: black;
 }
 
 .login-button {
