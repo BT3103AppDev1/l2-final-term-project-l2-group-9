@@ -176,7 +176,7 @@ body {
 #right-container {
   width: 75%;
   padding-right: 40px;
-  max-height: 85vh;
+  max-height: 90vh;
 }
 
 .bubble {
@@ -372,7 +372,7 @@ body {
 }
 
 .tracking-cards-container {
-  max-height: 69.2vh;
+  max-height: 70vh;
   overflow-y: auto;
   padding-right: 5px;
 }

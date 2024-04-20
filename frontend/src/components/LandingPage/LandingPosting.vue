@@ -56,6 +56,7 @@ export default {
   background-color: #f2f2f2f2;
   padding: 5rem 0;
   flex-direction: column;
+  height: 80%;
 }
 
 #landing-posting h2 {
