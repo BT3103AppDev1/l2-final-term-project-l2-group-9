@@ -84,6 +84,7 @@
     flex: 1 1 30%;
     padding: 50px;
     box-sizing: border-box;
+    color: black;
   }
   
   .inturn-community p {
