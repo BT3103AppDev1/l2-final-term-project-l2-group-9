@@ -11,7 +11,7 @@ import TestingPage from "@/TestingPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import NotFoundPage from "../views/NotFoundPage.vue";
 import TrackerPage from "@/views/TrackerPage.vue";
-import TrackingPage from "@/components/TrackingPage/TrackingPage.vue";
+import ForumPage from "@/views/ForumPage.vue";
 
 const routes = [
   {
@@ -74,6 +74,11 @@ const routes = [
     name: "TrackerPage",
     component: TrackerPage,
   },
+  {
+    path: "/forum",
+    name: "ForumPage",
+    component: ForumPage,
+  },
 ];
 
 const router = createRouter({
@@ -92,7 +97,5 @@ const router = createRouter({
     }
   },
 });
-
-
 
 export default router;

@@ -1,17 +1,17 @@
 <template>
     <div class="relative" v-if="user">
-        <TrackingPage class="absolute-fill" :userId="user.uid" />
+        <ForumContent class="absolute-fill" :userId="user.uid" />
     </div>
 </template>
 
 <script>
-import TrackingPage from "@/components/TrackingPage/TrackingPage.vue";
+import ForumContent from "@/components/ForumPage/ForumContent.vue";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default {
-    name: "TrackerPage",
+    name: "ForumPage",
     components: {
-        TrackingPage,
+        ForumContent,
     },
     data() {
         return {

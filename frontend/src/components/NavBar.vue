@@ -108,7 +108,6 @@ export default {
                 // Change the route to the login page
                 this.$router.push("/login");
             }
-            console.log(this.user);
             await this.fetchProfilePicture();
         });
     },

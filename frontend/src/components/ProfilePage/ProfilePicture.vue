@@ -71,7 +71,6 @@ export default {
     async addFileToStorage(event) {
       const file = event.target.files[0];
       if (!file) {
-        console.log("No file selected");
         return;
       }
 
