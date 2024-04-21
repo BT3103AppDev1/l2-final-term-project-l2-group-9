@@ -301,7 +301,7 @@ export default {
 .posting-page {
   background-color: #ffffff;
   color: #000000;
-  height: 90vh;
+  height: 100vh;
 }
 
 .posting-page h1 {

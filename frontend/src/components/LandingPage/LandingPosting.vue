@@ -7,7 +7,7 @@
       </h2>
     </div>
     <video class="walkthrough-video" width="320" autoplay muted loop>
-      <source src="@/assets/walkthrough-posting.mp4" type="video/mp4" />
+      <source src="@/assets/postings_walkthrough.mp4" type="video/mp4" />
     </video>
   </div>
 </template>
