@@ -2,19 +2,19 @@
     <div v-if="visible" class="modal-overlay" @click.self="closeModal">
       <div class="modal">
         <div class="modal-header">
-          <h3>Application Process Funnel Chart</h3>
+          <h3>Application Process Pie Chart</h3>
           <button class="close-button" @click="closeModal">&times;</button>
         </div>
-        <funnel-chart :jobs="jobs" />
+        <pie-chart :jobs="jobs" />
       </div>
     </div>
   </template>
   
   <script>
-  import FunnelChart from './FunnelChart.vue';
+  import PieChart from './PieChart.vue';
   
   export default {
-    components: { FunnelChart },
+    components: { PieChart },
     props: {
       visible: Boolean,
       jobs: Array
@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 11;
+    z-index: 1000;
   }
   
   .modal {

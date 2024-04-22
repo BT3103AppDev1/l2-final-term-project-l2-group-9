@@ -32,13 +32,13 @@
                 </div>
                 <timeline-modal :visible="showTimelineModal" @close="showTimelineModal = false" :jobs="jobs"></timeline-modal>
 
-                <div id="funnelchart" @click="toggleFunnelModal">
-                    <img src="@/assets/images/funnel.png" id="funnel-icon" class="charts" />
-                    <h3 class="application-funnel-chart">
-                        Application Process Funnel Chart
+                <div id="piepiechart" @click="togglePieModal">
+                    <img src="@/assets/images/yesyesyes.png" id="pie-icon" class="charts" />
+                    <h3 class="application-pie-chart">
+                        Application Process Pie Chart
                     </h3>
                 </div>
-                <funnel-modal :visible="showFunnelModal" @close="showFunnelModal = false" :jobs="jobs"></funnel-modal>
+                <pie-modal :visible="showPieChartModal" @close="showPieChartModal = false" :jobs="jobs"></pie-modal>
 
             </div>
     
@@ -66,23 +66,23 @@
 import { mapState, mapActions } from "vuex";
 import TrackingCard from "./TrackingCard.vue";
 import TrackingModal from "./TrackingModal.vue";
-import FunnelModal from './FunnelModal.vue';
 import TimelineModal from './TimelineModal.vue';
+import PieModal from './PieModal.vue';
 
 export default {
     name: "TrackingPage",
     components: {
         TrackingCard,
         TrackingModal,
-        FunnelModal,
         TimelineModal,
+        PieModal
     },
     data() {
         return {
             showModal: false,
             currentFilter: null,
-            showFunnelModal: false,
             showTimelineModal: false,
+            showPieChartModal: false,
         };
     },
     created() {
@@ -119,8 +119,8 @@ export default {
             this.showTimelineModal = !this.showTimelineModal;
         },
 
-        toggleFunnelModal() {
-            this.showFunnelModal = !this.showFunnelModal;
+        togglePieModal() {
+            this.showPieChartModal = !this.showPieChartModal;
         },
 
         deletedJob(deletedJob) {
@@ -311,7 +311,7 @@ body {
 }
 
 #timeline,
-#funnelchart,
+#piepiechart,
 #piechart {
     align-items: center;
     text-align: center;
@@ -325,7 +325,7 @@ body {
     cursor: pointer;
 }
 
-#funnel-icon {
+#pie-icon {
     height: 130px;
     width: auto;
     cursor: pointer;
