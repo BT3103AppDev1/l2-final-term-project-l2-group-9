@@ -25,14 +25,12 @@
       onMounted(() => {
         try {
           const ctx = timelineCanvas.value.getContext('2d');
-  
-          const sortedJobs = [...props.jobs].sort((a, b) => new Date(a.date) - new Date(b.date));
+          const sortedJobs = [...props.jobs].sort((a, b) => new Date(b.date) - new Date(a.date));
           const chartData = sortedJobs.map((job, index) => ({
-            x: new Date(job.date).toISOString(),
-            y: index,
+            x: new Date(job.date),
+            y: sortedJobs.length - 1 - index,
           }));
-  
-          const yLabels = sortedJobs.map((job, index) => `${index + 1}: ${job.company}`);
+          const yLabels = sortedJobs.map((job, index) => `${sortedJobs.length - index}: ${job.company}`);
   
           chartInstance = new Chart(ctx, {
             type: 'line',
