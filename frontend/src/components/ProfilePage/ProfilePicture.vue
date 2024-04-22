@@ -7,7 +7,7 @@
                               <font-awesome-icon :icon="['fas', 'pen']" alt="Edit Icon" />
                             </div>
                           </label>
-            <input type="file" id="profilePictureUpload" @change="addPictureToStorage" style="display: none" />
+            <input type="file" id="profilePictureUpload" @change="addPictureToStorage" accept="image/png, image/jpeg, image/jpg" style="display: none" />
         </div>
         <div class="profile-details">
             <h1>{{ this.userName }}</h1>
