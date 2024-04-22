@@ -40,12 +40,12 @@ export default defineComponent({
           {
             data: Object.values(statusCounts),
             backgroundColor: [
-              '#FF6384',
-              '#36A2EB',
-              '#FFCE56',
-              '#4BC0C0',
-              '#9966FF',
-              '#C9CBCF',
+              '#ffead2',
+              '#00bf63',
+              '#a4d0a4',
+              '#85586f',
+              '#ce243b',
+              '#526d82',
             ],
             hoverOffset: 4
           },
