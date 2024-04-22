@@ -112,10 +112,6 @@ export default {
         const initialOption = this.options.find(
             (option) => option.value === this.job.status.toLowerCase(),
         );
-        if (initialOption) {
-            this.selectedLabel = initialOption.label;
-            this.selectedClass = initialOption.colorClass;
-        }
     },
     methods: {
         toggleDropdown() {
@@ -123,8 +119,6 @@ export default {
         },
         selectOption(option) {
             this.job.status = option.value;
-            this.selectedLabel = option.label;
-            this.selectedClass = option.colorClass;
             this.showDropdown = false;
             this.emitJobUpdate();
         },

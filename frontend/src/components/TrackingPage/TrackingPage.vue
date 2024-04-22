@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import TrackingCard from "./TrackingCard.vue";
 import TrackingModal from "./TrackingModal.vue";
 import TimelineModal from './TimelineModal.vue';
@@ -87,7 +87,6 @@ export default {
     },
     created() {
         this.fetchJobs(); // Fetch jobs when component is created
-        this.sortJobsDescending();
     },
 
     computed: {
@@ -136,9 +135,6 @@ export default {
 
         closeModal() {
             this.showModal = false;
-        },
-        sortJobsDescending() {
-            this.jobs.sort((a, b) => b.id - a.id);
         },
     },
 };

@@ -20,7 +20,6 @@ const store = createStore({
 
   mutations: {
     setUser(state, user) {
-      console.log("Setting user:", user);
       state.user = user;
     },
     updateUserProfile(state, userProfile) {
@@ -28,6 +27,7 @@ const store = createStore({
     },
     addJob(state, job) {
       state.jobs.push(job);
+      state.jobs.sort((a, b) => new Date(a.date) - new Date(b.date));
     },
     updateJob(state, updatedJob) {
       const index = state.jobs.findIndex((job) => job.id === updatedJob.id);
@@ -40,6 +40,7 @@ const store = createStore({
     },
     setJobs(state, jobs) {
       state.jobs = jobs;
+      state.jobs.sort((a, b) => new Date(a.date) - new Date(b.date));
     },
   },
 
@@ -68,7 +69,6 @@ const store = createStore({
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
           const jobsData = docSnap.data().trackedApplications || [];
-          console.log(jobsData);
           const jobs = jobsData.map(transformJob);
           commit("setJobs", jobs);
         } else {
@@ -153,6 +153,9 @@ const store = createStore({
   getters: {
     userProfile: (state) => state.userProfile,
     jobs: (state) => state.jobs,
+    sortedJobs(state) {
+      return [...state.jobs].sort((a, b) => new Date(a.date) - new Date(b.date));
+    },
     user: (state) => state.user,
     isJobTracked: (state) => (jobId) => {
       return state.jobs.some(job => job.id === jobId);
