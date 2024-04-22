@@ -230,7 +230,7 @@ export default {
       const posting = {
         id: this.selectedJob.jobID,
         date: appliedDate,
-        status: "Applied",
+        status: "applied",
         title: this.selectedJob.jobTitle,
         company: this.selectedJob.employerName,
         logo: this.selectedJob.employerLogo,

@@ -111,7 +111,7 @@
   .chart-container {
     position: relative;
     margin: auto;
-    height: 40vh;
+    height: 80vh;
     width: 70vw;
   }
   

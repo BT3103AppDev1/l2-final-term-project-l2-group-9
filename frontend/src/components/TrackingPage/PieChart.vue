@@ -33,20 +33,22 @@ export default defineComponent({
         return acc;
       }, {});
 
+      const statusColorMap = {
+        applied: '#526d82',
+        pending: '#a4d0a4',
+        interview: '#ffead2',
+        offered: '#00bf63',
+        rejected: '#ce243b',
+        closed: '#85586f',
+      };
+
       // Prepare data for the pie chart
       const chartData = {
         labels: Object.keys(statusCounts),
         datasets: [
           {
             data: Object.values(statusCounts),
-            backgroundColor: [
-              '#ffead2',
-              '#00bf63',
-              '#a4d0a4',
-              '#85586f',
-              '#ce243b',
-              '#526d82',
-            ],
+            backgroundColor: Object.keys(statusCounts).map(status => statusColorMap[status]),
             hoverOffset: 4
           },
         ],
@@ -101,8 +103,8 @@ export default defineComponent({
 .chart-container {
   position: relative;
   margin: auto;
-  height: 75vh;
-  width: 75vw;
+  height: 81vh;
+  width: 80vw;
 }
 
 @media (max-width: 600px) {
