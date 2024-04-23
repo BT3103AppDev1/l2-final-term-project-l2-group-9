@@ -1,13 +1,16 @@
 <template>
     <div class="relative" v-if="user">
-        <ForumContent class="absolute-fill" :userId="this.user.uid" :userName="this.user.displayName"/>
+        <ForumContent class="absolute-fill" :userId="this.user.uid" :userName="this.username" />
     </div>
 </template>
 
 <script>
 import ForumContent from "@/components/ForumPage/ForumContent.vue";
+import firebaseApp from "@/firebase.js";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
+const db = getFirestore(firebaseApp);
 export default {
     name: "ForumPage",
     components: {
@@ -16,6 +19,7 @@ export default {
     data() {
         return {
             user: false,
+            username: "",
         };
     },
     async mounted() {
@@ -23,6 +27,11 @@ export default {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 this.user = user;
+                // Get the user's username
+                const userDoc = await getDoc(doc(db, "users", this.user.uid));
+                if (userDoc.exists()) {
+                    this.username = userDoc.data().username;
+                }
             } else {
                 // Change the route to the login page
                 this.$router.push("/login");
