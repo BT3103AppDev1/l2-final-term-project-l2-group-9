@@ -1,20 +1,53 @@
 <template>
     <div class="forum-posts">
         <h1>My Posts</h1>
+        <ForumPosts :userId="this.userId" :filteredPosts="this.filteredPosts" />
     </div>
 </template>
 
 <script>
+import ForumPosts from '../ForumPage/ForumPosts.vue';
+import firebaseApp from '@/firebase.js';
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
+const db = getFirestore(firebaseApp);
 
 export default {
-}
+    name: 'ProfilePosts',
+    components: {
+        ForumPosts,
+    },
+    props: {
+        userId: {
+            type: String,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            filteredPosts: [],
+        };
+    },
+    created() {
+        this.getForumPosts();
+    },
+    methods: {
+        async getForumPosts() {
+            const userRef = doc(db, "forum", this.userId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userPosts = userSnap.data().forumPosts;
+                this.filteredPosts = userPosts;
+            }
+        },
+    },
+};
+
 </script>
 
 <style scoped>
 .forum-posts {
     background-color: #f2f2f2;
-    height: 30vh;
     display: flex;
     flex-direction: column; /* Organize children in a column */
     justify-content: center; /* Center children vertically */
@@ -26,8 +59,7 @@ export default {
     font-size: 36px;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 10px; 
-    margin-top: 10px;
+    margin-bottom: 24px; 
 }
 </style>
 
