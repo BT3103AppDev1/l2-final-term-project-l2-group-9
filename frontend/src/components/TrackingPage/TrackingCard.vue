@@ -267,7 +267,7 @@ export default {
 .job-info {
     display: flex;
     align-items: center;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .company-logo {
