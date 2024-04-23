@@ -73,7 +73,7 @@
                 >
             </div>
         </div>
-        <ProfilePosts />
+        <ProfilePosts :userId="this.user.uid" />
     </div>
 </template>
 
@@ -106,6 +106,11 @@ export default {
     components: {
         ProfilePicture,
         ProfilePosts,
+    },
+    props: {
+        userId: {
+            type: String,
+        },
     },
     data() {
         return {
