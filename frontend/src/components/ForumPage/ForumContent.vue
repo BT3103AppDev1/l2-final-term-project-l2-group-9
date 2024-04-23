@@ -121,6 +121,7 @@ export default {
                 });
             }
             this.showModal = false;
+            window.location.reload();
         },
         sortPosts() {
             switch (this.sortOrder) {
