@@ -1,17 +1,13 @@
 <template>
     <div class="forum-posts">
         <h1>My Posts</h1>
-        <CommentCard />
     </div>
 </template>
 
 <script>
-import CommentCard from "./CommentCard.vue";
+
 
 export default {
-    components: {
-        CommentCard
-    }
 }
 </script>
 

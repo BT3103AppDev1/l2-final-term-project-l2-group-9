@@ -96,7 +96,7 @@
         />
       </div>
     </div>
-    <button @click="resetLocalStorage">Reset Local Storage</button>
+    <!-- <button @click="resetLocalStorage">Reset Local Storage</button> -->
   </div>
 </template>
 
@@ -171,11 +171,9 @@ export default {
       } else if (filters.date === "oldToNew") {
         this.jobs.sort((a, b) => a.jobPostDateTime - b.jobPostDateTime);
       }
-      console.log(this.jobs);
     },
 
     async search() {
-      console.log("Searching for:", this.searchTerm);
       let searchKey = `${this.searchTerm} Intern Singapore`;
       // Collect selected periods
       const selectedPeriods = this.periodOptions
@@ -186,7 +184,6 @@ export default {
       if (selectedPeriods.length > 0) {
         const periodsString = selectedPeriods.join(", ");
         searchKey += ` ${periodsString}`;
-        console.log(searchKey);
       }
       this.isLoading = true; // Set loading state to true before fetching data
 
@@ -206,12 +203,10 @@ export default {
 
     resetLocalStorage() {
       localStorage.removeItem("Intern, Singapore");
-      console.log("Local storage cleared");
       this.jobs = [];
     },
     selectJob(job) {
       this.selectedJob = job;
-      console.log(this.selectedJob);
     },
     /* Firebase method to add a new posting to the database called tracker*/
     async addPosting() {

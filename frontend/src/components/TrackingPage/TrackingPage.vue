@@ -122,16 +122,16 @@ export default {
             this.showPieChartModal = !this.showPieChartModal;
         },
 
-        deletedJob(deletedJob) {
-            console.log(deletedJob);
-            // Here you can add any confirmation or additional logic before deletion
-            const confirmDeletion = confirm(
-                `Are you sure you want to delete the job`
-            );
-            if (confirmDeletion) {
-                this.deleteJob(deletedJob); // Call Vuex action
-            }
-        },
+    deletedJob(deletedJob) {
+      console.log(deletedJob);
+      // Here you can add any confirmation or additional logic before deletion
+      const confirmDeletion = confirm(
+        `Are you sure you want to delete the job`
+      );
+      if (confirmDeletion) {
+        this.deleteJob(deletedJob); // Call Vuex action
+      }
+    },
 
         closeModal() {
             this.showModal = false;

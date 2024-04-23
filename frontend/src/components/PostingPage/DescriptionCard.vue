@@ -69,8 +69,6 @@ export default {
     jobId: {
       immediate: true,
       handler() {
-        console.log("Watcher triggered for jobId:", this.jobId);
-        console.log(this.trackerAdded);
         this.fetchJobs();
         this.checkTracker();
       },
