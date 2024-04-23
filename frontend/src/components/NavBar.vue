@@ -59,8 +59,6 @@
 import defaultImage from "../assets/images/Default_pfp.svg.png"; // Ensure the path is correct
 import firebaseApp from "../firebase.js";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import db from "../firebase"; // Ensure this points to your firebase config file
 import { mapGetters } from "vuex";
 
 import {

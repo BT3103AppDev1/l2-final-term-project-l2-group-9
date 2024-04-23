@@ -1,30 +1,27 @@
 <template>
     <div class="comment-card-container">
         <div class="content-wrapper">
-        <div class="firstComponent">
-            <div class="post-details">
-                <h2>{{ this.post.title }}</h2>
-                <p> {{ this.post.description }}</p>
-            </div>
-            <div class="delete">
-                <font-awesome-icon :icon="['fas', 'trash-can']" class="trash-icon" />
-            </div>
-        </div>
-        <div class="secondComponent">
-            <div class="profileDetails">
-                <div class="icon-wrapper">
-                    <img :src="profileUrl" />
+            <div class="firstComponent">
+                <div class="post-details">
+                    <h2>{{ this.post.title }}</h2>
+                    <p> {{ this.post.details }}</p>
                 </div>
-                <p>Posted by: {{ this.post.name }}</p>
-            </div>
-            <div class="like-date-details">
-                <div class="like-section">
-                    <p> {{ this.post.likes }} </p>
-                    <font-awesome-icon :icon="['fas', 'thumbs-up']" class="thumb-icon" />
+                <div class="delete" v-if="this.userId === this.post.id" @click="deleteForumPost">
+                    <font-awesome-icon :icon="['fas', 'trash-can']" class="trash-icon" />
                 </div>
-                <span> {{ this.post.daysAgo }} days ago</span>
             </div>
-        </div>
+            <div class="secondComponent">
+                <div class="profileDetails">
+                    <p>Posted by: {{ this.post.name }}</p>
+                </div>
+                <div class="like-date-details">
+                    <div class="like-section">
+                        <p> {{ this.post.likes }} </p>
+                        <font-awesome-icon :icon="['fas', 'thumbs-up']" class="thumb-icon" />
+                    </div>
+                    <span> {{ this.post.daysAgo }} days ago</span>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -35,6 +32,27 @@ export default {
     name: "CommentCard",
     props: {
         post: Object,
+        userId: String,
+    },
+    data() {
+        return {
+            createdDaysAgo: 0,
+        };
+    },
+    mounted() {
+        const datePostedSeconds = this.post.datePosted.seconds;
+        const currentDate = new Date();
+        const currentDateSeconds = currentDate.getTime() / 1000;
+        const daysAgo = Math.floor((currentDateSeconds - datePostedSeconds) / 86400);
+        this.post.daysAgo = daysAgo;
+    },
+    methods: {
+        // Set an alert to confirm the deletion of the post
+        deleteForumPost() {
+            if (confirm("Are you sure you want to delete this post?")) {
+                this.$emit("delete-post", this.post.postId);
+            }
+        },
     },
 };
 </script>
@@ -103,7 +121,7 @@ export default {
 }
 
 .profileDetails p {
-    margin-left: 8px;
+    margin-left: 32px;
 }
 
 .icon-wrapper {

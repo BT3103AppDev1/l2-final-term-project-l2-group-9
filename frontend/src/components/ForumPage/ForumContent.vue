@@ -1,64 +1,136 @@
 <template>
     <div class="forum-page">
-        <h1>InTurn Community</h1>
+        <h1>InTurn Forum</h1>
         <div class="search-create-container">
             <div class="search-container">
                 <!-- Search bar -->
                 <button @click="search" class="search-button">
-                    <font-awesome-icon
-                        :icon="['fas', 'magnifying-glass']"
-                        style="color: #000000"
-                    />
+                    <font-awesome-icon :icon="['fas', 'magnifying-glass']" style="color: #000000" />
                 </button>
 
-                <input
-                    type="text"
-                    v-model="searchTerm"
-                    @keyup.enter="search"
-                    placeholder="Search Topics"
-                    class="search-bar"
-                />
+                <input type="text" v-model="searchTerm" @keyup.enter="search" placeholder="Search Topics"
+                    class="search-bar" />
             </div>
+            <ForumModal v-if="showModal" @forumPostCreated="updateForumPosts" @close-modal="closeForumModal"
+                :userName="this.userName" />
             <button class="create-button" @click="createForumPost">
                 <span>Create Post</span>
             </button>
         </div>
         <div class="sort-by">
             <strong>Sort by:</strong>
-            <select class="options">
+            <select v-model="sortOrder" class="options">
                 <option value="newest">Newest to Oldest</option>
                 <option value="oldest">Oldest to Newest</option>
-                <option value="most-liked">Most Liked to Least Liked</option>
-                <option value="least-liked">Least Liked to Most Liked</option>
+                <!-- <option value="most-liked">Most Liked to Least Liked</option>
+                <option value="least-liked">Least Liked to Most Liked</option> -->
             </select>
         </div>
         <div class="forum-posts">
-            <ForumPosts />
+            <ForumPosts :userId="this.userId" :filteredPosts="this.filteredPosts" />
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import ForumPosts from "@/components/ForumPage/ForumPosts.vue";
+import ForumModal from "@/components/ForumPage/ForumModal.vue";
+import firebaseApp from "@/firebase.js";
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, getDocs } from "firebase/firestore";
+
+
+
+const db = getFirestore(firebaseApp);
 
 export default {
     name: "ForumContent",
     components: {
         ForumPosts,
+        ForumModal,
+    },
+    props: {
+        userId: {
+            type: String,
+            required: true,
+        },
+        userName: {
+            type: String,
+            required: true,
+        },
     },
     data() {
         return {
             searchTerm: "",
+            showModal: false,
+            forumPosts: [],
+            filteredPosts: [],
+            sortOrder: "newest"
         };
     },
+    created() {
+        this.getForumPosts();
+    },
+    watch: {
+        sortOrder() {
+            this.sortPosts();  // Call sortPosts method whenever sortOrder changes
+        }
+    },
     methods: {
-        ...mapActions(["createForumPost"]),
-        search() {
-            this.$router.push({
-                name: "ForumSearch",
-                params: { searchTerm: this.searchTerm },
+        async search() {
+            if (!this.searchTerm) {
+                this.filteredPosts = this.forumPosts;
+                return;
+            }
+            this.filteredPosts = this.forumPosts.filter(post => post.title.toLowerCase().includes(this.searchTerm.toLowerCase()));
+            this.sortPosts();
+        },
+        async getForumPosts() {
+            const forumRef = collection(db, "forum");
+            const forumSnap = await getDocs(forumRef);
+            forumSnap.forEach((doc) => {
+                const forumPosts = doc.data().forumPosts;
+                const docId = doc.id;
+                forumPosts.forEach((post) => {
+                    // Add index of the post in the array
+                    post.id = docId;
+                    this.forumPosts.push(post);
+                });
             });
+            this.filteredPosts = this.forumPosts;
+            this.search();
+        },
+        createForumPost() {
+            this.showModal = true;
+        },
+        closeForumModal() {
+            this.showModal = false;
+        },
+        async updateForumPosts(forumPost) {
+            const userRef = doc(db, "forum", this.userId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const forumPosts = userSnap.data().forumPosts;
+                forumPosts.push(forumPost);
+
+                await updateDoc(userRef, {
+                    forumPosts: forumPosts,
+                });
+            } else {
+                await setDoc(userRef, {
+                    forumPosts: [forumPost],
+                });
+            }
+            this.showModal = false;
+        },
+        sortPosts() {
+            switch (this.sortOrder) {
+                case 'newest':
+                    this.filteredPosts.sort((a, b) => a.datePosted.seconds - b.datePosted.seconds);
+                    break;
+                case 'oldest':
+                    this.filteredPosts.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds);
+                    break;
+            }
         },
     },
 };
@@ -78,6 +150,7 @@ export default {
     font-family: "Poppins", sans-serif, Helvetica;
     font-weight: bold;
 }
+
 .search-create-container {
     display: flex;
     justify-content: center;
@@ -105,6 +178,7 @@ export default {
     font-weight: bold;
     font-family: "Poppins", sans-serif, Helvetica;
 }
+
 .search-container {
     display: flex;
     justify-content: center;
@@ -142,16 +216,19 @@ export default {
 .search-button:hover {
     background-color: #859dac;
 }
+
 .sort-by {
     display: flex;
     justify-content: flex-end;
     margin-top: 8px;
     margin-right: 16px;
 }
+
 .options {
     cursor: pointer;
     margin-left: 4px;
 }
+
 .forum-posts {
     padding-top: 16px;
 }
