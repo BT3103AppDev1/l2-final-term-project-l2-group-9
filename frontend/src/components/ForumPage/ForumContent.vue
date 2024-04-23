@@ -222,12 +222,13 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 8px;
-    margin-right: 16px;
+    margin-right: 80px;
 }
 
 .options {
     cursor: pointer;
     margin-left: 4px;
+    padding: 4px;
 }
 
 .forum-posts {

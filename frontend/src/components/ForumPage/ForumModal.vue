@@ -17,7 +17,7 @@
             placeholder="Add details... (e.g. Notes for upcoming Interview!)"
             rows="4"
             class="form-textarea"
-            maxlength="100"
+            maxlength="500"
           ></textarea>
   
           <!-- Submit Button -->

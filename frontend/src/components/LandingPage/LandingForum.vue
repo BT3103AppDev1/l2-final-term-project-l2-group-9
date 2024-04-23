@@ -16,7 +16,7 @@
             <p>Empower members to freely share insights and knowledge that are typically kept within closed circles</p>
           </div>
           <div class="item">
-            <img src="@/assets/images/filter.jpg" alt="InTurn Community">
+            <img src="@/assets/images/filter.png" alt="InTurn Community">
           </div>
           <div class="item">
             <font-awesome-icon :icon="['fas', 'filter']" class="big-icon" />
@@ -82,21 +82,21 @@
   
   .item {
     flex: 1 1 30%;
-    padding: 50px;
+    padding: 30px;
     box-sizing: border-box;
     color: black;
   }
   
   .inturn-community p {
+    font-family: "League Spartan";
     margin-right: 10vw;
     padding: 30px;
-    font-size: 15px;
+    font-size: 1.5em;
   }
   
   .inturn-community img {
-    width: 20vw;
-    height: 22vh;
-    margin-left: 50px;
+    width: 28vw;
+    height: 24vh;
   }
   
   .inturn-community .item {
