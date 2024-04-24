@@ -123,7 +123,6 @@ export default {
         },
 
     deletedJob(deletedJob) {
-      console.log(deletedJob);
       // Here you can add any confirmation or additional logic before deletion
       const confirmDeletion = confirm(
         `Are you sure you want to delete the job`

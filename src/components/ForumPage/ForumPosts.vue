@@ -1,5 +1,5 @@
 <template>
-    <div v-for="post in filteredPosts" :key="post.id" class="forum-posts">
+    <div v-for="post in filteredPosts" :key="post.postId" class="forum-posts">
         <CommentCard :post="post" :userId="this.userId" @delete-post="deleteForumPost" :displayIcons="this.displayIcons" @update-post="updateForumPost" />
     </div>
 </template>
@@ -47,7 +47,6 @@ export default {
                 const forumPosts = document.data().forumPosts;
                 const updatedPosts = forumPosts.map((p) => {
                     if (p.postId === post.postId) {
-                        console.log("Found correct post");
                         return post;
                     }
                     return p;
