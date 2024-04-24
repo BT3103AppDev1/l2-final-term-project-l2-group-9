@@ -1,6 +1,6 @@
 <template>
     <div class="relative" v-if="user">
-        <ForumContent class="absolute-fill" :userId="this.user.uid" :userName="this.username" />
+        <ForumContent class="absolute-fill" :userId="this.user.uid" />
     </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
     data() {
         return {
             user: false,
-            username: "",
+            userName: "",
         };
     },
     async mounted() {
@@ -30,7 +30,7 @@ export default {
                 // Get the user's username
                 const userDoc = await getDoc(doc(db, "users", this.user.uid));
                 if (userDoc.exists()) {
-                    this.username = userDoc.data().username;
+                    this.userName = userDoc.data().username;
                 }
             } else {
                 // Change the route to the login page

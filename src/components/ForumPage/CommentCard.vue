@@ -67,7 +67,7 @@ export default {
         },
         updatingForumPost(post) {
             this.$emit("update-post", post);
-        },p
+        },
     },
 };
 </script>

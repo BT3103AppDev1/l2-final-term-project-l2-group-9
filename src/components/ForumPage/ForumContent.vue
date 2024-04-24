@@ -12,7 +12,7 @@
                     class="search-bar" />
             </div>
             <ForumModal v-if="showModal" @forumPostCreated="updateForumPosts" @close-modal="closeForumModal"
-                :userName="this.userName" />
+                 />
             <button class="create-button" @click="createForumPost">
                 <span>Create Post</span>
             </button>
@@ -53,10 +53,6 @@ export default {
             type: String,
             required: true,
         },
-        userName: {
-            type: String,
-            required: true,
-        },
     },
     data() {
         return {
@@ -72,7 +68,7 @@ export default {
     },
     computed: {
         sortedPosts() {
-            let posts = [...this.filteredPosts];
+            const posts = [...this.filteredPosts]
             switch (this.sortOrder) {
                 case 'newest':
                     posts.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds);

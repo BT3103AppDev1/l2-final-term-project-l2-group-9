@@ -31,14 +31,15 @@
   </template>
   
   <script>
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { getFirestore, getDoc, doc } from "firebase/firestore";
+  import firebaseApp from "@/firebase.js";
+
+  const db = getFirestore(firebaseApp);
   
   export default {
     name: "ForumModal",
     props: {
-      userName: {
-        type: String,
-        required: true,
-      },
       editMode: {
         type: Boolean,
         default: false,
@@ -52,13 +53,26 @@
       return {
       forumPost: { ...this.post } || {
       postId: "",
-      name: this.userName,
+      name: "",
       title: "",
       details: "",
       likes: 0,
       datePosted: "",
     },
+      user: null,
       };
+    },
+    async mounted() {
+        const auth = getAuth();
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                this.user = user;
+                const userDoc = await getDoc(doc(db, "users", this.user.uid));
+                if (userDoc.exists()) {
+                    this.forumPost.name = userDoc.data().username;
+                }
+            }
+          });
     },
     methods: {
       submitForumPost () {
