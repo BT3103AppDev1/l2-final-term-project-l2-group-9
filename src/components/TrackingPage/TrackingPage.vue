@@ -85,8 +85,8 @@ export default {
             showPieChartModal: false,
         };
     },
-    created() {
-        this.fetchJobs(); // Fetch jobs when component is created
+    async created() {
+        await this.fetchJobs(); // Fetch jobs when component is created
     },
 
     computed: {
