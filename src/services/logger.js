@@ -1,5 +1,5 @@
 import * as log from "loglevel";
 
-log.setLevel("warn"); // Set log level
+log.setLevel("debug"); // Set log level
 
 export default log;

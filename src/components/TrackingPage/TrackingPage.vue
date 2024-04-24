@@ -312,12 +312,12 @@ body {
     text-align: center;
     display: flex;
     font-size: 1em;
+    cursor: pointer;
 }
 
 #timeline-icon {
     height: 145px;
     width: auto;
-    cursor: pointer;
 }
 
 #pie-icon {
