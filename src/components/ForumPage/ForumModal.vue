@@ -37,6 +37,7 @@
     props: {
       userName: {
         type: String,
+        required: true,
       },
       editMode: {
         type: Boolean,

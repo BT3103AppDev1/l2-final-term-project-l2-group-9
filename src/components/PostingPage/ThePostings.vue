@@ -531,3 +531,4 @@ export default {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); /* Decrease shadow to give a "pressed" effect */
 }
 </style>
+../../services/filterJobs.js
