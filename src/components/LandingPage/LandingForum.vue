@@ -91,7 +91,7 @@
     font-family: "League Spartan";
     margin-right: 10vw;
     padding: 30px;
-    font-size: 1.5em;
+    font-size: 15px;
   }
   
   .inturn-community img {
