@@ -131,6 +131,7 @@ export default {
               email: email.value,
             });
             router.push('/postings');
+            window.alert('Account created successfully!');
           } catch (error) {
             console.error(error);
             window.alert("Invalid email address. Please try again.")
