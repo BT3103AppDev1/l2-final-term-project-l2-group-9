@@ -3,7 +3,7 @@
         <ProfilePicture :userName="this.userName" :userId="this.user.uid" />
         <div class="profile-details">
             <div class="changePassword">
-                <button class="btn" @click="checkProvider() ? window.alert('Google users cannot change their password here.') : showChangePassword = true">
+                <button class="btn" @click="checkProvider() ? null : showChangePassword = true">
                     Change My Password
                 </button>
                 <div
@@ -226,6 +226,7 @@ export default {
 
         checkProvider() {
         if (this.user.providerData[0].providerId === 'google.com') {
+            window.alert("Google users cannot change their password here.");
             return true;
         }
         return false;
