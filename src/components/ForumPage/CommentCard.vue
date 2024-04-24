@@ -79,7 +79,7 @@ export default {
     flex-direction: column;
     background-color: white;
     height: fit-content;
-    width: 180vh;
+    width: 95%;
     margin-bottom: 20px;
     border-radius: 10px;
     border: 1px solid #000000;
