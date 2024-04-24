@@ -14,7 +14,7 @@
           <!-- Job Details Input -->
           <textarea
             v-model="forumPost.details"
-            placeholder="Add details... (e.g. Notes for upcoming Interview!)"
+            placeholder="Add details (E.g. Interview Process of Tik Tok Backend Engineer Internship)"
             rows="4"
             class="form-textarea"
             maxlength="500"
