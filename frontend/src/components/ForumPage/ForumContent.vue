@@ -27,7 +27,7 @@
             </select>
         </div>
         <div class="forum-posts">
-            <ForumPosts :userId="this.userId" :filteredPosts="this.filteredPosts" />
+            <ForumPosts :userId="this.userId" :filteredPosts="this.sortedPosts" />
         </div>
     </div>
 </template>
@@ -70,9 +70,18 @@ export default {
     created() {
         this.getForumPosts();
     },
-    watch: {
-        sortOrder() {
-            this.sortPosts();  // Call sortPosts method whenever sortOrder changes
+    computed: {
+        sortedPosts() {
+            let posts = [...this.filteredPosts];
+            switch (this.sortOrder) {
+                case 'newest':
+                    posts.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds);
+                    break;
+                case 'oldest':
+                    posts.sort((a, b) => a.datePosted.seconds - b.datePosted.seconds);
+                    break;
+            }
+            return posts;
         }
     },
     methods: {
@@ -82,7 +91,6 @@ export default {
                 return;
             }
             this.filteredPosts = this.forumPosts.filter(post => post.title.toLowerCase().includes(this.searchTerm.toLowerCase()));
-            this.sortPosts();
         },
         async getForumPosts() {
             const forumRef = collection(db, "forum");
@@ -121,17 +129,6 @@ export default {
                 });
             }
             this.showModal = false;
-            window.location.reload();
-        },
-        sortPosts() {
-            switch (this.sortOrder) {
-                case 'newest':
-                    this.filteredPosts.sort((a, b) => a.datePosted.seconds - b.datePosted.seconds);
-                    break;
-                case 'oldest':
-                    this.filteredPosts.sort((a, b) => b.datePosted.seconds - a.datePosted.seconds);
-                    break;
-            }
         },
     },
 };
@@ -222,13 +219,12 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 8px;
-    margin-right: 80px;
+    margin-right: 16px;
 }
 
 .options {
     cursor: pointer;
     margin-left: 4px;
-    padding: 4px;
 }
 
 .forum-posts {

@@ -1,24 +1,24 @@
 <template>
     <div class="comment-card-container">
         <div class="content-wrapper">
-            <div class="firstComponent">
+            <div class="firstComponent" >
                 <div class="post-details">
                     <h2>{{ this.post.title }}</h2>
                     <p> {{ this.post.details }}</p>
                 </div>
-                <div class="delete" v-if="this.userId === this.post.id" @click="deleteForumPost">
+                <div class = "pencil" v-if="this.userId === this.post.id || this.displayIcons" @click="openForumModal">
+                    <font-awesome-icon :icon="['fas', 'pencil']" class="pencil-icon" style="color: #000000;" />
+                </div>
+                <div class="delete" v-if="this.userId === this.post.id || this.displayIcons" @click="deleteForumPost">
                     <font-awesome-icon :icon="['fas', 'trash-can']" class="trash-icon" />
                 </div>
             </div>
+            <ForumModal v-if="this.forumModalVisibility" :edit-mode="true" @close-modal-edit-mode="disableForumModal" @forumPostCreated="updatingForumPost" :post="this.post"/>
             <div class="secondComponent">
                 <div class="profileDetails">
                     <p>Posted by: {{ this.post.name }}</p>
                 </div>
                 <div class="like-date-details">
-                    <div class="like-section">
-                        <p> {{ this.post.likes }} </p>
-                        <font-awesome-icon :icon="['fas', 'thumbs-up']" class="thumb-icon" />
-                    </div>
                     <span> {{ this.post.daysAgo }} days ago</span>
                 </div>
             </div>
@@ -27,16 +27,22 @@
 </template>
 
 <script>
+import ForumModal from "@/components/ForumPage/ForumModal.vue";
 
 export default {
     name: "CommentCard",
+    components: {
+        ForumModal,
+    },
     props: {
         post: Object,
         userId: String,
+        displayIcons: Boolean,
     },
     data() {
         return {
             createdDaysAgo: 0,
+            forumModalVisibility: false,
         };
     },
     mounted() {
@@ -52,6 +58,15 @@ export default {
             if (confirm("Are you sure you want to delete this post?")) {
                 this.$emit("delete-post", this.post.postId);
             }
+        },
+        openForumModal() {
+            this.forumModalVisibility = true;
+        },
+        disableForumModal() {
+            this.forumModalVisibility = false;
+        },
+        updatingForumPost(post) {
+            this.$emit("update-post", post);
         },
     },
 };
@@ -72,7 +87,6 @@ export default {
 
 .post-details {
     flex: 1;
-    /* Take up remaining space */
 }
 
 .comment-card-container h2 {
@@ -95,12 +109,15 @@ export default {
 .trash-icon {
     font-size: 2em;
 }
-
-.thumb-icon {
+.pencil {
+    margin-top: 12px;
+    margin-left: 32px;
+    margin-right: 16px;
     cursor: pointer;
-    font-size: 24px;
 }
-
+.pencil-icon {
+    font-size: 2em;
+}
 .firstComponent {
     display: flex;
     flex-direction: row;

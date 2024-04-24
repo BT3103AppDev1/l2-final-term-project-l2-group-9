@@ -1,7 +1,7 @@
 <template>
     <div class="modal-overlay"  @click.self="closeForumModal">
       <div class="modal-content">
-        <h2>Add a new Forum Post</h2>
+        <h2>{{ editMode ? 'Edit Forum Post' : 'Add a new Forum Post' }}</h2>
         <form @submit.prevent="submitForumPost">
           <!-- Job Comapny Input -->
           <input
@@ -21,7 +21,7 @@
           ></textarea>
   
           <!-- Submit Button -->
-          <button type="submit" class="form-button" @click="submitForumPost">Add To Forum</button>
+          <button type="submit" class="form-button" @click="submitForumPost">{{ editMode ? 'Edit Forum Post' : 'Add To Forum' }}</button>
         </form>
   
         <!-- Close Button -->
@@ -37,26 +37,35 @@
     props: {
       userName: {
         type: String,
-        required: true,
       },
+      editMode: {
+        type: Boolean,
+        default: false,
+      },
+      post: {
+            type: Object,
+            default: null,
+        },
     },
     data() {
       return {
-        forumPost: {
-          postId: "",
-          name: this.userName,
-          title: "",
-          details: "",
-          likes: 0,
-          datePosted: "",
-        },
+      forumPost: { ...this.post } || {
+      postId: "",
+      name: this.userName,
+      title: "",
+      details: "",
+      likes: 0,
+      datePosted: "",
+    },
       };
     },
     methods: {
       submitForumPost () {
         this.forumPost.datePosted = new Date();
-        this.forumPost.postId = new Date().getTime().toString();
-        this.$emit('forumPostCreated', this.forumPost);
+        if (!this.editMode) {
+          this.forumPost.postId = new Date().getTime().toString();
+        }
+        this.$emit('forumPostCreated', { ...this.forumPost });
         this.closeForumModal();
       },
   
@@ -72,6 +81,10 @@
       },
       closeForumModal () {
         this.resetForumPost();
+        if (this.editMode) {
+          this.$emit('close-modal-edit-mode');
+          return;
+        }
         this.$emit('close-modal');
       },
     },

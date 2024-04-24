@@ -1,6 +1,6 @@
 <template>
     <div v-for="post in filteredPosts" :key="post.id" class="forum-posts">
-        <CommentCard :post="post" :userId="this.userId" @delete-post="deleteForumPost"/>
+        <CommentCard :post="post" :userId="this.userId" @delete-post="deleteForumPost" :displayIcons="this.displayIcons" @update-post="updateForumPost" />
     </div>
 </template>
 
@@ -23,6 +23,9 @@ export default {
             type: Array,
             required: true
         },
+        displayIcons: {
+            type: Boolean,
+        }
     },
     methods: {
         async deleteForumPost(id) {
@@ -37,6 +40,24 @@ export default {
             });
             alert("Post deleted successfully");
         },
+        async updateForumPost(post) {
+            const forumRef = collection(db, "forum");
+            const forumSnap = await getDocs(forumRef);
+            forumSnap.forEach((document) => {
+                const forumPosts = document.data().forumPosts;
+                const updatedPosts = forumPosts.map((p) => {
+                    if (p.postId === post.postId) {
+                        console.log("Found correct post");
+                        return post;
+                    }
+                    return p;
+                });
+                updateDoc(doc(db, "forum", document.id), {
+                    forumPosts: updatedPosts
+                });
+            });
+            alert("Post updated successfully");
+        }
     }
 }
 </script>

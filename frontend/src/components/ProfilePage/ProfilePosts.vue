@@ -1,14 +1,14 @@
 <template>
     <div class="forum-posts">
         <h1>My Posts</h1>
-        <ForumPosts :userId="this.userId" :filteredPosts="this.filteredPosts" />
+        <ForumPosts :userId="this.userId" :filteredPosts="this.filteredPosts" :displayIcons="true" />
     </div>
 </template>
 
 <script>
 import ForumPosts from '../ForumPage/ForumPosts.vue';
 import firebaseApp from '@/firebase.js';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const db = getFirestore(firebaseApp);
 
@@ -33,12 +33,13 @@ export default {
     },
     methods: {
         async getForumPosts() {
-            const userRef = doc(db, "forum", this.userId);
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const userPosts = userSnap.data().forumPosts;
-                this.filteredPosts = userPosts;
-            }
+            const forumRef = collection(db, "forum");
+            const forumSnap = await getDocs(forumRef);
+            forumSnap.forEach((document) => {
+                if (document.id === this.userId) {
+                    this.filteredPosts = document.data().forumPosts;
+                }
+            });
         },
     },
 };
