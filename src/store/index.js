@@ -1,7 +1,13 @@
 // src/store/index.js
 import { createStore } from "vuex"; // Import createStore for Vue 3
 import firebaseApp from "../firebase.js";
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth(firebaseApp);
@@ -72,7 +78,8 @@ const store = createStore({
           const jobs = jobsData.map(transformJob);
           commit("setJobs", jobs);
         } else {
-          console.error("No such document!");
+          await setDoc(userRef, { trackedApplications: [] }); // Creating with empty array
+          console.log("Document created successfully!");
         }
       } catch (error) {
         console.error("Error fetching jobs:", error);
@@ -154,11 +161,13 @@ const store = createStore({
     userProfile: (state) => state.userProfile,
     jobs: (state) => state.jobs,
     sortedJobs(state) {
-      return [...state.jobs].sort((a, b) => new Date(a.date) - new Date(b.date));
+      return [...state.jobs].sort(
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
     },
     user: (state) => state.user,
     isJobTracked: (state) => (jobId) => {
-      return state.jobs.some(job => job.id === jobId);
+      return state.jobs.some((job) => job.id === jobId);
     },
   },
 });
