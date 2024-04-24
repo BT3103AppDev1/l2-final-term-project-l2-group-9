@@ -27,23 +27,27 @@ export default {
             type: Boolean,
         }
     },
-    methods: {
-        async deleteForumPost(id) {
+    setup() {
+        const deleteForumPost = async (id) => {
             const forumRef = collection(db, "forum");
             const forumSnap = await getDocs(forumRef);
-            forumSnap.forEach((document) => {
+            forumSnap.forEach(async (document) => {
                 const forumPosts = document.data().forumPosts;
                 const updatedPosts = forumPosts.filter((post) => post.postId !== id);
-                updateDoc(doc(db, "forum", document.id), {
+                await updateDoc(doc(db, "forum", document.id), {
                     forumPosts: updatedPosts
                 });
             });
             alert("Post deleted successfully");
-        },
-        async updateForumPost(post) {
+            setTimeout(() => {
+                location.reload();
+            }, 200);
+        };
+
+        const updateForumPost = async (post) => {
             const forumRef = collection(db, "forum");
             const forumSnap = await getDocs(forumRef);
-            forumSnap.forEach((document) => {
+            forumSnap.forEach(async (document) => {
                 const forumPosts = document.data().forumPosts;
                 const updatedPosts = forumPosts.map((p) => {
                     if (p.postId === post.postId) {
@@ -51,13 +55,22 @@ export default {
                     }
                     return p;
                 });
-                updateDoc(doc(db, "forum", document.id), {
+                await updateDoc(doc(db, "forum", document.id), {
                     forumPosts: updatedPosts
                 });
             });
             alert("Post updated successfully");
-        }
-    }
+            // Set a fixed time to reload the page
+            setTimeout(() => {
+                location.reload();
+            }, 200);
+        };
+
+        return {
+            deleteForumPost,
+            updateForumPost
+        };
+    },
 }
 </script>
 

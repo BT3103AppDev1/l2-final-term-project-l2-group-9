@@ -125,6 +125,9 @@ export default {
                 });
             }
             this.showModal = false;
+            setTimeout(() => {
+                location.reload();
+            }, 200);
         },
     },
 };
