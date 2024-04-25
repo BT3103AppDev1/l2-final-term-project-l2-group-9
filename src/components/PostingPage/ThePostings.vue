@@ -186,14 +186,18 @@ export default {
         searchKey += ` ${periodsString}`;
       }
       this.isLoading = true; // Set loading state to true before fetching data
-
-      // Check if the search results are in local storage
+      this.jobs = await filterJobs(searchKey);
+      this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
+      this.selectedJob = this.jobs[0];
+      this.isLoading = false; // Set loading state to false after fetching data
+    },
+    // Check if the search results are in local storage, FOR DEVELOPMENT ONLY
+    /*
       if (localStorage.getItem(searchKey)) {
         this.jobs = JSON.parse(localStorage.getItem(searchKey));
       } else {
         // If not in local storage, fetch the results and store them in local storage
         this.jobs = await filterJobs(searchKey);
-        localStorage.setItem(searchKey, JSON.stringify(this.jobs));
       }
       this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
 
@@ -205,6 +209,7 @@ export default {
       localStorage.removeItem("Intern, Singapore");
       this.jobs = [];
     },
+    */
     selectJob(job) {
       this.selectedJob = job;
     },
@@ -275,8 +280,15 @@ export default {
     const searchKey = "Intern, Singapore";
 
     this.isLoading = true; // Set loading state to true before fetching data
+    this.jobs = await filterJobs(searchKey);
+    this.jobs.sort((a, b) => b.jobPostDateTime - a.jobPostDateTime);
 
-    // Check if the search results are in local storage
+    this.selectedJob = this.jobs[0];
+    this.isLoading = false; // Set loading state to false after fetching data
+  },
+};
+// Check if the search results are in local storage, FOR DEVELOPMENT ONLY
+/*
     if (localStorage.getItem(searchKey)) {
       this.jobs = JSON.parse(localStorage.getItem(searchKey));
     } else {
@@ -290,6 +302,7 @@ export default {
     this.isLoading = false; // Set loading state to false after fetching data
   },
 };
+*/
 </script>
 
 <style scoped>
