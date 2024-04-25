@@ -7,7 +7,6 @@ import LandingPage from "../views/LandingPage.vue";
 import PostingPage from "../views/PostingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import LandingPosting from "../components/LandingPage/LandingPosting.vue";
-import TestingPage from "@/TestingPage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import NotFoundPage from "../views/NotFoundPage.vue";
 import TrackerPage from "@/views/TrackerPage.vue";
@@ -53,11 +52,6 @@ const routes = [
     path: "/",
     name: "LandingPosting",
     component: LandingPosting,
-  },
-  {
-    path: "/test",
-    name: "TestingPage",
-    component: TestingPage,
   },
   {
     path: "/profile",
