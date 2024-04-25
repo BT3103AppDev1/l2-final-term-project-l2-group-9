@@ -51,6 +51,11 @@ export default {
 #layout-container {
     background-color: #f2f2f2;
     height: 100vh;
+    overflow: scroll;
+}
+::-webkit-scrollbar {
+    width: 0; 
+    background: transparent; 
 }
 .sidebar {
     position: fixed;
@@ -82,5 +87,9 @@ export default {
 .sidebar-slide-enter,
 .sidebar-slide-leave-to {
     right: -100%;
+}
+html {
+    overflow: scroll;
+    overflow-x: hidden;
 }
 </style>
