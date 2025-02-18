@@ -174,7 +174,7 @@ export default {
     },
 
     async search() {
-      let searchKey = `${this.searchTerm}`;
+      let searchKey = `${this.searchTerm} Intern Singapore`;
       // Collect selected periods
       const selectedPeriods = this.periodOptions
         .filter((option) => option.selected)
@@ -277,7 +277,7 @@ export default {
     },
   },
   async created() {
-    const searchKey = "intern";
+    const searchKey = "Intern, Singapore";
 
     this.isLoading = true; // Set loading state to true before fetching data
     this.jobs = await filterJobs(searchKey);
