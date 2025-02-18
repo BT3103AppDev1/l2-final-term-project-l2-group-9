@@ -9,7 +9,7 @@ async function filterJobs(input) {
     employerLogo: job.employer_logo,
     jobTitle: job.job_title,
     jobEmploymentType: job.job_employment_type,
-    jobLocation: job.job_country,
+    jobLocation: job.job_location,
     jobDesc: job.job_description,
     applyLink: job.job_apply_link,
     jobPostDate: toReadableDate(job.job_posted_at_timestamp),
